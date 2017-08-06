@@ -5,7 +5,7 @@ import (
 	"github.com/evandroflores/claimr/database"
 	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
-	"log"
+	log "github.com/sirupsen/logrus"
 )
 
 var (
@@ -39,11 +39,12 @@ func add(request *slacker.Request, response slacker.ResponseWriter) {
 	affected, err := database.DB.Insert(vm)
 
 	if err != nil {
-		log.Println(err)
+		log.Error(err)
 	}
 	if affected == 1 {
 		response.Reply(fmt.Sprintf("VM `%s` added to channel <#%s>", vm.Name, vm.ChannelID))
 	} else {
+		log.Errorf("Tried to add vm %s but failed.", vm.Name)
 		response.Reply("This doesn't smells good")
 	}
 }
