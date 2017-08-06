@@ -2,13 +2,13 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/evandroflores/claimr/database"
+	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
-	 "github.com/evandroflores/claimr/model"
-	 "github.com/evandroflores/claimr/database"
 )
 
-func init(){
-    Register("free <vm-name>", "Free a vm from use", free)
+func init() {
+	Register("free <vm-name>", "Free a vm from use", free)
 }
 
 func free(request *slacker.Request, response slacker.ResponseWriter) {

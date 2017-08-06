@@ -2,17 +2,18 @@ package cmd
 
 import (
 	"fmt"
-	"log"
+	"github.com/evandroflores/claimr/database"
+	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
-	 "github.com/evandroflores/claimr/model"
-	 "github.com/evandroflores/claimr/database"
+	"log"
 )
+
 var (
 	maxNameSize = 22
 )
 
-func init(){
-    Register("add <vm-name>", "Add a vm to your channel", add)
+func init() {
+	Register("add <vm-name>", "Add a vm to your channel", add)
 }
 
 func add(request *slacker.Request, response slacker.ResponseWriter) {

@@ -2,13 +2,13 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/evandroflores/claimr/database"
+	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
-	 "github.com/evandroflores/claimr/model"
-	 "github.com/evandroflores/claimr/database"
 )
 
-func init(){
-    Register("claim <vm-name>", "Claim a vm for your use", claim)
+func init() {
+	Register("claim <vm-name>", "Claim a vm for your use", claim)
 }
 
 func claim(request *slacker.Request, response slacker.ResponseWriter) {

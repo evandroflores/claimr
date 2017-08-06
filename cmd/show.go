@@ -2,14 +2,14 @@ package cmd
 
 import (
 	"fmt"
-	"time"
+	"github.com/evandroflores/claimr/database"
+	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
-	 "github.com/evandroflores/claimr/model"
-	 "github.com/evandroflores/claimr/database"
+	"time"
 )
 
-func init(){
-    Register("show <vm-name>", "Show who is using the vm", show)
+func init() {
+	Register("show <vm-name>", "Show who is using the vm", show)
 }
 
 func show(request *slacker.Request, response slacker.ResponseWriter) {

@@ -1,15 +1,15 @@
 package cmd
 
 import (
-	"fmt"
-	"log"
+	"github.com/evandroflores/claimr/database"
+	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
-	 "github.com/evandroflores/claimr/model"
-	 "github.com/evandroflores/claimr/database"
+	"log"
+	"fmt"
 )
 
-func init(){
-    Register("list <filter>", "List all VMs or filtered by public, private or available", list)
+func init() {
+	Register("list <filter>", "List all VMs or filtered by public, private or available", list)
 }
 
 func list(request *slacker.Request, response slacker.ResponseWriter) {

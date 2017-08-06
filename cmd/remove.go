@@ -2,14 +2,14 @@ package cmd
 
 import (
 	"fmt"
-	"time"
+	"github.com/evandroflores/claimr/database"
+	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
-	 "github.com/evandroflores/claimr/model"
-	 "github.com/evandroflores/claimr/database"
+	"time"
 )
 
-func init(){
-    Register("rm <vm-name>", "Remove a vm from your channel", remove)
+func init() {
+	Register("rm <vm-name>", "Remove a vm from your channel", remove)
 }
 
 func remove(request *slacker.Request, response slacker.ResponseWriter) {

@@ -6,9 +6,9 @@ var commands []Command
 
 // Command defines a command to be register to slack
 type Command struct {
-	Usage string
+	Usage       string
 	Description string
-	Handler func(request *slacker.Request, response slacker.ResponseWriter)
+	Handler     func(request *slacker.Request, response slacker.ResponseWriter)
 }
 
 // Register add a command to commands list an prepare to register to slacker
