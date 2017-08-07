@@ -1,11 +1,11 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/evandroflores/claimr/database"
 	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
-	"log"
-	"fmt"
+	log "github.com/sirupsen/logrus"
 )
 
 func init() {
@@ -16,13 +16,17 @@ func list(request *slacker.Request, response slacker.ResponseWriter) {
 	response.Typing()
 	vms := make([]model.VM, 0)
 	channelVMs := model.VM{TeamID: request.Event.Team, ChannelID: request.Event.Channel}
-	publicVMs := model.VM{TeamID: request.Event.Team, ChannelID: "*"}
 
 	err := database.DB.Find(&vms, &channelVMs)
-	err = database.DB.Find(&vms, &publicVMs)
 
 	if err != nil {
-		log.Println(err)
+		response.Reply("Fail to list VMs")
+		log.Error(err)
+		return
+	}
+
+	if len(vms) == 0 {
+		response.Reply("No VMs to list")
 		return
 	}
 
