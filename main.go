@@ -2,17 +2,12 @@ package main
 
 import (
 	"github.com/evandroflores/claimr/cmd"
-	"github.com/evandroflores/claimr/database"
 	"github.com/shomali11/slacker"
 	log "github.com/sirupsen/logrus"
 )
 
-func init() {
-    database.InitDB()
-    log.SetLevel(log.DebugLevel)
-}
-
 func main() {
+	log.SetLevel(log.DebugLevel)
 	bot := slacker.NewClient("xoxb-221107798822-MhoNS4UseJkvo5azVFKRjpud")
 
 	log.Info("Loading commands...")
