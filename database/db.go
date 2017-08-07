@@ -21,7 +21,7 @@ func initDB(dbName string) {
 	DB, err = xorm.NewEngine("sqlite3", dbName)
 
 	if err != nil {
-		panic("Couldn't open nor create database")
+		log.Fatal("Couldn't open nor create database [%s]", dbName)
 	}
 
 	DB.ShowSQL(true)
@@ -30,7 +30,7 @@ func initDB(dbName string) {
 	tableExists, err := DB.IsTableExist(&model.VM{})
 
 	if err != nil {
-		panic("Couldn't read database")
+		log.Fatalf("Couldn't read database [%s]", dbName)
 	}
 
 	if !tableExists {
