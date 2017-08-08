@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	Register("rm <container-name>", "Remove a container from your channel", remove)
+	Register("rm <container-name>", "Remove a container from your channel.", remove)
 }
 
 func remove(request *slacker.Request, response slacker.ResponseWriter) {

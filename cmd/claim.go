@@ -8,7 +8,7 @@ import (
 )
 
 func init() {
-	Register("claim <container-name>", "Claim a container for your use", claim)
+	Register("claim <container-name>", "Claim a container for your use.", claim)
 }
 
 func claim(request *slacker.Request, response slacker.ResponseWriter) {

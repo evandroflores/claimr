@@ -8,7 +8,7 @@ import (
 )
 
 func init() {
-	Register("free <container-name>", "Free a container from use", free)
+	Register("free <container-name>", "Free a container from use.", free)
 }
 
 func free(request *slacker.Request, response slacker.ResponseWriter) {

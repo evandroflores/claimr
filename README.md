@@ -5,10 +5,10 @@
 
 ## Commands
 
-*help* - _help_ - _Shows command list_
-*add* `container-name` - _Add a container to your channel_
-*claim* `container-name` - _Claim a container for your use_
-*free* `container-name` - _Free a container from use_
-*list* - _List all containers._
-*rm* `container-name` - _Remove a container from your channel_
-*show* `container-name` - _Show who is using the container._
+* **help** - *Shows command list.*
+* **add** `container-name` - *Add a container to your channel.*
+* **claim** `container-name` - *Claim a container for your use.*
+* **free** `container-name` - *Free a container from use.*
+* **list** - *List all containers.*
+* **rm** `container-name` - *Remove a container from your channel.*
+* **show** `container-name` - *Show who is using the container.*
