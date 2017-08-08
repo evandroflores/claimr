@@ -9,28 +9,28 @@ import (
 )
 
 func init() {
-	Register("show <vm-name>", "Show who is using the vm", show)
+	Register("show <container-name>", "Show who is using the container.", show)
 }
 
 func show(request *slacker.Request, response slacker.ResponseWriter) {
 	response.Typing()
 
-	vmName := request.Param("vm-name")
+	containerName := request.Param("container-name")
 	channel := request.Event.Channel
-	vm := model.VM{TeamID: request.Event.Team, Name: vmName}
+	container := model.Container{TeamID: request.Event.Team, Name: containerName}
 
-	found, _ := database.DB.Get(&vm)
+	found, _ := database.DB.Get(&container)
 	if !found {
-		response.Reply(fmt.Sprintf("I couldn't find vm *%s* on <#%s>.", vmName, channel))
+		response.Reply(fmt.Sprintf("I couldn't find container `%s` on <#%s>.", containerName, channel))
 	} else {
-		text := fmt.Sprintf("VM `%s`. Created by <@%s>\n", vmName, vm.CreatedByUser)
+		text := fmt.Sprintf("Container `%s`.\nCreated by <@%s>.\n", containerName, container.CreatedByUser)
 
-		if vm.InUseBy == "free" {
+		if container.InUseBy == "free" {
 			text += "_Available_"
 		} else {
-			text += fmt.Sprintf("Being used by <@%s>", vm.InUseBy)
+			text += fmt.Sprintf("Being used by <@%s>", container.InUseBy)
 		}
-		text += fmt.Sprintf(" since %s.", vm.UpdatedAt.Format(time.RFC1123))
+		text += fmt.Sprintf(" since %s.", container.UpdatedAt.Format(time.RFC1123))
 		response.Reply(text)
 	}
 }

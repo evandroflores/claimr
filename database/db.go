@@ -21,21 +21,21 @@ func initDB(dbName string) {
 	DB, err = xorm.NewEngine("sqlite3", dbName)
 
 	if err != nil {
-		log.Fatal("Couldn't open nor create database [%s]", dbName)
+		log.Fatal("Couldn't open nor create database [%s].", dbName)
 	}
 
 	DB.ShowSQL(true)
 	DB.ShowExecTime(true)
 
-	tableExists, err := DB.IsTableExist(&model.VM{})
+	tableExists, err := DB.IsTableExist(&model.Container{})
 
 	if err != nil {
-		log.Fatalf("Couldn't read database [%s]", dbName)
+		log.Fatalf("Couldn't read database [%s].", dbName)
 	}
 
 	if !tableExists {
 		log.Info("Creating tables...")
-		DB.CreateTables(&model.VM{})
+		DB.CreateTables(&model.Container{})
 	}
 	log.Info("Done.")
 }

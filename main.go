@@ -20,7 +20,7 @@ func main() {
 		log.Debugf("%s - %s", command.Usage, command.Description)
 		bot.Command(command.Usage, command.Description, command.Handler)
 	}
-	log.Infof("Commands loaded. [%d]", len(cmd.CommandList()))
+	log.Infof("Commands loaded. (%d)", len(cmd.CommandList()))
 
 	err := bot.Listen()
 	if err != nil {

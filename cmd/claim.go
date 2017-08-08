@@ -8,28 +8,28 @@ import (
 )
 
 func init() {
-	Register("claim <vm-name>", "Claim a vm for your use", claim)
+	Register("claim <container-name>", "Claim a container for your use", claim)
 }
 
 func claim(request *slacker.Request, response slacker.ResponseWriter) {
-	vmName := request.Param("vm-name")
+	containerName := request.Param("container-name")
 	channel := request.Event.Channel
 	user := request.Event.User
 
 	response.Typing()
 
-	vm := model.VM{TeamID: request.Event.Team, Name: vmName}
+	container := model.Container{TeamID: request.Event.Team, Name: containerName}
 
-	found, _ := database.DB.Get(&vm)
+	found, _ := database.DB.Get(&container)
 	if !found {
-		response.Reply(fmt.Sprintf("I couldn't find vm `%s` on <#%s>.", vmName, channel))
+		response.Reply(fmt.Sprintf("I couldn't find container `%s` on <#%s>.", containerName, channel))
 	} else {
-		if vm.InUseBy != "free" {
-			response.Reply(fmt.Sprintf("VM `%s` is already in use, try another one.", vmName))
+		if container.InUseBy != "free" {
+			response.Reply(fmt.Sprintf("Container `%s` is already in use, try another one.", containerName))
 		} else {
-			vm.InUseBy = user
-			database.DB.Id(vm.ID).Update(&vm)
-			response.Reply(fmt.Sprintf("Got it. VM `%s` is all yours <@%s>?", vmName, user))
+			container.InUseBy = user
+			database.DB.Id(container.ID).Update(&container)
+			response.Reply(fmt.Sprintf("Got it. Container `%s` is all yours <@%s>.", containerName, user))
 		}
 	}
 }

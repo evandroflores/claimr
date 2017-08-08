@@ -2,8 +2,8 @@ package model
 
 import "time"
 
-// VM defines the VM on database.
-type VM struct {
+// Container defines the Container information on database.
+type Container struct {
 	ID            int64
 	TeamID        string
 	ChannelID     string

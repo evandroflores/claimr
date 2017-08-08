@@ -8,28 +8,28 @@ import (
 )
 
 func init() {
-	Register("free <vm-name>", "Free a vm from use", free)
+	Register("free <container-name>", "Free a container from use", free)
 }
 
 func free(request *slacker.Request, response slacker.ResponseWriter) {
-	vmName := request.Param("vm-name")
+	containerName := request.Param("container-name")
 	channel := request.Event.Channel
 	user := request.Event.User
 
 	response.Typing()
 
-	vm := model.VM{TeamID: request.Event.Team, Name: vmName}
+	container := model.Container{TeamID: request.Event.Team, Name: containerName}
 
-	found, _ := database.DB.Get(&vm)
+	found, _ := database.DB.Get(&container)
 	if !found {
-		response.Reply(fmt.Sprintf("I couldn't find vm `%s` on <#%s>.", vmName, channel))
+		response.Reply(fmt.Sprintf("I couldn't find container `%s` on <#%s>.", containerName, channel))
 	} else {
-		if vm.InUseBy != user {
-			response.Reply(fmt.Sprintf("Humm VM `%s` is not being used by you.", vmName))
+		if container.InUseBy != user {
+			response.Reply(fmt.Sprintf("Humm Container `%s` is not being used by you.", containerName))
 		} else {
-			vm.InUseBy = "free"
-			database.DB.Id(vm.ID).Update(&vm)
-			response.Reply(fmt.Sprintf("Got it. VM `%s` is now available", vmName))
+			container.InUseBy = "free"
+			database.DB.Id(container.ID).Update(&container)
+			response.Reply(fmt.Sprintf("Got it. Container `%s` is now available", containerName))
 		}
 	}
 }

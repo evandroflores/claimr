@@ -9,31 +9,31 @@ import (
 )
 
 func init() {
-	Register("list <filter>", "List all VMs or filtered by public, private or available", list)
+	Register("list", "List all containers.", list)
 }
 
 func list(request *slacker.Request, response slacker.ResponseWriter) {
 	response.Typing()
-	vms := make([]model.VM, 0)
-	channelVMs := model.VM{TeamID: request.Event.Team, ChannelID: request.Event.Channel}
+	containers := make([]model.Container, 0)
+	channelContainers := model.Container{TeamID: request.Event.Team, ChannelID: request.Event.Channel}
 
-	err := database.DB.Find(&vms, &channelVMs)
+	err := database.DB.Find(&containers, &channelContainers)
 
 	if err != nil {
-		response.Reply("Fail to list VMs")
+		response.Reply("Fail to list containers.")
 		log.Error(err)
 		return
 	}
 
-	if len(vms) == 0 {
-		response.Reply("No VMs to list")
+	if len(containers) == 0 {
+		response.Reply("No containers to list.")
 		return
 	}
 
-	text := "Here is a list of all VMs\n---\n"
-	for _, vm := range vms {
-		line := fmt.Sprintf("`%s` \t", vm.Name)
-		if vm.InUseBy == "free" {
+	text := "Here is a list of all containers\n---\n"
+	for _, container := range containers {
+		line := fmt.Sprintf("`%s` \t", container.Name)
+		if container.InUseBy == "free" {
 			line += "_available_"
 		} else {
 			line += "in use"
