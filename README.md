@@ -1,4 +1,4 @@
-# claimr - A bot to store containers use
+# claimr - A bot to store containers usage
 [![Go Report Card](https://goreportcard.com/badge/github.com/evandroflores/claimr)](https://goreportcard.com/report/github.com/evandroflores/claimr) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 ---
