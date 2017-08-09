@@ -37,5 +37,5 @@ func initDB(dbName string) {
 		log.Info("Creating tables...")
 		DB.CreateTables(&model.Container{})
 	}
-	log.Info("Done.")
+	log.Debug("Done.")
 }

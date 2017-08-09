@@ -1,10 +1,11 @@
 package main
 
 import (
+	"os"
+
 	"github.com/evandroflores/claimr/cmd"
 	"github.com/shomali11/slacker"
 	log "github.com/sirupsen/logrus"
-	"os"
 )
 
 func main() {
@@ -15,11 +16,15 @@ func main() {
 	}
 	bot := slacker.NewClient(token)
 
-	log.Info("Loading commands...")
+	log.Debug("Loading commands...")
 	for _, command := range cmd.CommandList() {
 		log.Debugf("%s - %s", command.Usage, command.Description)
 		bot.Command(command.Usage, command.Description, command.Handler)
 	}
+	bot.Default(func(request *slacker.Request, response slacker.ResponseWriter) {
+		response.Reply("Not sure what you are asking for. Type `@claimr help` for valid commands.")
+	})
+
 	log.Infof("Commands loaded. (%d)", len(cmd.CommandList()))
 
 	err := bot.Listen()

@@ -2,11 +2,12 @@ package cmd
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/evandroflores/claimr/database"
 	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
 	log "github.com/sirupsen/logrus"
-	"strings"
 )
 
 var (
@@ -28,15 +29,22 @@ func add(request *slacker.Request, response slacker.ResponseWriter) {
 
 	containerName := request.Param("container-name")
 	if len(containerName) > maxNameSize {
-		response.Reply(fmt.Sprintf("Try a name smaller than %d", maxNameSize))
+		response.Reply(fmt.Sprintf("Try a name up to %d characters.", maxNameSize))
 		return
 	}
-	if len(containerName) == 0 {
+
+	if containerName == "" {
 		response.Reply("Please, give a name for your container. 🤦")
 		return
 	}
 
-	found, _ := database.DB.Get(&model.Container{TeamID: request.Event.Team, Name: containerName})
+	found, err := database.DB.Get(&model.Container{TeamID: request.Event.Team, Name: containerName})
+
+	if err != nil {
+		log.Errorf("Fail to get check if the container exists. %s", err)
+		response.Reply("Fail to get check if the container exists.")
+		return
+	}
 
 	if found {
 		response.Reply("There is a container with the same name on this channel. Try a different one.")
@@ -53,13 +61,16 @@ func add(request *slacker.Request, response slacker.ResponseWriter) {
 	affected, err := database.DB.Insert(container)
 
 	if err != nil {
-		log.Error(err)
+		log.Errorf("Tried to add container `%s` but failed. %s", container.Name, err)
+		response.Reply("Fail to add the container.")
+		return
 	}
+
 	if affected == 1 {
-		response.Reply(fmt.Sprintf("Container `%s` added to channel <#%s>.", container.Name, container.ChannelID))
 		log.Debugf("Container %s added to channel %s.", container.Name, container.ChannelID)
+		response.Reply(fmt.Sprintf("Container `%s` added to channel <#%s>.", container.Name, container.ChannelID))
 	} else {
-		log.Errorf("Tried to add container `%s` but failed.", container.Name)
-		response.Reply("This doesn't smells good.")
+		log.Errorf("%s containers were removed when trying to remove container named `%s` on channel `%s` for team `%s`", containerName, request.Event.Channel, request.Event.Team)
+		response.Reply("Humm, this looks wrong. Nothing was added. 🤔")
 	}
 }

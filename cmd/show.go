@@ -2,10 +2,12 @@ package cmd
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/evandroflores/claimr/database"
 	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
-	"time"
+	log "github.com/sirupsen/logrus"
 )
 
 func init() {
@@ -14,23 +16,33 @@ func init() {
 
 func show(request *slacker.Request, response slacker.ResponseWriter) {
 	response.Typing()
-
 	containerName := request.Param("container-name")
-	channel := request.Event.Channel
+
+	if containerName == "" {
+		response.Reply("Give me a container name to remove. 🙄")
+		return
+	}
+
 	container := model.Container{TeamID: request.Event.Team, Name: containerName}
 
-	found, _ := database.DB.Get(&container)
+	found, err := database.DB.Get(&container)
+	if err != nil {
+		response.Reply("Fail to get container to show.")
+		log.Error("Fail to get container to show. %s", err)
+		return
+	}
+
 	if !found {
-		response.Reply(fmt.Sprintf("I couldn't find container `%s` on <#%s>.", containerName, channel))
+		response.Reply(fmt.Sprintf("I couldn't find the container `%s` on <#%s>.", containerName, request.Event.Channel))
 	} else {
 		text := fmt.Sprintf("Container `%s`.\nCreated by <@%s>.\n", containerName, container.CreatedByUser)
 
 		if container.InUseBy == "free" {
 			text += "_Available_"
 		} else {
-			text += fmt.Sprintf("Being used by <@%s>", container.InUseBy)
+			text += fmt.Sprintf("In use by <@%s>", container.InUseBy)
 		}
-		text += fmt.Sprintf(" since %s.", container.UpdatedAt.Format(time.RFC1123))
+		text += fmt.Sprintf(" since _%s_.", container.UpdatedAt.Format(time.RFC1123))
 		response.Reply(text)
 	}
 }

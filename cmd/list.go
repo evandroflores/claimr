@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+
 	"github.com/evandroflores/claimr/database"
 	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
@@ -30,7 +31,7 @@ func list(request *slacker.Request, response slacker.ResponseWriter) {
 		return
 	}
 
-	text := "Here is a list of all containers\n---\n"
+	text := "Here is a list of *all containers*:\n"
 	for _, container := range containers {
 		line := fmt.Sprintf("`%s` \t", container.Name)
 		if container.InUseBy == "free" {
