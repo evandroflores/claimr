@@ -51,7 +51,7 @@ func remove(request *slacker.Request, response slacker.ResponseWriter) {
 				if affected == 1 {
 					response.Reply(fmt.Sprintf("Container `%s` removed.", containerName))
 				} else {
-					log.Errorf("%s containers were removed when trying to remove container named `%s` on channel `%s` for team `%s`", containerName, request.Event.Channel, request.Event.Team)
+					log.Errorf("%d containers were removed when trying to remove container named `%s` on channel `%s` for team `%s`", affected, containerName, request.Event.Channel, request.Event.Team)
 					response.Reply("Humm, this looks wrong. 🤔")
 				}
 			}

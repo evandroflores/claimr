@@ -51,7 +51,7 @@ func free(request *slacker.Request, response slacker.ResponseWriter) {
 			if affected == 1 {
 				response.Reply(fmt.Sprintf("Got it. Container `%s` is now available", containerName))
 			} else {
-				log.Errorf("%s containers were update when trying to update container named `%s` on channel `%s` for team `%s`", containerName, request.Event.Channel, request.Event.Team)
+				log.Errorf("%d containers were update when trying to update container named `%s` on channel `%s` for team `%s`", affected, containerName, request.Event.Channel, request.Event.Team)
 				response.Reply("Humm, this looks wrong. 🤔")
 			}
 		}
