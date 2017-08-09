@@ -47,11 +47,12 @@ func remove(request *slacker.Request, response slacker.ResponseWriter) {
 				if err != nil {
 					log.Errorf("Fail to remove the container. %s", err)
 					response.Reply("Fail to remove the container.")
+					return
 				}
 				if affected == 1 {
 					response.Reply(fmt.Sprintf("Container `%s` removed.", containerName))
 				} else {
-					log.Errorf("%d containers were removed when trying to remove container named `%s` on channel `%s` for team `%s`", affected, containerName, request.Event.Channel, request.Event.Team)
+					log.Errorf("`%d` containers were removed when trying to remove container named `%s` on channel `%s` for team `%s`", affected, containerName, request.Event.Channel, request.Event.Team)
 					response.Reply("Humm, this looks wrong. 🤔")
 				}
 			}
