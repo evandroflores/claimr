@@ -1,0 +1,95 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "9SXbj96wb1PgppBZzxMIN0axbFQ=",
+			"path": "github.com/go-xorm/builder",
+			"revision": "c8871c857d2555fbfbd8524f895be5386d3d8836",
+			"revisionTime": "2017-05-19T03:21:30Z"
+		},
+		{
+			"checksumSHA1": "GznvjOr/jPkGpkb4KrwvmnZYtG8=",
+			"path": "github.com/go-xorm/core",
+			"revision": "cd38c8eb3375b27cbc8c7f3f4f6501cce1eb4b4c",
+			"revisionTime": "2017-07-20T12:05:00Z"
+		},
+		{
+			"checksumSHA1": "S7N74niyaN0m1rCsrhSwlWDI8CQ=",
+			"path": "github.com/go-xorm/xorm",
+			"revision": "10faec1e58e885a13d3170482598b6387dd230c9",
+			"revisionTime": "2017-08-02T02:39:46Z"
+		},
+		{
+			"checksumSHA1": "qNbIMcsoKG3jP+boPRo1CQn9tqA=",
+			"path": "github.com/mattn/go-sqlite3",
+			"revision": "6654e412c3c7eabb310d920cf73a2102dbf8c632",
+			"revisionTime": "2017-08-01T17:06:40Z"
+		},
+		{
+			"checksumSHA1": "a0OST0Qa8ug2mjVeMcCVIXqSDnI=",
+			"origin": "github.com/shomali11/slacker/vendor/github.com/nlopes/slack",
+			"path": "github.com/nlopes/slack",
+			"revision": "bb65a461d1b71e5afc83dde35bd64230010aff0a",
+			"revisionTime": "2017-08-01T04:41:47Z"
+		},
+		{
+			"checksumSHA1": "1g/krKMoDaGWDHD8yFGFXOgPwvs=",
+			"origin": "github.com/shomali11/slacker/vendor/github.com/shomali11/commander",
+			"path": "github.com/shomali11/commander",
+			"revision": "bb65a461d1b71e5afc83dde35bd64230010aff0a",
+			"revisionTime": "2017-08-01T04:41:47Z"
+		},
+		{
+			"checksumSHA1": "TRVJy/PPovga11LeBHbL/rcXMRg=",
+			"origin": "github.com/shomali11/slacker/vendor/github.com/shomali11/proper",
+			"path": "github.com/shomali11/proper",
+			"revision": "bb65a461d1b71e5afc83dde35bd64230010aff0a",
+			"revisionTime": "2017-08-01T04:41:47Z"
+		},
+		{
+			"checksumSHA1": "RBg/9r3FnWnK3WwCqNKOIiCmWGU=",
+			"path": "github.com/shomali11/slacker",
+			"revision": "bb65a461d1b71e5afc83dde35bd64230010aff0a",
+			"revisionTime": "2017-08-01T04:41:47Z"
+		},
+		{
+			"checksumSHA1": "I5DMrLM0FpmvG81tAWZ3zoydBIo=",
+			"path": "github.com/sirupsen/logrus",
+			"revision": "181d419aa9e2223811b824e8f0b4af96f9ba9302",
+			"revisionTime": "2017-07-28T07:42:14Z"
+		},
+		{
+			"checksumSHA1": "8wbHSD24FGJUJDS1F6wbtEt8z+w=",
+			"path": "golang.org/x/crypto/ssh/terminal",
+			"revision": "42ff06aea7c329876e5a0fe94acc96902accf0ad",
+			"revisionTime": "2017-08-03T14:09:35Z"
+		},
+		{
+			"checksumSHA1": "dr5+PfIRzXeN+l1VG+s0lea9qz8=",
+			"path": "golang.org/x/net/context",
+			"revision": "f5079bd7f6f74e23c4d65efa0f4ce14cbd6a3c0f",
+			"revisionTime": "2017-07-19T21:11:51Z"
+		},
+		{
+			"checksumSHA1": "7EZyXN0EmZLgGxZxK01IJua4c8o=",
+			"origin": "github.com/shomali11/slacker/vendor/golang.org/x/net/websocket",
+			"path": "golang.org/x/net/websocket",
+			"revision": "bb65a461d1b71e5afc83dde35bd64230010aff0a",
+			"revisionTime": "2017-08-01T04:41:47Z"
+		},
+		{
+			"checksumSHA1": "fwb6FNBUs0SOyUpUx5R31Xf22GY=",
+			"path": "golang.org/x/sys/unix",
+			"revision": "d8f5ea21b9295e315e612b4bcf4bedea93454d4d",
+			"revisionTime": "2017-08-03T09:04:06Z"
+		},
+		{
+			"checksumSHA1": "LkAsnLUlAZSg3lRYk7BEyNfog3A=",
+			"path": "golang.org/x/sys/windows",
+			"revision": "d8f5ea21b9295e315e612b4bcf4bedea93454d4d",
+			"revisionTime": "2017-08-03T09:04:06Z"
+		}
+	],
+	"rootPath": "github.com/evandroflores/claimr"
+}
