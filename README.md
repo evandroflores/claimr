@@ -1,5 +1,5 @@
 # claimr - A bot to store containers usage
-[![Go Report Card](https://goreportcard.com/badge/github.com/evandroflores/claimr)](https://goreportcard.com/report/github.com/evandroflores/claimr) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Go Report Card](https://goreportcard.com/badge/github.com/evandroflores/claimr)](https://goreportcard.com/report/github.com/evandroflores/claimr) [![License: BSD-3](https://img.shields.io/badge/License-BSD3-green.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 ---
 
