@@ -21,7 +21,7 @@ func initDB(dbName string) {
 	DB, err = xorm.NewEngine("sqlite3", dbName)
 
 	if err != nil {
-		log.Fatal("Couldn't open nor create database [%s].", dbName)
+		log.Fatalf("Couldn't open nor create database [%s].", dbName)
 	}
 
 	DB.ShowSQL(true)

@@ -20,6 +20,8 @@ build: check-env vendorize
 run: check-env check-token
 	@go run main.go
 
+docker-build:
+	docker build -t evandroflores/claimr .
 
-vendorize:
-	@govendor add +external
+docker-run: check-token
+	docker run -e CLAIMR_TOKEN=${CLAIMR_TOKEN} evandroflores/claimr
