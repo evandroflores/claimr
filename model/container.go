@@ -1,6 +1,10 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	"github.com/evandroflores/claimr/database"
+)
 
 // Container defines the Container information on database.
 type Container struct {
@@ -11,4 +15,8 @@ type Container struct {
 	InUseBy       string
 	UpdatedAt     time.Time `xorm:"updated"`
 	CreatedByUser string
+}
+
+func init() {
+	database.RegisterModel(Container{})
 }

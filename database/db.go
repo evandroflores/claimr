@@ -1,7 +1,8 @@
 package database
 
 import (
-	"github.com/evandroflores/claimr/model"
+	"reflect"
+
 	"github.com/go-xorm/xorm"
 	_ "github.com/mattn/go-sqlite3" // Engine for database
 	log "github.com/sirupsen/logrus"
@@ -11,6 +12,7 @@ import (
 var DB *xorm.Engine
 
 func init() {
+	log.SetLevel(log.DebugLevel)
 	initDB("./claimr.db")
 }
 
@@ -26,16 +28,22 @@ func initDB(dbName string) {
 
 	DB.ShowSQL(true)
 	DB.ShowExecTime(true)
+}
 
-	tableExists, err := DB.IsTableExist(&model.Container{})
+// RegisterModel will check and create the model if does not exists on the databse.
+func RegisterModel(model interface{}) {
+
+	modelName := reflect.TypeOf(model).Name()
+	log.Debugf("Checking table for model %s", modelName)
+	tableExists, err := DB.IsTableExist(model)
 
 	if err != nil {
-		log.Fatalf("Couldn't read database [%s].", dbName)
+		log.Fatalf("Fail to check model %s. ", modelName, err)
 	}
 
 	if !tableExists {
-		log.Info("Creating tables...")
-		DB.CreateTables(&model.Container{})
+		log.Infof("Model %s does not exists on the database. Creating table...", modelName)
+		DB.CreateTables(model)
 	}
-	log.Debug("Done.")
+
 }
