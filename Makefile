@@ -25,3 +25,6 @@ docker-build:
 
 docker-run: check-token
 	docker run -e CLAIMR_TOKEN=${CLAIMR_TOKEN} evandroflores/claimr
+
+test:
+	go test -v ./...

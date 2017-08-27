@@ -9,7 +9,7 @@ import (
 )
 
 // DB is the orm interface to the database
-var DB *xorm.Engine
+	var DB *xorm.Engine
 
 func init() {
 	log.SetLevel(log.DebugLevel)

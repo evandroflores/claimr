@@ -19,16 +19,16 @@ func show(request *slacker.Request, response slacker.ResponseWriter) {
 	containerName := request.Param("container-name")
 
 	if containerName == "" {
-		response.Reply("Give me a container name to remove. 🙄")
+		response.Reply("Give me a container name to find. 🙄")
 		return
 	}
 
-	container := model.Container{TeamID: request.Event.Team, Name: containerName}
+	container := model.Container{TeamID: request.Event.Team, ChannelID: request.Event.Channel, Name: containerName}
 
 	found, err := database.DB.Get(&container)
 	if err != nil {
 		response.Reply("Fail to get container to show.")
-		log.Error("Fail to get container to show. %s", err)
+		log.Errorf("Fail to get container to show. %s", err)
 		return
 	}
 

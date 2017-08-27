@@ -1,6 +1,7 @@
 package model
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/evandroflores/claimr/database"
@@ -19,4 +20,29 @@ type Container struct {
 
 func init() {
 	database.RegisterModel(Container{})
+}
+
+func GetContainer(teamID string, channelID string, name string) (Container, error) {
+	if teamID == "" {
+		return Container{}, fmt.Errorf("Give me a teamID to find. 🙄")
+	}
+
+	if channelID == "" {
+		return Container{}, fmt.Errorf("Give me a channelID to find. 🙄")
+	}
+
+	if name == "" {
+		return Container{}, fmt.Errorf("Give me a container name to find. 🙄")
+	}
+
+	container := Container{TeamID: teamID, ChannelID: channelID, Name: name}
+
+	found, err := database.DB.Get(&container)
+
+	if !found {
+		return Container{}, fmt.Errorf("Container %s not found", name)
+	}
+
+	return container, err
+
 }
