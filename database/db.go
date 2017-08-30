@@ -9,7 +9,16 @@ import (
 )
 
 // DB is the orm interface to the database
-	var DB *xorm.Engine
+var DB DbWilson
+
+type DbWilson interface {
+	Get(bean interface{}) (bool, error)
+	IsTableExist(beanOrTableName interface{}) (bool, error)
+	CreateTables(beans ...interface{}) error
+	ID(id interface{}) *xorm.Session
+	Insert(beans ...interface{}) (int64, error)
+	Find(beans interface{}, condiBeans ...interface{}) error
+}
 
 func init() {
 	log.SetLevel(log.DebugLevel)
@@ -19,15 +28,15 @@ func init() {
 func initDB(dbName string) {
 	log.Infof("Initializing database [%s]...", dbName)
 
-	var err error
-	DB, err = xorm.NewEngine("sqlite3", dbName)
+	xorDB, err := xorm.NewEngine("sqlite3", dbName)
 
 	if err != nil {
 		log.Fatalf("Couldn't open nor create database [%s].", dbName)
 	}
+	DB = xorDB
 
-	DB.ShowSQL(true)
-	DB.ShowExecTime(true)
+	xorDB.ShowSQL(true)
+	xorDB.ShowExecTime(true)
 }
 
 // RegisterModel will check and create the model if does not exists on the databse.
@@ -38,7 +47,7 @@ func RegisterModel(model interface{}) {
 	tableExists, err := DB.IsTableExist(model)
 
 	if err != nil {
-		log.Fatalf("Fail to check model %s. ", modelName, err)
+		log.Fatalf("Fail to check model %s. %s", modelName, err)
 	}
 
 	if !tableExists {

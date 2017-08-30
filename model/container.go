@@ -22,6 +22,7 @@ func init() {
 	database.RegisterModel(Container{})
 }
 
+// GetContainer returns a container for teamID, channelID, and name provided
 func GetContainer(teamID string, channelID string, name string) (Container, error) {
 	if teamID == "" {
 		return Container{}, fmt.Errorf("Give me a teamID to find. 🙄")
@@ -39,10 +40,13 @@ func GetContainer(teamID string, channelID string, name string) (Container, erro
 
 	found, err := database.DB.Get(&container)
 
+	if err != nil {
+		return Container{}, err
+	}
+
 	if !found {
 		return Container{}, fmt.Errorf("Container %s not found", name)
 	}
 
-	return container, err
-
+	return container, nil
 }

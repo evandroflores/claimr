@@ -42,7 +42,7 @@ func claim(request *slacker.Request, response slacker.ResponseWriter) {
 			container.InUseBy = request.Event.User
 
 			affected := int64(0)
-			affected, err = database.DB.Id(container.ID).Update(&container)
+			affected, err = database.DB.ID(container.ID).Update(&container)
 			if err != nil {
 				log.Errorf("Fail to update the container. %s", err)
 				response.Reply("Fail to update the container.")
