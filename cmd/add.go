@@ -56,6 +56,7 @@ func add(request *slacker.Request, response slacker.ResponseWriter) {
 	container.TeamID = request.Event.Team
 	container.ChannelID = request.Event.Channel
 	container.InUseBy = "free"
+	container.InUseByReason = "free"
 	container.CreatedByUser = request.Event.User
 
 	affected, err := database.DB.Insert(container)

@@ -7,6 +7,7 @@ import (
 	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
 	log "github.com/sirupsen/logrus"
+	"strings"
 )
 
 func init() {
@@ -31,15 +32,21 @@ func list(request *slacker.Request, response slacker.ResponseWriter) {
 		return
 	}
 
-	text := "Here is a list of *all containers*:\n"
+	containerList := []string {"Here is a list of containers for this channel:"}
 	for _, container := range containers {
-		line := fmt.Sprintf("`%s` \t", container.Name)
-		if container.InUseBy == "free" {
-			line += "_available_"
-		} else {
-			line += "in use"
-		}
-		text += fmt.Sprintf("%s\n", line)
+		line := fmt.Sprintf("`%s`\t%s %s", container.Name,
+			IfThenElse(container.InUseBy == "free", "_available_", "in use"),
+			IfThenElse(container.InUseByReason != "free", fmt.Sprintf("- %s", container.InUseByReason), ""),
+		)
+		containerList = append(containerList, line)
 	}
-	response.Reply(text)
+	response.Reply(strings.Join(containerList,"\n"))
+}
+
+// IfThenElse as Golang does not have ternary ifelse
+func IfThenElse(condition bool, a interface{}, b interface{}) interface{} {
+	if condition {
+		return a
+	}
+	return b
 }

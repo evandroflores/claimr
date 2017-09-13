@@ -14,6 +14,7 @@ type Container struct {
 	ChannelID     string
 	Name          string
 	InUseBy       string
+	InUseByReason string
 	UpdatedAt     time.Time `xorm:"updated"`
 	CreatedByUser string
 }

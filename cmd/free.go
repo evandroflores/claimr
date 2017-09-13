@@ -40,6 +40,7 @@ func free(request *slacker.Request, response slacker.ResponseWriter) {
 			response.Reply(fmt.Sprintf("Humm Container `%s` is not being used by you.", containerName))
 		} else {
 			container.InUseBy = "free"
+			container.InUseByReason = "free"
 
 			affected := int64(0)
 			affected, err = database.DB.ID(container.ID).Update(&container)

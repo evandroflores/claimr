@@ -7,10 +7,11 @@ import (
 	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
 	log "github.com/sirupsen/logrus"
+	"strings"
 )
 
 func init() {
-	Register("claim <container-name>", "Claim a container for your use.", claim)
+	Register("claim <container-name> <reason>", "Claim a container for your use.", claim)
 }
 
 func claim(request *slacker.Request, response slacker.ResponseWriter) {
@@ -40,6 +41,7 @@ func claim(request *slacker.Request, response slacker.ResponseWriter) {
 			response.Reply(fmt.Sprintf("Container `%s` is already in use, try another one.", containerName))
 		} else {
 			container.InUseBy = request.Event.User
+			container.InUseByReason = getReason(*request)
 
 			affected := int64(0)
 			affected, err = database.DB.ID(container.ID).Update(&container)
@@ -58,4 +60,15 @@ func claim(request *slacker.Request, response slacker.ResponseWriter) {
 
 		}
 	}
+}
+
+func getReason(request slacker.Request) string {
+	allText := request.Event.Msg.Text
+	reasonToClaim := request.Param("reason")
+	idx := strings.Index(allText, reasonToClaim)
+	if idx == -1 || idx == 0{
+		return reasonToClaim
+	}
+
+	return allText[idx:]
 }
