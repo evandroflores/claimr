@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"

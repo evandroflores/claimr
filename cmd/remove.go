@@ -34,24 +34,25 @@ func remove(request *slacker.Request, response slacker.ResponseWriter) {
 
 	if container == (model.Container{}) {
 		response.Reply(fmt.Sprintf("I couldn't find container `%s` on <#%s>.", containerName, request.Event.Channel))
-	} else {
-		if container.CreatedByUser != request.Event.User {
-			response.Reply(fmt.Sprintf("Only who created can remove a container. Please check with <@%s>.", container.CreatedByUser))
-		} else {
-			if container.InUseBy != "" {
-				response.Reply(fmt.Sprintf("Can't remove. Container `%s` is in used by <@%s> since _%s_.", containerName, container.InUseBy, container.UpdatedAt.Format(time.RFC1123)))
-			} else {
-
-				err = container.Delete()
-				if err != nil {
-					log.Errorf("Fail to remove the container. %s", err)
-					response.Reply(err.Error())
-					return
-				}
-
-				response.Reply(fmt.Sprintf("Container `%s` removed.", containerName))
-
-			}
-		}
+		return
 	}
+
+	if container.InUseBy != "" {
+		response.Reply(fmt.Sprintf("Can't remove. Container `%s` is in used by <@%s> since _%s_.", containerName, container.InUseBy, container.UpdatedAt.Format(time.RFC1123)))
+		return
+	}
+
+	if container.CreatedByUser != request.Event.User {
+		response.Reply(fmt.Sprintf("Only who created the container `%s` can remove it. Please check with <@%s>.", containerName, container.CreatedByUser))
+		return
+	}
+
+	err = container.Delete()
+	if err != nil {
+		log.Errorf("Fail to remove the container. %s", err)
+		response.Reply(err.Error())
+		return
+	}
+
+	response.Reply(fmt.Sprintf("Container `%s` removed.", containerName))
 }

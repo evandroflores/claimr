@@ -21,7 +21,7 @@ func show(request *slacker.Request, response slacker.ResponseWriter) {
 		response.Reply(msg.Error())
 		return
 	}
-	
+
 	containerName := request.Param("container-name")
 
 	container, err := model.GetContainer(request.Event.Team, request.Event.Channel, containerName)
