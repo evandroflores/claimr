@@ -15,12 +15,14 @@ func init() {
 
 func remove(request *slacker.Request, response slacker.ResponseWriter) {
 	response.Typing()
-	containerName := request.Param("container-name")
 
-	if containerName == "" {
-		response.Reply("Give me a container name to remove. 🙄")
+	isDirect, msg := checkDirect(request.Event.Channel)
+	if isDirect {
+		response.Reply(msg.Error())
 		return
 	}
+
+	containerName := request.Param("container-name")
 
 	container, err := model.GetContainer(request.Event.Team, request.Event.Channel, containerName)
 

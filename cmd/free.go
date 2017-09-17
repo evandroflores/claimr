@@ -15,6 +15,12 @@ func init() {
 func free(request *slacker.Request, response slacker.ResponseWriter) {
 	response.Typing()
 
+	isDirect, msg := checkDirect(request.Event.Channel)
+	if isDirect {
+		response.Reply(msg.Error())
+		return
+	}
+
 	containerName := request.Param("container-name")
 
 	container, err := model.GetContainer(request.Event.Team, request.Event.Channel, containerName)

@@ -16,6 +16,12 @@ func init() {
 func list(request *slacker.Request, response slacker.ResponseWriter) {
 	response.Typing()
 
+	isDirect, msg := checkDirect(request.Event.Channel)
+	if isDirect {
+		response.Reply(msg.Error())
+		return
+	}
+
 	containers, err := model.GetContainers(request.Event.Team, request.Event.Channel)
 
 	if err != nil {

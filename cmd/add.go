@@ -9,10 +9,6 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-var (
-	directChannelPrefix = "D"
-)
-
 func init() {
 	Register("add <container-name>", "Adds a container to your channel.", add)
 }
@@ -20,8 +16,9 @@ func init() {
 func add(request *slacker.Request, response slacker.ResponseWriter) {
 	response.Typing()
 
-	if strings.HasPrefix(request.Event.Channel, directChannelPrefix) {
-		response.Reply("This look like a direct message. Containers are related to a channel.")
+	isDirect, msg := checkDirect(request.Event.Channel)
+	if isDirect {
+		response.Reply(msg.Error())
 		return
 	}
 
