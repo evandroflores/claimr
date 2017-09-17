@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	Register("show <container-name>", "Show who is using the container.", show)
+	Register("show <container-name>", "Shows a container details.", show)
 }
 
 func show(request *slacker.Request, response slacker.ResponseWriter) {

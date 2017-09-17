@@ -14,7 +14,7 @@ var (
 )
 
 func init() {
-	Register("add <container-name>", "Add a container to your channel.", add)
+	Register("add <container-name>", "Adds a container to your channel.", add)
 }
 
 func add(request *slacker.Request, response slacker.ResponseWriter) {
