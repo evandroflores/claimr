@@ -3,7 +3,6 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/evandroflores/claimr/database"
 	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
 	log "github.com/sirupsen/logrus"
@@ -16,10 +15,8 @@ func init() {
 
 func list(request *slacker.Request, response slacker.ResponseWriter) {
 	response.Typing()
-	containers := make([]model.Container, 0)
-	channelContainers := model.Container{TeamID: request.Event.Team, ChannelID: request.Event.Channel}
 
-	err := database.DB.Find(&containers, &channelContainers)
+	containers, err := model.GetContainers(request.Event.Team, request.Event.Channel)
 
 	if err != nil {
 		response.Reply("Fail to list containers.")
@@ -35,8 +32,8 @@ func list(request *slacker.Request, response slacker.ResponseWriter) {
 	containerList := []string {"Here is a list of containers for this channel:"}
 	for _, container := range containers {
 		line := fmt.Sprintf("`%s`\t%s %s", container.Name,
-			IfThenElse(container.InUseBy == "free", "_available_", "in use"),
-			IfThenElse(container.InUseByReason != "free", fmt.Sprintf("- %s", container.InUseByReason), ""),
+			IfThenElse(container.InUseBy != "", "in use", "_available_"),
+			IfThenElse(container.InUseByReason != "", fmt.Sprintf("- %s", container.InUseByReason), ""),
 		)
 		containerList = append(containerList, line)
 	}

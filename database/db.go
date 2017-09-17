@@ -40,7 +40,7 @@ func initDB(dbName string) {
 	xorDB, err := xorm.NewEngine("sqlite3", dbName)
 
 	if err != nil {
-		log.Fatalf("Couldn't open nor create database [%s]. %s", dbName, err)
+		log.Fatalf("couldn't open nor create database [%s] - %s", dbName, err)
 	}
 	DB = xorDB
 
@@ -50,7 +50,7 @@ func initDB(dbName string) {
 	log.Info("Initializing database2...")
 	awsSession, err := session.NewSession()
 	if err != nil{
-		log.Fatalf("Could not create a aws connection. %s", err)
+		log.Fatalf("could not create a aws connection - %s", err)
 	}
 	DB2 = dynamo.New(awsSession, &aws.Config{Region: aws.String("eu-west-1")})
 	log.Print(DB2)
@@ -64,7 +64,7 @@ func RegisterModel(model interface{}) {
 	tableExists, err := DB.IsTableExist(model)
 
 	if err != nil {
-		log.Fatalf("Fail to check model %s. %s", modelName, err)
+		log.Fatalf("fail to check model %s - %s", modelName, err)
 	}
 
 	if !tableExists {
