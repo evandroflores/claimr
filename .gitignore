@@ -1,3 +1,4 @@
 claimr.db
 build/*
 .idea/*
+coverage.*

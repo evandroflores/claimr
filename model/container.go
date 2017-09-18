@@ -24,10 +24,14 @@ var maxNameSize = 22
 var containerTable dynamo.Table
 
 func init() {
-	containerTable = database.DB2.Table("ClaimrContainer")
+	Container{}.initTable(database.DB)
 }
 
-func isValidContainerInput(teamID string, channelID string, name string) (bool, error){
+func (container Container) initTable(db *dynamo.DB) {
+	containerTable = db.Table("ClaimrContainer")
+}
+
+func isValidContainerInput(teamID string, channelID string, name string) (bool, error) {
 	if teamID == "" {
 		return false, fmt.Errorf("can not continue without a teamID 🙄")
 	}
@@ -51,15 +55,15 @@ func isValidContainerInput(teamID string, channelID string, name string) (bool, 
 func GetContainer(teamID string, channelID string, name string) (Container, error) {
 	valid, err := isValidContainerInput(teamID, channelID, name)
 
-	if !valid{
+	if !valid {
 		return Container{}, err
 	}
 
 	results := []Container{}
 
 	err = containerTable.Scan().
-			Filter("TeamID = ? AND ChannelID = ? AND 'Name' = ? ", teamID , channelID, name).
-			All(&results)
+		Filter("TeamID = ? AND ChannelID = ? AND 'Name' = ? ", teamID, channelID, name).
+		All(&results)
 
 	if err != nil {
 		return Container{}, err
@@ -77,7 +81,7 @@ func GetContainers(teamID string, channelID string) ([]Container, error) {
 	results := []Container{}
 
 	err := containerTable.Scan().
-		Filter("TeamID = ? AND ChannelID = ? ", teamID , channelID).
+		Filter("TeamID = ? AND ChannelID = ? ", teamID, channelID).
 		All(&results)
 
 	if err != nil {
@@ -98,7 +102,7 @@ func (container Container) getID() string {
 func (container Container) Add() error {
 	valid, err := isValidContainerInput(container.TeamID, container.ChannelID, container.Name)
 
-	if !valid{
+	if !valid {
 		return err
 	}
 
@@ -122,10 +126,10 @@ func (container Container) Add() error {
 }
 
 // Update a given Container
-func (container Container) Update () error {
+func (container Container) Update() error {
 	valid, err := isValidContainerInput(container.TeamID, container.ChannelID, container.Name)
 
-	if !valid{
+	if !valid {
 		return err
 	}
 
@@ -137,6 +141,7 @@ func (container Container) Update () error {
 		return fmt.Errorf("could not find this container on this channel. Can not update 😕")
 	}
 
+	container.ID = container.getID()
 	container.UpdatedAt = time.Now().UTC()
 
 	err = containerTable.Put(container).Run()
@@ -148,10 +153,10 @@ func (container Container) Update () error {
 }
 
 // Delete removes a Container from the database
-func (container Container) Delete () error {
+func (container Container) Delete() error {
 	valid, err := isValidContainerInput(container.TeamID, container.ChannelID, container.Name)
 
-	if !valid{
+	if !valid {
 		return err
 	}
 
