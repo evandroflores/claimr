@@ -12,3 +12,7 @@
 * **list** - *List all containers.*
 * **remove** `container-name` - *Removes a container from your channel.*
 * **show** `container-name` - *Shows a container details.*
+
+
+---
+Make sure to have your credentials to access dynamodb. `~/.aws/credentials`
