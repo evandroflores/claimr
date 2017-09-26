@@ -1,41 +1,23 @@
 package database
 
 import (
-	"github.com/evandroflores/claimr/model"
-	"github.com/go-xorm/xorm"
-	_ "github.com/mattn/go-sqlite3" // Engine for database
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/guregu/dynamo"
+
+	"github.com/aws/aws-sdk-go/service/dynamodb"
 	log "github.com/sirupsen/logrus"
 )
 
-// DB is the orm interface to the database
-var DB *xorm.Engine
+// DB is the single database instance
+var DB *dynamo.DB
 
 func init() {
-	initDB("./claimr.db")
-}
+	log.Info("Initializing database")
 
-func initDB(dbName string) {
-	log.Infof("Initializing database [%s]...", dbName)
-
-	var err error
-	DB, err = xorm.NewEngine("sqlite3", dbName)
-
+	awsSession, err := session.NewSession()
 	if err != nil {
-		log.Fatal("Couldn't open nor create database [%s].", dbName)
+		log.Fatalf("could not create a aws connection - %s", err)
 	}
-
-	DB.ShowSQL(true)
-	DB.ShowExecTime(true)
-
-	tableExists, err := DB.IsTableExist(&model.Container{})
-
-	if err != nil {
-		log.Fatalf("Couldn't read database [%s].", dbName)
-	}
-
-	if !tableExists {
-		log.Info("Creating tables...")
-		DB.CreateTables(&model.Container{})
-	}
-	log.Debug("Done.")
+	DB = dynamo.NewFromIface(dynamodb.New(awsSession, &aws.Config{Region: aws.String("eu-west-1")}))
 }
