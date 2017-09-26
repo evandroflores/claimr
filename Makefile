@@ -5,9 +5,19 @@ ifndef GOPATH
 	@exit 1
 endif
 
-check-token:
+check-keys:
 ifndef CLAIMR_TOKEN
 	@echo "Couldn't find the CLAIMR_TOKEN env"
+	@exit 1
+endif
+
+ifndef AWS_ACCESS_KEY_ID
+	@echo "Couldn't find the AWS_ACCESS_KEY_ID env"
+	@exit 1
+endif
+
+ifndef AWS_SECRET_ACCESS_KEY
+	@echo "Couldn't find the AWS_SECRET_ACCESS_KEY env"
 	@exit 1
 endif
 
@@ -17,14 +27,17 @@ build: check-env vendorize
 	@ls -lah build
 
 
-run: check-env check-token
+run: check-env check-keys
 	@go run main.go
 
 docker-build:
 	docker build -t evandroflores/claimr .
 
-docker-run: check-token
-	docker run -e CLAIMR_TOKEN=${CLAIMR_TOKEN} evandroflores/claimr
+docker-run: check-keys
+	@docker run -e CLAIMR_TOKEN=${CLAIMR_TOKEN} \
+	            -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
+	            -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
+	            evandroflores/claimr
 
 test:
 	go test -cover ./...
