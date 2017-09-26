@@ -15,4 +15,4 @@
 
 
 ---
-Make sure to have your credentials to access dynamodb. `~/.aws/credentials`
+Make sure to have your credentials to connect to slack and dynamodb
