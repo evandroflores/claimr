@@ -3,10 +3,11 @@ package cmd
 import (
 	"fmt"
 
+	"strings"
+
 	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
 	log "github.com/sirupsen/logrus"
-	"strings"
 )
 
 func init() {
@@ -35,7 +36,7 @@ func list(request *slacker.Request, response slacker.ResponseWriter) {
 		return
 	}
 
-	containerList := []string {"Here is a list of containers for this channel:"}
+	containerList := []string{"Here is a list of containers for this channel:"}
 	for _, container := range containers {
 		line := fmt.Sprintf("`%s`\t%s %s", container.Name,
 			IfThenElse(container.InUseBy != "", "in use", "_available_"),
@@ -43,7 +44,7 @@ func list(request *slacker.Request, response slacker.ResponseWriter) {
 		)
 		containerList = append(containerList, line)
 	}
-	response.Reply(strings.Join(containerList,"\n"))
+	response.Reply(strings.Join(containerList, "\n"))
 }
 
 // IfThenElse as Golang does not have ternary ifelse

@@ -163,7 +163,7 @@ func TestListContainers(t *testing.T) {
 	containers, err2 := GetContainers("TestTeam", "TestChannel")
 	assert.NoError(t, err2)
 
-	assert.Len(t,containers, 4)
+	assert.Len(t, containers, 4)
 	for idx, container := range containers {
 		assert.ObjectsAreEqual(container.Name, names[idx])
 		container.Delete()

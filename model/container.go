@@ -4,11 +4,10 @@ import (
 	"fmt"
 
 	"github.com/evandroflores/claimr/database"
-	"github.com/guregu/dynamo"
 	"github.com/jinzhu/gorm"
 )
 
-func init(){
+func init() {
 	database.DB.AutoMigrate(&Container{})
 }
 
@@ -24,8 +23,6 @@ type Container struct {
 }
 
 var maxNameSize = 22
-var containerTable dynamo.Table
-
 
 func isValidContainerInput(teamID string, channelID string, name string) (bool, error) {
 	if teamID == "" {
@@ -57,7 +54,7 @@ func GetContainer(teamID string, channelID string, name string) (Container, erro
 	}
 
 	database.DB.Where(&Container{TeamID: teamID, ChannelID: channelID, Name: name}).
-				First(&result)
+		First(&result)
 
 	return result, nil
 }
@@ -72,12 +69,12 @@ func GetContainers(teamID string, channelID string) ([]Container, error) {
 	}
 
 	database.DB.Where(&Container{TeamID: teamID, ChannelID: channelID}).
-				Find(&results)
+		Find(&results)
 
 	return results, nil
 }
 
-
+// Add a given Container to database
 func (container Container) Add() error {
 	existingContainer, err := GetContainer(container.TeamID, container.ChannelID, container.Name)
 
@@ -101,7 +98,7 @@ func (container Container) Update() error {
 	if err != nil {
 		return err
 	}
-	
+
 	if existingContainer == (Container{}) {
 		return fmt.Errorf("could not find this container on this channel. Can not update 😕")
 	}

@@ -31,7 +31,7 @@ func free(request *slacker.Request, response slacker.ResponseWriter) {
 		return
 	}
 
-	if container == (model.Container{}){
+	if container == (model.Container{}) {
 		response.Reply(fmt.Sprintf("I couldn't find container `%s` on <#%s>.", containerName, request.Event.Channel))
 	} else {
 		if container.InUseBy != request.Event.User {
