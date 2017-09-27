@@ -11,13 +11,8 @@ ifndef CLAIMR_TOKEN
 	@exit 1
 endif
 
-ifndef AWS_ACCESS_KEY_ID
-	@echo "Couldn't find the AWS_ACCESS_KEY_ID env"
-	@exit 1
-endif
-
-ifndef AWS_SECRET_ACCESS_KEY
-	@echo "Couldn't find the AWS_SECRET_ACCESS_KEY env"
+ifndef CLAIMR_DATABASE
+	@echo "Couldn't find the CLAIMR_DATABASE env"
 	@exit 1
 endif
 
@@ -35,8 +30,7 @@ docker-build:
 
 docker-run: check-keys
 	@docker run -e CLAIMR_TOKEN=${CLAIMR_TOKEN} \
-	            -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
-	            -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
+	            -e CLAIMR_DATABASE=${CLAIMR_DATABASE} \
 	            evandroflores/claimr
 
 test:

@@ -1,6 +1,8 @@
 package database
 
 import (
+	"os"
+
 	_ "github.com/go-sql-driver/mysql" // MySql driver for database
 	"github.com/jinzhu/gorm"
 	log "github.com/sirupsen/logrus"
@@ -13,7 +15,12 @@ func init() {
 	log.Info("Initializing database")
 	var err error
 
-	DB, err = gorm.Open("mysql", "root@/claimr?charset=utf8&parseTime=True&loc=Local")
+	dbStringConnection := os.Getenv("CLAIMR_DATABASE")
+	if dbStringConnection == "" {
+		log.Fatal("Claimr mysql database string unset. Set CLAIMR_DATABASE to continue.")
+	}
+
+	DB, err = gorm.Open("mysql", dbStringConnection)
 
 	if err != nil {
 		log.Fatalf("could not create a database connection - %s", err)
