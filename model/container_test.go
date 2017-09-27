@@ -56,12 +56,60 @@ func TestAddContainer(t *testing.T) {
 	assert.ObjectsAreEqual(container, containerFromDB)
 }
 
+func TestAddContainerValidateTeamID(t *testing.T) {
+	container := Container{TeamID: "", ChannelID: "", Name: ""}
+	err := container.Add()
+	assert.EqualError(t, err, "can not continue without a teamID 🙄")
+}
+
+func TestAddContainerValidateChannelID(t *testing.T) {
+	container := Container{TeamID: "TestTeam", ChannelID: "", Name: ""}
+	err := container.Add()
+	assert.EqualError(t, err, "can not continue without a channelID 🙄")
+}
+
+func TestAddContainerValidateName(t *testing.T) {
+	container := Container{TeamID: "TestTeam", ChannelID: "TestChannel", Name: ""}
+	err := container.Add()
+	assert.EqualError(t, err, "can not continue without a container name 🙄")
+}
+
+func TestAddContainerDuplicate(t *testing.T) {
+	container := Container{TeamID: "TestTeam", ChannelID: "TestChannel", Name: "Name"}
+	err := container.Add()
+	assert.EqualError(t, err, "there is a container with the same name on this channel. Try a different one 😕")
+}
+
 func TestDeleteContainer(t *testing.T) {
 	container, err := GetContainer("TestTeam", "TestChannel", "Name")
 	assert.NoError(t, err)
 
 	err2 := container.Delete()
 	assert.NoError(t, err2)
+}
+
+func TestDeleteContainerValidateTeamID(t *testing.T) {
+	container := Container{TeamID: "", ChannelID: "", Name: ""}
+	err := container.Delete()
+	assert.EqualError(t, err, "can not continue without a teamID 🙄")
+}
+
+func TestDeleteContainerValidateChannelID(t *testing.T) {
+	container := Container{TeamID: "TestTeam", ChannelID: "", Name: ""}
+	err := container.Delete()
+	assert.EqualError(t, err, "can not continue without a channelID 🙄")
+}
+
+func TestDeleteContainerValidateName(t *testing.T) {
+	container := Container{TeamID: "TestTeam", ChannelID: "TestChannel", Name: ""}
+	err := container.Delete()
+	assert.EqualError(t, err, "can not continue without a container name 🙄")
+}
+
+func TestDeleteContainerInexistent(t *testing.T) {
+	container := Container{TeamID: "TestTeam", ChannelID: "TestChannel", Name: "Name"}
+	err := container.Delete()
+	assert.EqualError(t, err, "could not find this container on this channel. Can not delete 😕")
 }
 
 func TestUpdateContainer(t *testing.T) {
@@ -80,6 +128,30 @@ func TestUpdateContainer(t *testing.T) {
 	container.Delete()
 }
 
+func TestUpdateContainerValidateTeamID(t *testing.T) {
+	container := Container{TeamID: "", ChannelID: "", Name: ""}
+	err := container.Update()
+	assert.EqualError(t, err, "can not continue without a teamID 🙄")
+}
+
+func TestUpdateContainerValidateChannelID(t *testing.T) {
+	container := Container{TeamID: "TestTeam", ChannelID: "", Name: ""}
+	err := container.Update()
+	assert.EqualError(t, err, "can not continue without a channelID 🙄")
+}
+
+func TestUpdateContainerValidateName(t *testing.T) {
+	container := Container{TeamID: "TestTeam", ChannelID: "TestChannel", Name: ""}
+	err := container.Update()
+	assert.EqualError(t, err, "can not continue without a container name 🙄")
+}
+
+func TestUpdateContainerInexistent(t *testing.T) {
+	container := Container{TeamID: "TestTeam", ChannelID: "TestChannel", Name: "Name"}
+	err := container.Update()
+	assert.EqualError(t, err, "could not find this container on this channel. Can not update 😕")
+}
+
 func TestListContainers(t *testing.T) {
 	names := [4]string{"A", "B", "C", "D"}
 	for _, name := range names {
@@ -96,4 +168,16 @@ func TestListContainers(t *testing.T) {
 		assert.ObjectsAreEqual(container.Name, names[idx])
 		container.Delete()
 	}
+}
+
+func TestListContainersValidateTeamID(t *testing.T) {
+	containers, err := GetContainers("", "")
+	assert.EqualError(t, err, "can not continue without a teamID 🙄")
+	assert.ObjectsAreEqual(containers, []Container{})
+}
+
+func TestListContainersValidateChannelID(t *testing.T) {
+	containers, err := GetContainers("TestTeam", "")
+	assert.EqualError(t, err, "can not continue without a channelID 🙄")
+	assert.ObjectsAreEqual(containers, []Container{})
 }
