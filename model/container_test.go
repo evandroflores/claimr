@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"github.com/stretchr/testify/assert"
+	"strings"
 )
 
 func TestGetContainerNoTeam(t *testing.T) {
@@ -16,21 +17,21 @@ func TestGetContainerNoTeam(t *testing.T) {
 }
 
 func TestGetContainerNoChannel(t *testing.T) {
-	container, err := GetContainer("TeamID", "", "")
+	container, err := GetContainer("TestTeam", "", "")
 
 	assert.ObjectsAreEqual(Container{}, container)
 	assert.EqualError(t, err, "can not continue without a channelID 🙄")
 }
 
 func TestGetContainerNoName(t *testing.T) {
-	container, err := GetContainer("TeamID", "ChannelID", "")
+	container, err := GetContainer("TestTeam", "TestChannel", "")
 
 	assert.ObjectsAreEqual(Container{}, container)
 	assert.EqualError(t, err, "can not continue without a container name 🙄")
 }
 
 func TestGetContainerBigName(t *testing.T) {
-	container, err := GetContainer("TeamID", "ChannelID",
+	container, err := GetContainer("TestTeam", "TestChannel",
 		"LoremIpsumDolorSitAmetConsecteturAdipiscingElit")
 
 	assert.ObjectsAreEqual(Container{}, container)
@@ -39,10 +40,24 @@ func TestGetContainerBigName(t *testing.T) {
 
 func TestGetContainerNotFound(t *testing.T) {
 	containerName := "TestDoesNotExist"
-	container, err := GetContainer("TeamID", "ChannelID", containerName)
+	container, err := GetContainer("TestTeam", "TestChannel", containerName)
 
 	assert.ObjectsAreEqual(Container{}, container)
 	assert.NoError(t, err, fmt.Sprintf("Container %s not found", containerName))
+}
+
+func TestGetContainerIgnoreCase(t *testing.T) {
+	containerName := "UPPERCASE_NAME"
+	container := Container{TeamID: "TestTeam", ChannelID: "TestChannel", Name: containerName}
+	err := container.Add()
+	assert.NoError(t, err)
+
+	containerFromDB, err2 := GetContainer("TestTeam", "TestChannel", containerName)
+
+	assert.NoError(t, err2)
+	assert.Equal(t, containerFromDB.Name, strings.ToLower(containerName))
+
+	container.Delete()
 }
 
 func TestAddContainer(t *testing.T) {

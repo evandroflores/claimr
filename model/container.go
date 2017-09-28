@@ -5,6 +5,7 @@ import (
 
 	"github.com/evandroflores/claimr/database"
 	"github.com/jinzhu/gorm"
+	"strings"
 )
 
 func init() {
@@ -53,7 +54,7 @@ func GetContainer(teamID string, channelID string, name string) (Container, erro
 		return result, err
 	}
 
-	database.DB.Where(&Container{TeamID: teamID, ChannelID: channelID, Name: name}).
+	database.DB.Where(&Container{TeamID: teamID, ChannelID: channelID, Name: strings.ToLower(name)}).
 		First(&result)
 
 	return result, nil
@@ -85,7 +86,7 @@ func (container Container) Add() error {
 	if existingContainer != (Container{}) {
 		return fmt.Errorf("there is a container with the same name on this channel. Try a different one 😕")
 	}
-
+	container.Name = strings.ToLower(container.Name)
 	database.DB.Create(&container)
 
 	return nil
@@ -93,7 +94,7 @@ func (container Container) Add() error {
 
 // Update a given Container
 func (container Container) Update() error {
-	existingContainer, err := GetContainer(container.TeamID, container.ChannelID, container.Name)
+	existingContainer, err := GetContainer(container.TeamID, container.ChannelID, strings.ToLower(container.Name))
 
 	if err != nil {
 		return err
@@ -113,7 +114,7 @@ func (container Container) Update() error {
 
 // Delete removes a Container from the database
 func (container Container) Delete() error {
-	existingContainer, err := GetContainer(container.TeamID, container.ChannelID, container.Name)
+	existingContainer, err := GetContainer(container.TeamID, container.ChannelID, strings.ToLower(container.Name))
 
 	if err != nil {
 		return err
