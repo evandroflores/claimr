@@ -6,14 +6,16 @@ go:
   - 1.8
 
 services:
-    - mysql
+  - mysql
 
 before_install:
-      - go get -t -v ./...
-      - mysql -e 'CREATE DATABASE IF NOT EXISTS claimr;'
+  - go get -t -v ./...
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS claimr;'
 
+env:
+  - CLAIMR_DATABASE=root@/claimr?charset=utf8&parseTime=True&loc=Local
 script:
-      - make test
+  - make test
 
 after_success:
-      - bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash)
