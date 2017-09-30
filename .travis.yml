@@ -13,7 +13,7 @@ before_install:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS claimr;'
 
 script:
-  - make test
+  - make cover
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

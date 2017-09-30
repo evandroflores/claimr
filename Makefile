@@ -35,6 +35,7 @@ docker-run: check-keys
 test: check-keys
 	go test -cover ./...
 
-cover:
-	echo 'mode: atomic' > coverage.txt && go list ./... | xargs -n1 -I{} sh -c 'go test -covermode=atomic -coverprofile=coverage.tmp {} && tail -n +2 coverage.tmp >> coverage.txt' && rm coverage.tmp
-	go tool cover -html=coverage.txt -o coverage.html
+cover: check-keys
+	@rm -f coverage.*
+	@echo 'mode: atomic' > coverage.txt
+	go list ./... | xargs -n1 -I{} sh -c 'touch coverage.out & go test -race -covermode=atomic -coverprofile=coverage.out {} && tail -n +2 coverage.out >> coverage.txt'
