@@ -4,13 +4,16 @@ sudo: false
 
 go:
   - 1.8
-  - tip
+
+services:
+  - mysql
 
 before_install:
-      - go get -t -v ./...
+  - go get -t -v ./...
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS claimr;'
 
 script:
-      - make test
+  - make test
 
 after_success:
-      - bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash)

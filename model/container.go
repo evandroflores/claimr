@@ -2,34 +2,28 @@ package model
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/evandroflores/claimr/database"
-	"github.com/guregu/dynamo"
+	"github.com/jinzhu/gorm"
+	"strings"
 )
+
+func init() {
+	database.DB.AutoMigrate(&Container{})
+}
 
 // Container defines the Container information on database.
 type Container struct {
-	ID            string
-	TeamID        string
-	ChannelID     string
-	Name          string
+	gorm.Model
+	TeamID        string `gorm:"not null"`
+	ChannelID     string `gorm:"not null"`
+	Name          string `gorm:"not null"`
 	InUseBy       string
 	InUseByReason string
-	UpdatedAt     time.Time
 	CreatedByUser string
 }
 
 var maxNameSize = 22
-var containerTable dynamo.Table
-
-func init() {
-	Container{}.initTable(database.DB)
-}
-
-func (container Container) initTable(db *dynamo.DB) {
-	containerTable = db.Table("ClaimrContainer")
-}
 
 func isValidContainerInput(teamID string, channelID string, name string) (bool, error) {
 	if teamID == "" {
@@ -53,114 +47,75 @@ func isValidContainerInput(teamID string, channelID string, name string) (bool, 
 
 // GetContainer returns a container for teamID, channelID, and name provided
 func GetContainer(teamID string, channelID string, name string) (Container, error) {
+	result := Container{}
 	valid, err := isValidContainerInput(teamID, channelID, name)
 
 	if !valid {
-		return Container{}, err
+		return result, err
 	}
 
-	results := []Container{}
+	database.DB.Where(&Container{TeamID: teamID, ChannelID: channelID, Name: strings.ToLower(name)}).
+		First(&result)
 
-	err = containerTable.Scan().
-		Filter("TeamID = ? AND ChannelID = ? AND 'Name' = ? ", teamID, channelID, name).
-		All(&results)
-
-	if err != nil {
-		return Container{}, err
-	}
-
-	if len(results) == 0 {
-		return Container{}, nil
-	}
-
-	return results[0], nil
+	return result, nil
 }
 
 // GetContainers returns a list of containers for the given TeamID and ChannelID
 func GetContainers(teamID string, channelID string) ([]Container, error) {
 	results := []Container{}
+	valid, err := isValidContainerInput(teamID, channelID, ".")
 
-	err := containerTable.Scan().
-		Filter("TeamID = ? AND ChannelID = ? ", teamID, channelID).
-		All(&results)
-
-	if err != nil {
-		return []Container{}, err
+	if !valid {
+		return results, err
 	}
 
-	if len(results) == 0 {
-		return []Container{}, nil
-	}
+	database.DB.Where(&Container{TeamID: teamID, ChannelID: channelID}).
+		Find(&results)
 
 	return results, nil
 }
 
-func (container Container) getID() string {
-	return fmt.Sprintf("%s.%s.%s", container.TeamID, container.ChannelID, container.Name)
-}
-
+// Add a given Container to database
 func (container Container) Add() error {
-	valid, err := isValidContainerInput(container.TeamID, container.ChannelID, container.Name)
-
-	if !valid {
-		return err
-	}
-
 	existingContainer, err := GetContainer(container.TeamID, container.ChannelID, container.Name)
+
 	if err != nil {
 		return err
 	}
+
 	if existingContainer != (Container{}) {
 		return fmt.Errorf("there is a container with the same name on this channel. Try a different one 😕")
 	}
-
-	container.ID = container.getID()
-	container.UpdatedAt = time.Now().UTC()
-
-	err = containerTable.Put(container).Run()
-	if err != nil {
-		return err
-	}
+	container.Name = strings.ToLower(container.Name)
+	database.DB.Create(&container)
 
 	return nil
 }
 
 // Update a given Container
 func (container Container) Update() error {
-	valid, err := isValidContainerInput(container.TeamID, container.ChannelID, container.Name)
+	existingContainer, err := GetContainer(container.TeamID, container.ChannelID, strings.ToLower(container.Name))
 
-	if !valid {
-		return err
-	}
-
-	existingContainer, err := GetContainer(container.TeamID, container.ChannelID, container.Name)
 	if err != nil {
 		return err
 	}
+
 	if existingContainer == (Container{}) {
 		return fmt.Errorf("could not find this container on this channel. Can not update 😕")
 	}
 
-	container.ID = container.getID()
-	container.UpdatedAt = time.Now().UTC()
+	existingContainer.InUseBy = container.InUseBy
+	existingContainer.InUseByReason = container.InUseByReason
 
-	err = containerTable.Put(container).Run()
-	if err != nil {
-		return err
-	}
+	database.DB.Save(&existingContainer)
 
 	return nil
 }
 
 // Delete removes a Container from the database
 func (container Container) Delete() error {
-	valid, err := isValidContainerInput(container.TeamID, container.ChannelID, container.Name)
+	existingContainer, err := GetContainer(container.TeamID, container.ChannelID, strings.ToLower(container.Name))
 
-	if !valid {
-		return err
-	}
-
-	existingContainer, err := GetContainer(container.TeamID, container.ChannelID, container.Name)
 	if err != nil {
 		return err
 	}
@@ -168,10 +123,7 @@ func (container Container) Delete() error {
 		return fmt.Errorf("could not find this container on this channel. Can not delete 😕")
 	}
 
-	err = containerTable.Delete("ID", container.getID()).Run()
-	if err != nil {
-		return err
-	}
+	database.DB.Delete(&existingContainer)
 
 	return nil
 }

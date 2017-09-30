@@ -37,13 +37,13 @@ func add(request *slacker.Request, response slacker.ResponseWriter) {
 	}
 
 	err = model.Container{
-			TeamID: request.Event.Team,
-			ChannelID: request.Event.Channel,
-			Name: containerName,
-			InUseBy: "",
-			InUseByReason: "",
-			CreatedByUser: request.Event.User,
-		}.Add()
+		TeamID:        request.Event.Team,
+		ChannelID:     request.Event.Channel,
+		Name:          containerName,
+		InUseBy:       "",
+		InUseByReason: "",
+		CreatedByUser: request.Event.User,
+	}.Add()
 
 	if err != nil {
 		log.Errorf("ADD. [%s, %s, %s] %s", request.Event.Team, request.Event.Channel, containerName, err)

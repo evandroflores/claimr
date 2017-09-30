@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/evandroflores/claimr/cmd"
+	"github.com/evandroflores/claimr/database"
 	"github.com/shomali11/slacker"
 	log "github.com/sirupsen/logrus"
 )
@@ -31,4 +32,5 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer database.DB.Close()
 }

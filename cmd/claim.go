@@ -3,10 +3,11 @@ package cmd
 import (
 	"fmt"
 
+	"strings"
+
 	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
 	log "github.com/sirupsen/logrus"
-	"strings"
 )
 
 func init() {
@@ -32,7 +33,7 @@ func claim(request *slacker.Request, response slacker.ResponseWriter) {
 		return
 	}
 
-	if container == (model.Container{}){
+	if container == (model.Container{}) {
 		response.Reply(fmt.Sprintf("I couldn't find container `%s` on <#%s>.", containerName, request.Event.Channel))
 	} else {
 		if container.InUseBy != "" {
@@ -57,7 +58,7 @@ func getReason(request slacker.Request) string {
 	allText := request.Event.Msg.Text
 	reasonToClaim := request.Param("reason")
 	idx := strings.Index(allText, reasonToClaim)
-	if idx == -1 || idx == 0{
+	if idx == -1 || idx == 0 {
 		return reasonToClaim
 	}
 

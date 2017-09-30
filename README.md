@@ -15,4 +15,4 @@
 
 
 ---
-Make sure to have your credentials to connect to Slack and DynamoDB
+Make sure to have your credentials on environment to connect to Slack and MySQL

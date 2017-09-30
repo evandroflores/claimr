@@ -1,17 +1,16 @@
 package cmd
 
 import (
-	"github.com/shomali11/slacker"
 	"fmt"
 	"strings"
-)
 
+	"github.com/shomali11/slacker"
+)
 
 var (
-	commands []Command
+	commands            []Command
 	directChannelPrefix = "D"
 )
-
 
 // Command defines a command to be register to slack
 type Command struct {
@@ -34,11 +33,9 @@ func notImplemented(request *slacker.Request, response slacker.ResponseWriter) {
 	response.Reply("No pancakes for you! 🥞")
 }
 
-func checkDirect(channelID string) (bool, error){
+func checkDirect(channelID string) (bool, error) {
 	if strings.HasPrefix(channelID, directChannelPrefix) {
-		return true, fmt.Errorf("This look like a direct message. Containers are related to a channel.")
-	} else {
-		return false, nil
+		return true, fmt.Errorf("this look like a direct message. Containers are related to a channel")
 	}
-
+	return false, nil
 }

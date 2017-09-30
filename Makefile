@@ -6,18 +6,13 @@ ifndef GOPATH
 endif
 
 check-keys:
+ifndef CLAIMR_DATABASE
+	@echo "Couldn't find the CLAIMR_DATABASE env"
+	@exit 1
+endif
+
 ifndef CLAIMR_TOKEN
 	@echo "Couldn't find the CLAIMR_TOKEN env"
-	@exit 1
-endif
-
-ifndef AWS_ACCESS_KEY_ID
-	@echo "Couldn't find the AWS_ACCESS_KEY_ID env"
-	@exit 1
-endif
-
-ifndef AWS_SECRET_ACCESS_KEY
-	@echo "Couldn't find the AWS_SECRET_ACCESS_KEY env"
 	@exit 1
 endif
 
@@ -25,7 +20,6 @@ build: check-env vendorize
 	@go build -o build/claimr main.go
 	@echo "\nCheck the binary on the build dir build/claimr\n"
 	@ls -lah build
-
 
 run: check-env check-keys
 	@go run main.go
@@ -35,11 +29,10 @@ docker-build:
 
 docker-run: check-keys
 	@docker run -e CLAIMR_TOKEN=${CLAIMR_TOKEN} \
-	            -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
-	            -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
+	            -e CLAIMR_DATABASE=${CLAIMR_DATABASE} \
 	            evandroflores/claimr
 
-test:
+test: check-keys
 	go test -cover ./...
 
 cover:

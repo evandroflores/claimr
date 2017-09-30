@@ -1,23 +1,28 @@
 package database
 
 import (
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/guregu/dynamo"
+	"os"
 
-	"github.com/aws/aws-sdk-go/service/dynamodb"
+	_ "github.com/go-sql-driver/mysql" // MySql driver for database
+	"github.com/jinzhu/gorm"
 	log "github.com/sirupsen/logrus"
 )
 
 // DB is the single database instance
-var DB *dynamo.DB
+var DB *gorm.DB
 
 func init() {
 	log.Info("Initializing database")
+	var err error
 
-	awsSession, err := session.NewSession()
-	if err != nil {
-		log.Fatalf("could not create a aws connection - %s", err)
+	dbStringConnection := os.Getenv("CLAIMR_DATABASE")
+	if dbStringConnection == "" {
+		log.Fatal("Claimr mysql database string unset. Set CLAIMR_DATABASE to continue.")
 	}
-	DB = dynamo.NewFromIface(dynamodb.New(awsSession, &aws.Config{Region: aws.String("eu-west-1")}))
+
+	DB, err = gorm.Open("mysql", dbStringConnection)
+
+	if err != nil {
+		log.Fatalf("could not create a database connection - %s", err)
+	}
 }
