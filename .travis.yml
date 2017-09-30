@@ -17,7 +17,7 @@ env:
     - CLAIMR_DATABASE=root@/claimr?charset=utf8&parseTime=True&loc=Local
 
 script:
-  - bash -c "export $CLAIMR_DATABASE; make test"
+  - bash -c "export CLAIMR_DATABASE=$CLAIMR_DATABASE; make test"
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
