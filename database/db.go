@@ -15,7 +15,7 @@ func init() {
 	log.Info("Initializing database")
 	var err error
 
-	dbStringConnection := os.Getenv("CLAIMR_DATABASE")
+	dbStringConnection := os.Getenv("CLAIMR_DB")
 	if dbStringConnection == "" {
 		log.Fatal("Claimr mysql database string unset. Set CLAIMR_DATABASE to continue.")
 	}

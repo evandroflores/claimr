@@ -11,8 +11,8 @@ ifndef CLAIMR_TOKEN
 	@exit 1
 endif
 
-ifndef CLAIMR_DATABASE
-	@echo "Couldn't find the CLAIMR_DATABASE env"
+ifndef CLAIMR_DB
+	@echo "Couldn't find the CLAIMR_DB env"
 	@exit 1
 endif
 
