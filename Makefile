@@ -36,6 +36,6 @@ test: check-keys
 	go test -cover ./...
 
 cover: check-keys
-	@rm coverage.*
+	@rm -f coverage.*
 	@echo 'mode: atomic' > coverage.txt
 	go list ./... | xargs -n1 -I{} sh -c 'touch coverage.out & go test -race -covermode=atomic -coverprofile=coverage.out {} && tail -n +2 coverage.out >> coverage.txt'
