@@ -6,13 +6,13 @@ ifndef GOPATH
 endif
 
 check-keys:
-ifndef CLAIMR_TOKEN
-	@echo "Couldn't find the CLAIMR_TOKEN env"
+ifndef CLAIMR_DATABASE
+	@echo "Couldn't find the CLAIMR_DATABASE env"
 	@exit 1
 endif
 
-ifndef CLAIMR_DATABASE
-	@echo "Couldn't find the CLAIMR_DATABASE env"
+ifndef CLAIMR_TOKEN
+	@echo "Couldn't find the CLAIMR_TOKEN env"
 	@exit 1
 endif
 
