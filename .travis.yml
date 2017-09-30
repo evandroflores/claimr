@@ -12,12 +12,8 @@ before_install:
   - go get -t -v ./...
   - mysql -e 'CREATE DATABASE IF NOT EXISTS claimr;'
 
-env:
-  global:
-    - CLAIMR_DATABASE=root@/claimr?charset=utf8&parseTime=True&loc=Local
-
 script:
-  - bash -c "export CLAIMR_DATABASE=$CLAIMR_DATABASE; make test"
+  - make test
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

@@ -33,7 +33,7 @@ docker-run: check-keys
 	            -e CLAIMR_DATABASE=${CLAIMR_DATABASE} \
 	            evandroflores/claimr
 
-test:
+test: check-keys
 	go test -cover ./...
 
 cover:
