@@ -11,8 +11,8 @@ ifndef CLAIMR_TOKEN
 	@exit 1
 endif
 
-ifndef CLAIMR_DB
-	@echo "Couldn't find the CLAIMR_DB env"
+ifndef CLAIMR_DATABASE
+	@echo "Couldn't find the CLAIMR_DATABASE env"
 	@exit 1
 endif
 
@@ -20,7 +20,6 @@ build: check-env vendorize
 	@go build -o build/claimr main.go
 	@echo "\nCheck the binary on the build dir build/claimr\n"
 	@ls -lah build
-
 
 run: check-env check-keys
 	@go run main.go
