@@ -2,24 +2,25 @@ package main
 
 import (
 	"os"
-	"os/exec"
 	"testing"
 
-	"fmt"
+	"github.com/bouk/monkey"
+	log "github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestMustHaveTokenEnv(t *testing.T) {
-	currentToken := os.Getenv("CLAIMR_TOKEN")
+func TestEnvironmentToken(t *testing.T) {
+	currentEnv := os.Getenv("CLAIMR_TOKEN")
 	os.Unsetenv("CLAIMR_TOKEN")
-	defer func() { os.Setenv("CLAIMR_TOKEN", currentToken) }()
+	defer func() { os.Setenv("CLAIMR_TOKEN", currentEnv) }()
 
-	cmd := exec.Command("make", "run")
-	//cmd.Env = append(os.Environ(), "TEST_MUST_ENV=1")
-	err := cmd.Run()
-	fmt.Print(err.(*exec.ExitError))
-	//if e, ok := err.(*exec.ExitError); ok && !e.Success() {
-	//	return
-	//}
-	assert.EqualError(t, err, "Claimr slack bot token unset. Set CLAIMR_TOKEN to continue.")
+	wantMsg := "Claimr slack bot token unset. Set CLAIMR_TOKEN to continue."
+
+	mockLogFatal := func(msg ...interface{}) {
+		assert.Equal(t, wantMsg, msg[0])
+		panic("log.Fatal called")
+	}
+	patchLog := monkey.Patch(log.Fatal, mockLogFatal)
+	defer patchLog.Unpatch()
+	assert.PanicsWithValue(t, "log.Fatal called", main, "log.Fatal was not called")
 }
