@@ -5,8 +5,9 @@ import (
 
 	"fmt"
 
-	"github.com/stretchr/testify/assert"
 	"strings"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestGetContainerNoTeam(t *testing.T) {

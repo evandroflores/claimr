@@ -12,6 +12,10 @@ import (
 var DB *gorm.DB
 
 func init() {
+	initDB()
+}
+
+func initDB() {
 	log.Info("Initializing database")
 	var err error
 
