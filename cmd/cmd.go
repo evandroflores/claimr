@@ -35,7 +35,7 @@ func notImplemented(request *slacker.Request, response slacker.ResponseWriter) {
 
 func checkDirect(channelID string) (bool, error) {
 	if strings.HasPrefix(channelID, directChannelPrefix) {
-		return true, fmt.Errorf("this look like a direct message. Containers are related to a channel")
+		return true, fmt.Errorf("this look like a direct message. Containers are related to a channels")
 	}
 	return false, nil
 }

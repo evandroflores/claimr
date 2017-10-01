@@ -14,10 +14,10 @@ func TestEnvironmentToken(t *testing.T) {
 	os.Unsetenv("CLAIMR_TOKEN")
 	defer func() { os.Setenv("CLAIMR_TOKEN", currentEnv) }()
 
-	wantMsg := "Claimr slack bot token unset. Set CLAIMR_TOKEN to continue."
+	expectedMsg := "Claimr slack bot token unset. Set CLAIMR_TOKEN to continue."
 
 	mockLogFatal := func(msg ...interface{}) {
-		assert.Equal(t, wantMsg, msg[0])
+		assert.Equal(t, expectedMsg, msg[0])
 		panic("log.Fatal called")
 	}
 	patchLog := monkey.Patch(log.Fatal, mockLogFatal)
