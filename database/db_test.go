@@ -18,10 +18,10 @@ func TestEnvironmentDatabase(t *testing.T) {
 	os.Unsetenv("CLAIMR_DATABASE")
 	defer func() { os.Setenv("CLAIMR_DATABASE", currentEnv) }()
 
-	wantMsg := "Claimr mysql database string unset. Set CLAIMR_DATABASE to continue."
+	expectedMsg := "Claimr mysql database string unset. Set CLAIMR_DATABASE to continue."
 
 	mockLogFatal := func(msg ...interface{}) {
-		assert.Equal(t, wantMsg, msg[0])
+		assert.Equal(t, expectedMsg, msg[0])
 		panic("log.Fatal called")
 	}
 	patchLog := monkey.Patch(log.Fatal, mockLogFatal)
@@ -30,10 +30,10 @@ func TestEnvironmentDatabase(t *testing.T) {
 }
 
 func TestDBErrpr(t *testing.T) {
-	wantMsg := "could not create a database connection - [ERROR]"
+	expectedMsg := "could not create a database connection - [ERROR]"
 
 	mockLogFatal := func(format string, args ...interface{}) {
-		assert.Equal(t, wantMsg, fmt.Sprintf(format, args))
+		assert.Equal(t, expectedMsg, fmt.Sprintf(format, args))
 		panic("log.Fatal called")
 	}
 
