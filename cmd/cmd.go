@@ -39,3 +39,22 @@ func checkDirect(channelID string) (bool, error) {
 	}
 	return false, nil
 }
+
+func getEvent(request *slacker.Request) ClaimrEvent {
+	fmt.Println("1.1")
+	if request == nil {
+		return ClaimrEvent{}
+	} else {
+		return ClaimrEvent{
+			Team:    request.Event.Team,
+			Channel: request.Event.Channel,
+			User:    request.Event.User,
+		}
+	}
+}
+
+type ClaimrEvent struct {
+	Team    string
+	Channel string
+	User    string
+}
