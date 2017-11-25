@@ -10,19 +10,44 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func createMockReply(t *testing.T, expectedMsg string) (*slacker.Response, *monkey.PatchGuard) {
+	var mockResponse *slacker.Response
+
+	patchReply := monkey.PatchInstanceMethod(reflect.TypeOf(mockResponse), "Reply",
+		func(response *slacker.Response, msg string) {
+			assert.Equal(t, expectedMsg, msg)
+		})
+
+	_ = monkey.PatchInstanceMethod(reflect.TypeOf(mockResponse), "Typing",
+		func(response *slacker.Response) {})
+
+	return mockResponse, patchReply
+}
+
+func createMockRequest(t *testing.T, params map[string]string) (*slacker.Request, *monkey.PatchGuard) {
+	var mockRequest *slacker.Request
+
+	patchParam := monkey.PatchInstanceMethod(reflect.TypeOf(mockRequest), "Param",
+		func(r *slacker.Request, key string) string {
+			return params[key]
+		})
+	return mockRequest, patchParam
+}
+
+func createMockEvent(t *testing.T, team string, channel string, user string) *monkey.PatchGuard {
+	patchGetEvent := monkey.Patch(getEvent,
+		func(request *slacker.Request) ClaimrEvent {
+			return ClaimrEvent{team, channel, user}
+		})
+	return patchGetEvent
+}
+
 func TestCmdNotImplemented(t *testing.T) {
-	expectedMsg := "No pancakes for you! 🥞"
+	mockResponse, patchReply := createMockReply(t, "No pancakes for you! 🥞")
 
-	mockResponse := func(response *slacker.Response, msg string) {
-		assert.Equal(t, expectedMsg, msg)
-	}
+	notImplemented(new(slacker.Request), mockResponse)
 
-	var response *slacker.Response
-	patchResponse := monkey.PatchInstanceMethod(reflect.TypeOf(response), "Reply", mockResponse)
-
-	notImplemented(nil, response)
-
-	defer patchResponse.Unpatch()
+	defer patchReply.Unpatch()
 }
 
 func TestCmdCommandList(t *testing.T) {

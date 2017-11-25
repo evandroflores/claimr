@@ -16,7 +16,7 @@ ifndef CLAIMR_TOKEN
 	@exit 1
 endif
 
-build: check-env vendorize
+build: check-env
 	@go build -o build/claimr main.go
 	@echo "\nCheck the binary on the build dir build/claimr\n"
 	@ls -lah build
@@ -33,9 +33,12 @@ docker-run: check-keys
 	            evandroflores/claimr
 
 test: check-keys
-	go test -cover ./...
+	go test -gcflags=-l -cover ./...
 
 cover: check-keys
 	@rm -f coverage.*
 	@echo 'mode: atomic' > coverage.txt
-	go list ./... | xargs -n1 -I{} sh -c 'touch coverage.out & go test -race -covermode=atomic -coverprofile=coverage.out {} && tail -n +2 coverage.out >> coverage.txt'
+	go list ./... | xargs -n1 -I{} sh -c 'touch coverage.out & go test -gcflags=-l -race -covermode=atomic -coverprofile=coverage.out {} && tail -n +2 coverage.out >> coverage.txt'
+
+open-cover:
+	go tool cover -html coverage.txt

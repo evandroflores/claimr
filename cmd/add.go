@@ -15,18 +15,18 @@ func init() {
 func add(request *slacker.Request, response slacker.ResponseWriter) {
 	response.Typing()
 
-	isDirect, msg := checkDirect(request.Event.Channel)
+	event := getEvent(request)
+	isDirect, msg := checkDirect(event.Channel)
 	if isDirect {
 		response.Reply(msg.Error())
 		return
 	}
-
 	containerName := request.Param("container-name")
 
-	container, err := model.GetContainer(request.Event.Team, request.Event.Channel, containerName)
+	container, err := model.GetContainer(event.Team, event.Channel, containerName)
 
 	if err != nil {
-		log.Errorf("ADD. [%s, %s, %s] %s", request.Event.Team, request.Event.Channel, containerName, err)
+		log.Errorf("ADD. [%s, %s, %s] %s", event.Team, event.Channel, containerName, err)
 		response.Reply(err.Error())
 		return
 	}
@@ -37,19 +37,19 @@ func add(request *slacker.Request, response slacker.ResponseWriter) {
 	}
 
 	err = model.Container{
-		TeamID:        request.Event.Team,
-		ChannelID:     request.Event.Channel,
+		TeamID:        event.Team,
+		ChannelID:     event.Channel,
 		Name:          containerName,
 		InUseBy:       "",
 		InUseByReason: "",
-		CreatedByUser: request.Event.User,
+		CreatedByUser: event.User,
 	}.Add()
 
 	if err != nil {
-		log.Errorf("ADD. [%s, %s, %s] %s", request.Event.Team, request.Event.Channel, containerName, err)
+		log.Errorf("ADD. [%s, %s, %s] %s", event.Team, event.Channel, containerName, err)
 		response.Reply(err.Error())
 		return
 	}
 
-	response.Reply(fmt.Sprintf("Container `%s` added to channel <#%s>.", containerName, request.Event.Channel))
+	response.Reply(fmt.Sprintf("Container `%s` added to channel <#%s>.", containerName, event.Channel))
 }

@@ -29,7 +29,7 @@ func TestEnvironmentDatabase(t *testing.T) {
 	assert.PanicsWithValue(t, "log.Fatal called", initDB, "log.Fatal was not called")
 }
 
-func TestDBErrpr(t *testing.T) {
+func TestDBError(t *testing.T) {
 	expectedMsg := "could not create a database connection - [ERROR]"
 
 	mockLogFatal := func(format string, args ...interface{}) {

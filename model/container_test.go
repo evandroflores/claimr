@@ -171,15 +171,15 @@ func TestUpdateContainerInexistent(t *testing.T) {
 func TestListContainers(t *testing.T) {
 	names := [4]string{"A", "B", "C", "D"}
 	for _, name := range names {
-		container := Container{TeamID: "TestTeam", ChannelID: "TestChannel", Name: name}
+		container := Container{TeamID: "TestList", ChannelID: "TestChannel", Name: name}
 		err := container.Add()
 		assert.NoError(t, err)
 	}
 
-	containers, err2 := GetContainers("TestTeam", "TestChannel")
+	containers, err2 := GetContainers("TestList", "TestChannel")
 	assert.NoError(t, err2)
 
-	assert.Len(t, containers, 4)
+	assert.Len(t, containers, len(names))
 	for idx, container := range containers {
 		assert.ObjectsAreEqual(container.Name, names[idx])
 		container.Delete()
