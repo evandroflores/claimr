@@ -7,13 +7,21 @@ import (
 )
 
 func TestAddDirect(t *testing.T) {
-	req := new(slacker.Request)
-
 	mockResponse, patchReply := createMockReply(t, "this look like a direct message. Containers are related to a channels")
 	patchGetEvent := createMockEvent(t, "team", "DIRECT", "user")
-	patchParam := createMockParam(t, "container-name", "test")
 
-	add(req, mockResponse)
+	add(new(slacker.Request), mockResponse)
+
+	defer patchReply.Unpatch()
+	defer patchGetEvent.Unpatch()
+}
+
+func TestAddNoName(t *testing.T) {
+	mockResponse, patchReply := createMockReply(t, "can not continue without a container name 🙄")
+	patchGetEvent := createMockEvent(t, "team", "channel", "user")
+	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": ""})
+
+	add(mockRequest, mockResponse)
 
 	defer patchReply.Unpatch()
 	defer patchGetEvent.Unpatch()

@@ -16,7 +16,7 @@ ifndef CLAIMR_TOKEN
 	@exit 1
 endif
 
-build: check-env vendorize
+build: check-env
 	@go build -o build/claimr main.go
 	@echo "\nCheck the binary on the build dir build/claimr\n"
 	@ls -lah build
@@ -33,7 +33,7 @@ docker-run: check-keys
 	            evandroflores/claimr
 
 test: check-keys
-	go test -cover ./...
+	go test -gcflags=-l -cover ./...
 
 cover: check-keys
 	@rm -f coverage.*

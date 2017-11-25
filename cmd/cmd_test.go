@@ -24,29 +24,28 @@ func createMockReply(t *testing.T, expectedMsg string) (*slacker.Response, *monk
 	return mockResponse, patchReply
 }
 
-func createMockEvent(t *testing.T, team string, channel string, user string) *monkey.PatchGuard {
-	mockGetEvent := func(request *slacker.Request) ClaimrEvent {
-		return ClaimrEvent{team, channel, user}
-	}
-	patchGetEvent := monkey.Patch(getEvent, mockGetEvent)
-	return patchGetEvent
+func createMockRequest(t *testing.T, params map[string]string) (*slacker.Request, *monkey.PatchGuard) {
+	var mockRequest *slacker.Request
+
+	patchParam := monkey.PatchInstanceMethod(reflect.TypeOf(mockRequest), "Param",
+		func(r *slacker.Request, key string) string {
+			return params[key]
+		})
+	return mockRequest, patchParam
 }
 
-func createMockParam(t *testing.T, key string, value string) *monkey.PatchGuard {
-	mockParam := func(r *slacker.Request, key string) string {
-		return value
-	}
-	patchParam := monkey.Patch((*slacker.Request).Param, mockParam)
-	return patchParam
-
+func createMockEvent(t *testing.T, team string, channel string, user string) *monkey.PatchGuard {
+	patchGetEvent := monkey.Patch(getEvent,
+		func(request *slacker.Request) ClaimrEvent {
+			return ClaimrEvent{team, channel, user}
+		})
+	return patchGetEvent
 }
 
 func TestCmdNotImplemented(t *testing.T) {
 	mockResponse, patchReply := createMockReply(t, "No pancakes for you! 🥞")
 
-	req := new(slacker.Request)
-
-	notImplemented(req, mockResponse)
+	notImplemented(new(slacker.Request), mockResponse)
 
 	defer patchReply.Unpatch()
 }

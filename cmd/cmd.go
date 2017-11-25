@@ -41,7 +41,6 @@ func checkDirect(channelID string) (bool, error) {
 }
 
 func getEvent(request *slacker.Request) ClaimrEvent {
-	fmt.Println("1.1")
 	if request == nil {
 		return ClaimrEvent{}
 	} else {

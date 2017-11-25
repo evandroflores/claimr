@@ -21,7 +21,6 @@ func add(request *slacker.Request, response slacker.ResponseWriter) {
 		response.Reply(msg.Error())
 		return
 	}
-
 	containerName := request.Param("container-name")
 
 	container, err := model.GetContainer(event.Team, event.Channel, containerName)
