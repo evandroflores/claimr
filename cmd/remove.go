@@ -16,7 +16,8 @@ func init() {
 func remove(request *slacker.Request, response slacker.ResponseWriter) {
 	response.Typing()
 
-	isDirect, msg := checkDirect(request.Event.Channel)
+	event := getEvent(request)
+	isDirect, msg := checkDirect(event.Channel)
 	if isDirect {
 		response.Reply(msg.Error())
 		return
@@ -24,7 +25,7 @@ func remove(request *slacker.Request, response slacker.ResponseWriter) {
 
 	containerName := request.Param("container-name")
 
-	container, err := model.GetContainer(request.Event.Team, request.Event.Channel, containerName)
+	container, err := model.GetContainer(event.Team, event.Channel, containerName)
 
 	if err != nil {
 		log.Errorf("REMOVE. %s", err)
@@ -33,7 +34,7 @@ func remove(request *slacker.Request, response slacker.ResponseWriter) {
 	}
 
 	if container == (model.Container{}) {
-		response.Reply(fmt.Sprintf("I couldn't find container `%s` on <#%s>.", containerName, request.Event.Channel))
+		response.Reply(fmt.Sprintf("I couldn't find container `%s` on <#%s>.", containerName, event.Channel))
 		return
 	}
 
@@ -42,7 +43,7 @@ func remove(request *slacker.Request, response slacker.ResponseWriter) {
 		return
 	}
 
-	if container.CreatedByUser != request.Event.User {
+	if container.CreatedByUser != event.User {
 		response.Reply(fmt.Sprintf("Only who created the container `%s` can remove it. Please check with <@%s>.", containerName, container.CreatedByUser))
 		return
 	}

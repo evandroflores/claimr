@@ -17,8 +17,8 @@ func TestTryToAddDirect(t *testing.T) {
 
 	add(new(slacker.Request), mockResponse)
 
-	defer patchReply.Unpatch()
-	defer patchGetEvent.Unpatch()
+	patchReply.Unpatch()
+	patchGetEvent.Unpatch()
 }
 
 func TestTryToAddNoName(t *testing.T) {
@@ -28,9 +28,28 @@ func TestTryToAddNoName(t *testing.T) {
 
 	add(mockRequest, mockResponse)
 
-	defer patchReply.Unpatch()
-	defer patchGetEvent.Unpatch()
-	defer patchParam.Unpatch()
+	patchReply.Unpatch()
+	patchGetEvent.Unpatch()
+	patchParam.Unpatch()
+}
+
+func TestTryToAddBigName(t *testing.T) {
+
+	// 	"try a name up to 22 characters"
+	containerName := "lorem-ipsum-container-big-name"
+	teamName := "TestTeam"
+	channelName := "TestChannel"
+	userName := "user"
+
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf("try a name up to %d characters", model.MaxNameSize))
+	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
+	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
+
+	add(mockRequest, mockResponse)
+
+	patchReply.Unpatch()
+	patchGetEvent.Unpatch()
+	patchParam.Unpatch()
 }
 
 func TestTryToAddExistentContainer(t *testing.T) {
@@ -51,9 +70,9 @@ func TestTryToAddExistentContainer(t *testing.T) {
 
 	add(mockRequest, mockResponse)
 
-	defer patchReply.Unpatch()
-	defer patchGetEvent.Unpatch()
-	defer patchParam.Unpatch()
+	patchReply.Unpatch()
+	patchGetEvent.Unpatch()
+	patchParam.Unpatch()
 }
 
 func TestAddError(t *testing.T) {
@@ -75,9 +94,9 @@ func TestAddError(t *testing.T) {
 
 	add(mockRequest, mockResponse)
 
-	defer patchReply.Unpatch()
-	defer patchGetEvent.Unpatch()
-	defer patchParam.Unpatch()
+	patchReply.Unpatch()
+	patchGetEvent.Unpatch()
+	patchParam.Unpatch()
 }
 
 func TestAddContainer(t *testing.T) {
@@ -98,7 +117,7 @@ func TestAddContainer(t *testing.T) {
 
 	add(mockRequest, mockResponse)
 
-	defer patchReply.Unpatch()
-	defer patchGetEvent.Unpatch()
-	defer patchParam.Unpatch()
+	patchReply.Unpatch()
+	patchGetEvent.Unpatch()
+	patchParam.Unpatch()
 }

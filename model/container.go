@@ -3,9 +3,10 @@ package model
 import (
 	"fmt"
 
+	"strings"
+
 	"github.com/evandroflores/claimr/database"
 	"github.com/jinzhu/gorm"
-	"strings"
 )
 
 func init() {
@@ -23,7 +24,8 @@ type Container struct {
 	CreatedByUser string
 }
 
-var maxNameSize = 22
+// MaxNameSize is the max number of characters for a container name.
+var MaxNameSize = 22
 
 func isValidContainerInput(teamID string, channelID string, name string) (bool, error) {
 	if teamID == "" {
@@ -38,8 +40,8 @@ func isValidContainerInput(teamID string, channelID string, name string) (bool, 
 		return false, fmt.Errorf("can not continue without a container name 🙄")
 	}
 
-	if len(name) > maxNameSize {
-		return false, fmt.Errorf("try a name up to %d characters", maxNameSize)
+	if len(name) > MaxNameSize {
+		return false, fmt.Errorf("try a name up to %d characters", MaxNameSize)
 	}
 
 	return true, nil
