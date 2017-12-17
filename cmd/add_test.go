@@ -10,7 +10,6 @@ import (
 )
 
 func TestTryToAddDirect(t *testing.T) {
-	// will fail if the message is different
 	mockResponse, patchReply := createMockReply(t, "this look like a direct message. Containers are related to a channels")
 	patchGetEvent := createMockEvent(t, "team", "DIRECT", "user")
 

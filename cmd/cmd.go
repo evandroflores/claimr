@@ -43,15 +43,15 @@ func checkDirect(channelID string) (bool, error) {
 func getEvent(request *slacker.Request) ClaimrEvent {
 	if request == nil {
 		return ClaimrEvent{}
-	} else {
-		return ClaimrEvent{
-			Team:    request.Event.Team,
-			Channel: request.Event.Channel,
-			User:    request.Event.User,
-		}
+	}
+	return ClaimrEvent{
+		Team:    request.Event.Team,
+		Channel: request.Event.Channel,
+		User:    request.Event.User,
 	}
 }
 
+// ClaimrEvent is a struct to simplify the usage of request.Event (and help testing)
 type ClaimrEvent struct {
 	Team    string
 	Channel string
