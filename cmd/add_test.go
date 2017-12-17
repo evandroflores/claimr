@@ -2,8 +2,10 @@ package cmd
 
 import (
 	"fmt"
+	"reflect"
 	"testing"
 
+	"github.com/bouk/monkey"
 	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
 	"github.com/stretchr/testify/assert"
@@ -44,6 +46,30 @@ func TestTryToAddExistentContainer(t *testing.T) {
 	assert.NoError(t, err)
 
 	mockResponse, patchReply := createMockReply(t, "There is a container with the same name on this channel. Try a different one.")
+	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
+	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
+
+	add(mockRequest, mockResponse)
+
+	defer patchReply.Unpatch()
+	defer patchGetEvent.Unpatch()
+	defer patchParam.Unpatch()
+}
+
+func TestAddError(t *testing.T) {
+
+	guard := monkey.PatchInstanceMethod(reflect.TypeOf(model.Container{}), "Add",
+		func(container model.Container) error {
+			return fmt.Errorf("simulated error")
+		})
+	defer guard.Unpatch()
+
+	containerName := "my-container-ok"
+	teamName := "TestTeam"
+	channelName := "TestChannel"
+	userName := "user"
+
+	mockResponse, patchReply := createMockReply(t, "simulated error")
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
 
