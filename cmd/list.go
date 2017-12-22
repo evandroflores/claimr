@@ -41,7 +41,7 @@ func list(request *slacker.Request, response slacker.ResponseWriter) {
 	for _, container := range containers {
 		line := fmt.Sprintf("`%s`\t%s %s", container.Name,
 			utils.IfThenElse(container.InUseBy != "", "in use", "_available_"),
-			utils.IfThenElse(container.InUseByReason != "", fmt.Sprintf("- %s", container.InUseByReason), ""),
+			utils.IfThenElse(container.InUseForReason != "", fmt.Sprintf("- %s", container.InUseForReason), ""),
 		)
 		containerList = append(containerList, line)
 	}

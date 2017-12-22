@@ -43,7 +43,7 @@ func free(request *slacker.Request, response slacker.ResponseWriter) {
 	}
 
 	container.InUseBy = ""
-	container.InUseByReason = ""
+	container.InUseForReason = ""
 
 	err = container.Update()
 	if err != nil {

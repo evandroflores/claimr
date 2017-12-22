@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"reflect"
+	"strings"
 	"testing"
 
 	"github.com/bouk/monkey"
@@ -127,4 +128,72 @@ func TestClaiming(t *testing.T) {
 	patchReply.Unpatch()
 	patchGetEvent.Unpatch()
 	patchParam.Unpatch()
+}
+
+func TestClaimingWithOneWordReason(t *testing.T) {
+	containerName := "my-container"
+	teamName := "TestTeam"
+	channelName := "TestChannel"
+	userName := "user"
+	reason := "tests"
+
+	container := model.Container{TeamID: teamName, ChannelID: channelName, Name: containerName}
+	err := container.Add()
+	assert.NoError(t, err)
+	defer container.Delete()
+
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf("Got it. Container `%s` is all yours <@%s>.", containerName, userName))
+	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
+	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName, "reason": reason})
+	patchGetEventText := monkey.Patch(GetEventText,
+		func(request *slacker.Request) string {
+			return reason
+		})
+
+	claim(mockRequest, mockResponse)
+
+	containerFromDB, err2 := model.GetContainer(teamName, channelName, containerName)
+	assert.NoError(t, err2)
+	assert.Equal(t, userName, containerFromDB.InUseBy)
+	assert.Equal(t, reason, containerFromDB.InUseForReason)
+
+	patchReply.Unpatch()
+	patchGetEvent.Unpatch()
+	patchParam.Unpatch()
+	patchGetEventText.Unpatch()
+}
+
+func TestClaimingWithMultiwordsReason(t *testing.T) {
+	containerName := "my-container"
+	teamName := "TestTeam"
+	channelName := "TestChannel"
+	userName := "user"
+	reason := "testing my container"
+	firstWord := strings.Split(reason, " ")[0]
+
+	container := model.Container{TeamID: teamName, ChannelID: channelName, Name: containerName}
+	err := container.Add()
+	assert.NoError(t, err)
+	defer container.Delete()
+
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf("Got it. Container `%s` is all yours <@%s>.", containerName, userName))
+	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
+	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName, "reason": firstWord})
+
+	patchGetEventText := monkey.Patch(GetEventText,
+		func(request *slacker.Request) string {
+			return reason
+		})
+
+	claim(mockRequest, mockResponse)
+
+	containerFromDB, err2 := model.GetContainer(teamName, channelName, containerName)
+	assert.NoError(t, err2)
+	assert.Equal(t, userName, containerFromDB.InUseBy)
+	assert.Equal(t, reason, containerFromDB.InUseForReason)
+
+	patchReply.Unpatch()
+	patchGetEvent.Unpatch()
+	patchParam.Unpatch()
+	patchGetEventText.Unpatch()
 }
