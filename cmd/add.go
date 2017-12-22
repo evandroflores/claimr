@@ -37,12 +37,12 @@ func add(request *slacker.Request, response slacker.ResponseWriter) {
 	}
 
 	err = model.Container{
-		TeamID:        event.Team,
-		ChannelID:     event.Channel,
-		Name:          containerName,
-		InUseBy:       "",
-		InUseByReason: "",
-		CreatedByUser: event.User,
+		TeamID:         event.Team,
+		ChannelID:      event.Channel,
+		Name:           containerName,
+		InUseBy:        "",
+		InUseForReason: "",
+		CreatedByUser:  event.User,
 	}.Add()
 
 	if err != nil {

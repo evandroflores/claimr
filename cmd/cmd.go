@@ -57,3 +57,8 @@ type ClaimrEvent struct {
 	Channel string
 	User    string
 }
+
+// GetEventText exists to help testing event message
+func GetEventText(request *slacker.Request) string {
+	return request.Event.Msg.Text
+}

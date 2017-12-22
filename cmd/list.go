@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/evandroflores/claimr/model"
+	"github.com/evandroflores/claimr/utils"
 	"github.com/shomali11/slacker"
 	log "github.com/sirupsen/logrus"
 )
@@ -39,18 +40,10 @@ func list(request *slacker.Request, response slacker.ResponseWriter) {
 	containerList := []string{"Here is a list of containers for this channel:"}
 	for _, container := range containers {
 		line := fmt.Sprintf("`%s`\t%s %s", container.Name,
-			IfThenElse(container.InUseBy != "", "in use", "_available_"),
-			IfThenElse(container.InUseByReason != "", fmt.Sprintf("- %s", container.InUseByReason), ""),
+			utils.IfThenElse(container.InUseBy != "", "in use", "_available_"),
+			utils.IfThenElse(container.InUseForReason != "", fmt.Sprintf("- %s", container.InUseForReason), ""),
 		)
 		containerList = append(containerList, line)
 	}
 	response.Reply(strings.Join(containerList, "\n"))
-}
-
-// IfThenElse as Golang does not have ternary ifelse
-func IfThenElse(condition bool, a interface{}, b interface{}) interface{} {
-	if condition {
-		return a
-	}
-	return b
 }

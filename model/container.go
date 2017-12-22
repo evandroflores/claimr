@@ -16,12 +16,12 @@ func init() {
 // Container defines the Container information on database.
 type Container struct {
 	gorm.Model
-	TeamID        string `gorm:"not null"`
-	ChannelID     string `gorm:"not null"`
-	Name          string `gorm:"not null"`
-	InUseBy       string
-	InUseByReason string
-	CreatedByUser string
+	TeamID         string `gorm:"not null"`
+	ChannelID      string `gorm:"not null"`
+	Name           string `gorm:"not null"`
+	InUseBy        string
+	InUseForReason string
+	CreatedByUser  string
 }
 
 // MaxNameSize is the max number of characters for a container name.
@@ -107,7 +107,7 @@ func (container Container) Update() error {
 	}
 
 	existingContainer.InUseBy = container.InUseBy
-	existingContainer.InUseByReason = container.InUseByReason
+	existingContainer.InUseForReason = container.InUseForReason
 
 	database.DB.Save(&existingContainer)
 
