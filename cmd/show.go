@@ -17,7 +17,8 @@ func init() {
 func show(request *slacker.Request, response slacker.ResponseWriter) {
 	response.Typing()
 
-	isDirect, msg := checkDirect(request.Event.Channel)
+	event := getEvent(request)
+	isDirect, msg := checkDirect(event.Channel)
 	if isDirect {
 		response.Reply(msg.Error())
 		return
@@ -25,16 +26,16 @@ func show(request *slacker.Request, response slacker.ResponseWriter) {
 
 	containerName := request.Param("container-name")
 
-	container, err := model.GetContainer(request.Event.Team, request.Event.Channel, containerName)
+	container, err := model.GetContainer(event.Team, event.Channel, containerName)
 
 	if err != nil {
-		log.Errorf("SHOW. [%s, %s, %s] %s", request.Event.Team, request.Event.Channel, containerName, err)
+		log.Errorf("SHOW. [%s, %s, %s] %s", event.Team, event.Channel, containerName, err)
 		response.Reply(err.Error())
 		return
 	}
 
 	if container == (model.Container{}) {
-		response.Reply(fmt.Sprintf("I couldn't find the container `%s` on <#%s>.", containerName, request.Event.Channel))
+		response.Reply(fmt.Sprintf("I couldn't find the container `%s` on <#%s>.", containerName, event.Channel))
 		return
 	}
 
