@@ -35,7 +35,6 @@ func TestTryToAddNoName(t *testing.T) {
 
 func TestTryToAddBigName(t *testing.T) {
 
-	// 	"try a name up to 22 characters"
 	containerName := "lorem-ipsum-container-big-name"
 	teamName := "TestTeam"
 	channelName := "TestChannel"
