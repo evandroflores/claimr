@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/evandroflores/claimr/model"
+	"github.com/evandroflores/claimr/utils"
 	"github.com/shomali11/slacker"
 	log "github.com/sirupsen/logrus"
 )
@@ -42,7 +43,8 @@ func show(request *slacker.Request, response slacker.ResponseWriter) {
 	if container.InUseBy == "" {
 		text += "_Available_"
 	} else {
-		text += fmt.Sprintf("In use by <@%s>", container.InUseBy)
+		text += fmt.Sprintf("In use by <@%s>%s", container.InUseBy,
+			utils.IfThenElse(container.InUseForReason != "", fmt.Sprintf(" for %s", container.InUseForReason), ""))
 	}
 	text += fmt.Sprintf(" since _%s_.", container.UpdatedAt.Format(time.RFC1123))
 	response.Reply(text)
