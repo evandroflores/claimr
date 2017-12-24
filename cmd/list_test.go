@@ -2,11 +2,13 @@ package cmd
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 
 	"github.com/bouk/monkey"
 	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestTryToListDirect(t *testing.T) {
@@ -42,13 +44,25 @@ func TestListError(t *testing.T) {
 	guard.Unpatch()
 }
 
-func TestListNoContainers(t *testing.T) {
-
+func TestListAvailableContainers(t *testing.T) {
 	teamName := "TestTeamList"
 	channelName := "TestChannel"
 	userName := "user"
 
-	mockResponse, patchReply := createMockReply(t, "No containers to list.")
+	expected := []string{"Here is a list of containers for this channel:"}
+
+	for i := 0; i < 5; i++ {
+		containerName := fmt.Sprintf("container_%d", i)
+		container := model.Container{TeamID: teamName, ChannelID: channelName, Name: containerName}
+		err := container.Add()
+		defer container.Delete()
+		assert.NoError(t, err)
+
+		line := fmt.Sprintf("`%s`\t%s %s", container.Name, "_available_", "")
+		expected = append(expected, line)
+	}
+
+	mockResponse, patchReply := createMockReply(t, strings.Join(expected, "\n"))
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, nil)
 
