@@ -41,3 +41,20 @@ func TestListError(t *testing.T) {
 	patchParam.Unpatch()
 	guard.Unpatch()
 }
+
+func TestListNoContainers(t *testing.T) {
+
+	teamName := "TestTeam"
+	channelName := "TestChannel"
+	userName := "user"
+
+	mockResponse, patchReply := createMockReply(t, "No containers to list.")
+	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
+	mockRequest, patchParam := createMockRequest(t, nil)
+
+	list(mockRequest, mockResponse)
+
+	patchReply.Unpatch()
+	patchGetEvent.Unpatch()
+	patchParam.Unpatch()
+}
