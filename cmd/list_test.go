@@ -26,7 +26,7 @@ func TestListError(t *testing.T) {
 			return []model.Container{}, fmt.Errorf("simulated error")
 		})
 
-	teamName := "TestTeam"
+	teamName := "TestTeamList"
 	channelName := "TestChannel"
 	userName := "user"
 
@@ -44,7 +44,7 @@ func TestListError(t *testing.T) {
 
 func TestListNoContainers(t *testing.T) {
 
-	teamName := "TestTeam"
+	teamName := "TestTeamList"
 	channelName := "TestChannel"
 	userName := "user"
 
