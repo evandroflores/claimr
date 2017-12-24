@@ -29,6 +29,9 @@ func createMockRequest(t *testing.T, params map[string]string) (*slacker.Request
 
 	patchParam := monkey.PatchInstanceMethod(reflect.TypeOf(mockRequest), "Param",
 		func(r *slacker.Request, key string) string {
+			if params == nil {
+				return ""
+			}
 			return params[key]
 		})
 	return mockRequest, patchParam
