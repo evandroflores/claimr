@@ -34,7 +34,7 @@ func remove(request *slacker.Request, response slacker.ResponseWriter) {
 	}
 
 	if container == (model.Container{}) {
-		response.Reply(fmt.Sprintf("I couldn't find container `%s` on <#%s>.", containerName, event.Channel))
+		response.Reply(fmt.Sprintf("I couldn't find the container `%s` on <#%s>.", containerName, event.Channel))
 		return
 	}
 
