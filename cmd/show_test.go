@@ -15,3 +15,15 @@ func TestTryToShowDirect(t *testing.T) {
 	patchReply.Unpatch()
 	patchGetEvent.Unpatch()
 }
+
+func TestTryToShowNoName(t *testing.T) {
+	mockResponse, patchReply := createMockReply(t, "can not continue without a container name 🙄")
+	patchGetEvent := createMockEvent(t, "team", "channel", "user")
+	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": ""})
+
+	show(mockRequest, mockResponse)
+
+	patchReply.Unpatch()
+	patchGetEvent.Unpatch()
+	patchParam.Unpatch()
+}
