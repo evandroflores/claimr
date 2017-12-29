@@ -11,18 +11,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestTryToRemoveNoName(t *testing.T) {
-	mockResponse, patchReply := createMockReply(t, "can not continue without a container name 🙄")
-	patchGetEvent := createMockEvent(t, "team", "channel", "user")
-	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": ""})
-
-	remove(mockRequest, mockResponse)
-
-	patchReply.Unpatch()
-	patchGetEvent.Unpatch()
-	patchParam.Unpatch()
-}
-
 func TestTryToRemoveInexistentContainer(t *testing.T) {
 	containerName := "container-inexistent"
 	teamName := "TestTeam"

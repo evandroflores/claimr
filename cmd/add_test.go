@@ -10,18 +10,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestTryToAddNoName(t *testing.T) {
-	mockResponse, patchReply := createMockReply(t, "can not continue without a container name 🙄")
-	patchGetEvent := createMockEvent(t, "team", "channel", "user")
-	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": ""})
-
-	add(mockRequest, mockResponse)
-
-	patchReply.Unpatch()
-	patchGetEvent.Unpatch()
-	patchParam.Unpatch()
-}
-
 func TestTryToAddBigName(t *testing.T) {
 
 	containerName := "lorem-ipsum-container-big-name"
