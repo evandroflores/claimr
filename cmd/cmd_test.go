@@ -86,3 +86,15 @@ func TestCmdDirect(t *testing.T) {
 	assert.True(t, isDirect)
 	assert.Error(t, err, "this look like a direct message. Containers are related to a channels")
 }
+
+func TestAllCmdsCheckingDirect(t *testing.T) {
+	mockResponse, patchReply := createMockReply(t, "this look like a direct message. Containers are related to a channels")
+	patchGetEvent := createMockEvent(t, "team", "DIRECT", "user")
+
+	for _, command := range commands {
+		command.Handler(new(slacker.Request), mockResponse)
+	}
+
+	patchReply.Unpatch()
+	patchGetEvent.Unpatch()
+}
