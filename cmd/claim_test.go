@@ -12,28 +12,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestTryToClaimDirect(t *testing.T) {
-	mockResponse, patchReply := createMockReply(t, "this look like a direct message. Containers are related to a channels")
-	patchGetEvent := createMockEvent(t, "team", "DIRECT", "user")
-
-	claim(new(slacker.Request), mockResponse)
-
-	patchReply.Unpatch()
-	patchGetEvent.Unpatch()
-}
-
-func TestTryToClaimNoName(t *testing.T) {
-	mockResponse, patchReply := createMockReply(t, "can not continue without a container name 🙄")
-	patchGetEvent := createMockEvent(t, "team", "channel", "user")
-	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": ""})
-
-	claim(mockRequest, mockResponse)
-
-	patchReply.Unpatch()
-	patchGetEvent.Unpatch()
-	patchParam.Unpatch()
-}
-
 func TestTryToClaimInexistentContainer(t *testing.T) {
 	containerName := "container-inexistent"
 	teamName := "TestTeam"
@@ -75,7 +53,7 @@ func TestTryToClaimAContainerInUseByAnotherUser(t *testing.T) {
 	patchParam.Unpatch()
 }
 
-func TestClaimError(t *testing.T) {
+func TestClaimErrorWhenUpdate(t *testing.T) {
 
 	guard := monkey.PatchInstanceMethod(reflect.TypeOf(model.Container{}), "Update",
 		func(container model.Container) error {

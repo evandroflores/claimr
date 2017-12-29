@@ -1,11 +1,14 @@
 package cmd
 
 import (
+	"fmt"
+	"strings"
 	"testing"
 
 	"reflect"
 
 	"github.com/bouk/monkey"
+	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
 	"github.com/stretchr/testify/assert"
 )
@@ -50,7 +53,7 @@ func TestCmdNotImplemented(t *testing.T) {
 
 	notImplemented(new(slacker.Request), mockResponse)
 
-	defer patchReply.Unpatch()
+	patchReply.Unpatch()
 }
 
 func TestCmdCommandList(t *testing.T) {
@@ -85,4 +88,60 @@ func TestCmdDirect(t *testing.T) {
 	isDirect, err := checkDirect("DIRECT")
 	assert.True(t, isDirect)
 	assert.Error(t, err, "this look like a direct message. Containers are related to a channels")
+}
+
+func TestAllCmdsCheckingDirect(t *testing.T) {
+	mockResponse, patchReply := createMockReply(t, "this look like a direct message. Containers are related to a channels")
+	patchGetEvent := createMockEvent(t, "team", "DIRECT", "user")
+
+	for _, command := range commands {
+		command.Handler(new(slacker.Request), mockResponse)
+	}
+
+	patchReply.Unpatch()
+	patchGetEvent.Unpatch()
+}
+
+func TestAllCmdsCheckingNoName(t *testing.T) {
+	mockResponse, patchReply := createMockReply(t, "can not continue without a container name 🙄")
+	patchGetEvent := createMockEvent(t, "team", "channel", "user")
+	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": ""})
+
+	for _, command := range CommandList() {
+		if strings.Contains(command.Usage, "<container-name>") {
+			command.Handler(mockRequest, mockResponse)
+		}
+	}
+
+	patchReply.Unpatch()
+	patchGetEvent.Unpatch()
+	patchParam.Unpatch()
+}
+
+func TestAllCmdsErrorWhenGettingFromDB(t *testing.T) {
+
+	guard := monkey.Patch(model.GetContainer,
+		func(Team string, Channel string, Name string) (model.Container, error) {
+			return model.Container{}, fmt.Errorf("simulated error")
+		})
+
+	teamName := "TestTeamList"
+	channelName := "TestChannel"
+	userName := "user"
+
+	mockResponse, patchReply := createMockReply(t, "simulated error")
+	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
+	mockRequest, patchParam := createMockRequest(t, nil)
+
+	for _, command := range commands {
+		if strings.Contains(command.Usage, "<container-name>") {
+			command.Handler(mockRequest, mockResponse)
+		}
+	}
+
+	patchReply.Unpatch()
+	patchGetEvent.Unpatch()
+	patchParam.Unpatch()
+	guard.Unpatch()
+
 }

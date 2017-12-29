@@ -7,31 +7,8 @@ import (
 
 	"github.com/bouk/monkey"
 	"github.com/evandroflores/claimr/model"
-	"github.com/shomali11/slacker"
 	"github.com/stretchr/testify/assert"
 )
-
-func TestTryToFreeDirect(t *testing.T) {
-	mockResponse, patchReply := createMockReply(t, "this look like a direct message. Containers are related to a channels")
-	patchGetEvent := createMockEvent(t, "team", "DIRECT", "user")
-
-	free(new(slacker.Request), mockResponse)
-
-	patchReply.Unpatch()
-	patchGetEvent.Unpatch()
-}
-
-func TestTryToFreeNoName(t *testing.T) {
-	mockResponse, patchReply := createMockReply(t, "can not continue without a container name 🙄")
-	patchGetEvent := createMockEvent(t, "team", "channel", "user")
-	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": ""})
-
-	free(mockRequest, mockResponse)
-
-	patchReply.Unpatch()
-	patchGetEvent.Unpatch()
-	patchParam.Unpatch()
-}
 
 func TestTryToFreeInexistentContainer(t *testing.T) {
 	containerName := "container-inexistent"
