@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"strings"
 	"testing"
 
 	"reflect"
@@ -97,4 +98,22 @@ func TestAllCmdsCheckingDirect(t *testing.T) {
 
 	patchReply.Unpatch()
 	patchGetEvent.Unpatch()
+}
+
+func TestAllCmdsCheckingNoName(t *testing.T) {
+	mockResponse, patchReply := createMockReply(t, "can not continue without a container name 🙄")
+	patchGetEvent := createMockEvent(t, "team", "channel", "user")
+	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": ""})
+
+	free(mockRequest, mockResponse)
+
+	for _, command := range commands {
+		if strings.Contains(command.Description, "<container-name>") {
+			command.Handler(new(slacker.Request), mockResponse)
+		}
+	}
+
+	patchReply.Unpatch()
+	patchGetEvent.Unpatch()
+	patchParam.Unpatch()
 }
