@@ -53,7 +53,7 @@ func TestTryToClaimAContainerInUseByAnotherUser(t *testing.T) {
 	patchParam.Unpatch()
 }
 
-func TestClaimError(t *testing.T) {
+func TestClaimErrorWhenUpdate(t *testing.T) {
 
 	guard := monkey.PatchInstanceMethod(reflect.TypeOf(model.Container{}), "Update",
 		func(container model.Container) error {

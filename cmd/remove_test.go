@@ -81,7 +81,7 @@ func TestTryToRemoveAContainerCreatedByAnotherUser(t *testing.T) {
 	patchParam.Unpatch()
 }
 
-func TestRemoveError(t *testing.T) {
+func TestRemoveErrorWhenDeleting(t *testing.T) {
 
 	guard := monkey.PatchInstanceMethod(reflect.TypeOf(model.Container{}), "Delete",
 		func(container model.Container) error {

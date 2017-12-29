@@ -5,33 +5,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/bouk/monkey"
 	"github.com/evandroflores/claimr/model"
 	"github.com/stretchr/testify/assert"
 )
-
-func TestShowError(t *testing.T) {
-
-	guard := monkey.Patch(model.GetContainer,
-		func(Team string, Channel string, Name string) (model.Container, error) {
-			return model.Container{}, fmt.Errorf("simulated error")
-		})
-
-	teamName := "TestTeamList"
-	channelName := "TestChannel"
-	userName := "user"
-
-	mockResponse, patchReply := createMockReply(t, "simulated error")
-	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
-	mockRequest, patchParam := createMockRequest(t, nil)
-
-	show(mockRequest, mockResponse)
-
-	patchReply.Unpatch()
-	patchGetEvent.Unpatch()
-	patchParam.Unpatch()
-	guard.Unpatch()
-}
 
 func TestTryToShowInexistentContainer(t *testing.T) {
 	containerName := "container-inexistent"
