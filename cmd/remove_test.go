@@ -8,19 +8,8 @@ import (
 
 	"github.com/bouk/monkey"
 	"github.com/evandroflores/claimr/model"
-	"github.com/shomali11/slacker"
 	"github.com/stretchr/testify/assert"
 )
-
-func TestTryToRemoveDirect(t *testing.T) {
-	mockResponse, patchReply := createMockReply(t, "this look like a direct message. Containers are related to a channels")
-	patchGetEvent := createMockEvent(t, "team", "DIRECT", "user")
-
-	remove(new(slacker.Request), mockResponse)
-
-	patchReply.Unpatch()
-	patchGetEvent.Unpatch()
-}
 
 func TestTryToRemoveNoName(t *testing.T) {
 	mockResponse, patchReply := createMockReply(t, "can not continue without a container name 🙄")

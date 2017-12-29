@@ -12,16 +12,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestTryToClaimDirect(t *testing.T) {
-	mockResponse, patchReply := createMockReply(t, "this look like a direct message. Containers are related to a channels")
-	patchGetEvent := createMockEvent(t, "team", "DIRECT", "user")
-
-	claim(new(slacker.Request), mockResponse)
-
-	patchReply.Unpatch()
-	patchGetEvent.Unpatch()
-}
-
 func TestTryToClaimNoName(t *testing.T) {
 	mockResponse, patchReply := createMockReply(t, "can not continue without a container name 🙄")
 	patchGetEvent := createMockEvent(t, "team", "channel", "user")
