@@ -45,9 +45,7 @@ func claim(request *slacker.Request, response slacker.ResponseWriter) {
 	}
 
 	container.InUseBy = event.User
-	if request.Param("reason") != "" {
-		container.InUseForReason = getReason(request)
-	}
+	container.InUseForReason = getReason(request)
 
 	err = container.Update()
 	if err != nil {
@@ -60,9 +58,11 @@ func claim(request *slacker.Request, response slacker.ResponseWriter) {
 }
 
 func getReason(request *slacker.Request) string {
+	if request.Param("reason") == "" {
+		return ""
+	}
 	allText := GetEventText(request)
 	reasonToClaim := request.Param("reason")
 	idx := strings.Index(allText, reasonToClaim)
-
 	return allText[idx:]
 }
