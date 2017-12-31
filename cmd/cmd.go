@@ -7,10 +7,9 @@ import (
 	"github.com/shomali11/slacker"
 )
 
-var (
-	commands            []Command
-	directChannelPrefix = "D"
-)
+var commands []Command
+
+const directChannelPrefix = "D"
 
 // Command defines a command to be register to slack
 type Command struct {

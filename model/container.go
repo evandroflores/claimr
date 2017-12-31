@@ -25,7 +25,7 @@ type Container struct {
 }
 
 // MaxNameSize is the max number of characters for a container name.
-var MaxNameSize = 22
+const MaxNameSize = 22
 
 func isValidContainerInput(teamID string, channelID string, containerName string) (bool, error) {
 	isValid, err := true, error(nil)
