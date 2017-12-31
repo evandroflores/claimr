@@ -36,7 +36,7 @@ func TestGetContainerBigName(t *testing.T) {
 		"LoremIpsumDolorSitAmetConsecteturAdipiscingElit")
 
 	assert.ObjectsAreEqual(Container{}, container)
-	assert.EqualError(t, err, "try a name up to 22 characters")
+	assert.EqualError(t, err, fmt.Sprintf("try a smaller container name up to %d characters", MaxNameSize))
 }
 
 func TestGetContainerNotFound(t *testing.T) {

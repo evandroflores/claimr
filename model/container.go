@@ -38,7 +38,7 @@ func isValidContainerInput(teamID string, channelID string, containerName string
 	}
 
 	if len(containerName) > MaxNameSize {
-		return false, fmt.Errorf("try a name up to %d characters", MaxNameSize)
+		return false, fmt.Errorf("try a smaller container name up to %d characters", MaxNameSize)
 	}
 
 	return true, nil
