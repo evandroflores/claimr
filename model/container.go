@@ -28,25 +28,27 @@ type Container struct {
 const MaxNameSize = 22
 
 func isValidContainerInput(teamID string, channelID string, containerName string) (bool, error) {
-	isValid, err := true, error(nil)
+	fields := map[string]string{"teamID": teamID, "channelID": channelID, "container name": containerName}
 
-	if teamID == "" && isValid {
-		isValid, err = false, fmt.Errorf("can not continue without a teamID 🙄")
+	for fieldName, fieldValue := range fields {
+		err := checkRequired(fieldName, fieldValue)
+		if err != nil {
+			return false, err
+		}
 	}
 
-	if channelID == "" && isValid {
-		isValid, err = false, fmt.Errorf("can not continue without a channelID 🙄")
+	if len(containerName) > MaxNameSize {
+		return false, fmt.Errorf("try a name up to %d characters", MaxNameSize)
 	}
 
-	if containerName == "" && isValid {
-		isValid, err = false, fmt.Errorf("can not continue without a container name 🙄")
-	}
+	return true, nil
+}
 
-	if len(containerName) > MaxNameSize && isValid {
-		isValid, err = false, fmt.Errorf("try a name up to %d characters", MaxNameSize)
+func checkRequired(fieldName string, fieldValue string) error {
+	if fieldValue == "" {
+		return fmt.Errorf("can not continue without a %s 🙄", fieldName)
 	}
-
-	return isValid, err
+	return nil
 }
 
 // GetContainer returns a container for teamID, channelID, and name provided
