@@ -28,10 +28,17 @@ type Container struct {
 const MaxNameSize = 22
 
 func isValidContainerInput(teamID string, channelID string, containerName string) (bool, error) {
-	fields := map[string]string{"teamID": teamID, "channelID": channelID, "container name": containerName}
+	fields := []struct {
+		name  string
+		value string
+	}{
+		{"teamID", teamID},
+		{"channelID", channelID},
+		{"container name", containerName},
+	}
 
-	for fieldName, fieldValue := range fields {
-		err := checkRequired(fieldName, fieldValue)
+	for _, field := range fields {
+		err := checkRequired(field.name, field.value)
 		if err != nil {
 			return false, err
 		}
