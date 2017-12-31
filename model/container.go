@@ -27,24 +27,26 @@ type Container struct {
 // MaxNameSize is the max number of characters for a container name.
 var MaxNameSize = 22
 
-func isValidContainerInput(teamID string, channelID string, name string) (bool, error) {
-	if teamID == "" {
-		return false, fmt.Errorf("can not continue without a teamID 🙄")
+func isValidContainerInput(teamID string, channelID string, containerName string) (bool, error) {
+	isValid, err := true, error(nil)
+
+	if teamID == "" && isValid {
+		isValid, err = false, fmt.Errorf("can not continue without a teamID 🙄")
 	}
 
-	if channelID == "" {
-		return false, fmt.Errorf("can not continue without a channelID 🙄")
+	if channelID == "" && isValid {
+		isValid, err = false, fmt.Errorf("can not continue without a channelID 🙄")
 	}
 
-	if name == "" {
-		return false, fmt.Errorf("can not continue without a container name 🙄")
+	if containerName == "" && isValid {
+		isValid, err = false, fmt.Errorf("can not continue without a container name 🙄")
 	}
 
-	if len(name) > MaxNameSize {
-		return false, fmt.Errorf("try a name up to %d characters", MaxNameSize)
+	if len(containerName) > MaxNameSize && isValid {
+		isValid, err = false, fmt.Errorf("try a name up to %d characters", MaxNameSize)
 	}
 
-	return true, nil
+	return isValid, err
 }
 
 // GetContainer returns a container for teamID, channelID, and name provided
