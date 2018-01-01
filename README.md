@@ -19,4 +19,5 @@
 * **show** `container-name` - *Shows a container details.*
 
 ---
-Make sure to have your credentials on environment set in order to connect to Slack `CLAIMR_TOKEN` and MySQL `CLAIMR_DATABASE`.
+Make sure to have your credentials on environment set in order to connect
+to Slack `CLAIMR_TOKEN` and MySQL `CLAIMR_DATABASE`.
