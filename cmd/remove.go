@@ -28,7 +28,7 @@ func remove(request *slacker.Request, response slacker.ResponseWriter) {
 	container, err := model.GetContainer(event.Team, event.Channel, containerName)
 
 	if err != nil {
-		log.Errorf("REMOVE. %s", err)
+		log.Errorf("REMOVE. [%s, %s, %s] %s", event.Team, event.Channel, containerName, err)
 		response.Reply(err.Error())
 		return
 	}
