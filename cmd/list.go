@@ -29,7 +29,7 @@ func list(request *slacker.Request, response slacker.ResponseWriter) {
 
 	if err != nil {
 		response.Reply("Fail to list containers.")
-		log.Error(err)
+		log.Errorf("LIST. [%s, %s] %s", event.Team, event.Channel, err)
 		return
 	}
 
