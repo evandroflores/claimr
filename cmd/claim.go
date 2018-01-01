@@ -29,7 +29,7 @@ func claim(request *slacker.Request, response slacker.ResponseWriter) {
 	container, err := model.GetContainer(event.Team, event.Channel, containerName)
 
 	if err != nil {
-		log.Errorf("CLAIM. %s", err)
+		log.Errorf("CLAIM. [%s, %s, %s] %s", event.Team, event.Channel, containerName, err)
 		response.Reply(err.Error())
 		return
 	}

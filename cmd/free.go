@@ -27,7 +27,7 @@ func free(request *slacker.Request, response slacker.ResponseWriter) {
 	container, err := model.GetContainer(event.Team, event.Channel, containerName)
 
 	if err != nil {
-		log.Errorf("FREE. %s", err)
+		log.Errorf("FREE. [%s, %s, %s] %s", event.Team, event.Channel, containerName, err)
 		response.Reply(err.Error())
 		return
 	}
