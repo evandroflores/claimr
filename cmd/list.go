@@ -8,7 +8,6 @@ import (
 	"github.com/evandroflores/claimr/model"
 	"github.com/evandroflores/claimr/utils"
 	"github.com/shomali11/slacker"
-	log "github.com/sirupsen/logrus"
 )
 
 func init() {
@@ -29,7 +28,6 @@ func list(request *slacker.Request, response slacker.ResponseWriter) {
 
 	if err != nil {
 		response.Reply("Fail to list containers.")
-		log.Errorf("LIST. [%s, %s] %s", event.Team, event.Channel, err)
 		return
 	}
 

@@ -7,7 +7,6 @@ import (
 	"github.com/evandroflores/claimr/model"
 	"github.com/evandroflores/claimr/utils"
 	"github.com/shomali11/slacker"
-	log "github.com/sirupsen/logrus"
 )
 
 func init() {
@@ -29,7 +28,6 @@ func show(request *slacker.Request, response slacker.ResponseWriter) {
 	container, err := model.GetContainer(event.Team, event.Channel, containerName)
 
 	if err != nil {
-		log.Errorf("SHOW. [%s, %s, %s] %s", event.Team, event.Channel, containerName, err)
 		response.Reply(err.Error())
 		return
 	}

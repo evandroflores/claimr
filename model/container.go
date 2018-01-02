@@ -7,6 +7,7 @@ import (
 
 	"github.com/evandroflores/claimr/database"
 	"github.com/jinzhu/gorm"
+	log "github.com/sirupsen/logrus"
 )
 
 func init() {
@@ -64,6 +65,7 @@ func GetContainer(teamID string, channelID string, name string) (Container, erro
 	valid, err := isValidContainerInput(teamID, channelID, name)
 
 	if !valid {
+		log.Errorf("GetContainer: [%s, %s, %s] %s", teamID, channelID, name, err)
 		return result, err
 	}
 
@@ -79,6 +81,7 @@ func GetContainers(teamID string, channelID string) ([]Container, error) {
 	valid, err := isValidContainerInput(teamID, channelID, ".")
 
 	if !valid {
+		log.Errorf("GetContainers: [%s, %s] %s", teamID, channelID, err)
 		return results, err
 	}
 
