@@ -11,6 +11,11 @@ import (
 
 func init() {
 	database.DB.AutoMigrate(&Container{})
+	purgeSoftDelete()
+}
+
+func purgeSoftDelete() {
+	database.DB.Unscoped().Where("deleted_at is not null").Delete(&Container{})
 }
 
 // Container defines the Container information on database.

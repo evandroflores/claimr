@@ -22,11 +22,14 @@ func initDB() {
 	dbStringConnection := os.Getenv("CLAIMR_DATABASE")
 	if dbStringConnection == "" {
 		log.Fatal("Claimr mysql database string unset. Set CLAIMR_DATABASE to continue.")
+		return
 	}
 
 	DB, err = gorm.Open("mysql", dbStringConnection)
 
 	if err != nil {
 		log.Fatalf("could not create a database connection - %s", err)
+		return
 	}
+	DB.LogMode(true)
 }
