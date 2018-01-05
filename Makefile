@@ -21,6 +21,9 @@ build: check-env
 	@echo "\nCheck the binary on the build dir build/claimr\n"
 	@ls -lah build
 
+install: check-env
+	go install -v github.com/evandroflores/claimr
+
 run: check-env check-keys
 	@go run main.go
 
