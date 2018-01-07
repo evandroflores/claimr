@@ -5,7 +5,7 @@ import (
 )
 
 func init() {
-	Register("admin <sub-command> <sub-command-parameter>", "Administrative set of commands. _Available only for admins_.", admin)
+	Register("admin <sub-command> <sub-command-parameter>", "Administrative set of commands. Available only for admins.", admin)
 }
 
 func admin(request *slacker.Request, response slacker.ResponseWriter) {
