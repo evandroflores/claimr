@@ -8,11 +8,11 @@ import (
 )
 
 func init() {
-	Register("help", "help.", Help)
+	Register("command-list", "List admin sub commands list (help is reserved for the main commands)", AdminHelp)
 }
 
-//Help command for subcommand admin
-func Help(request *slacker.Request, response slacker.ResponseWriter) {
+//AdminHelp prints the help for Admin subcommands
+func AdminHelp(request *slacker.Request, response slacker.ResponseWriter) {
 	help := ""
 	for _, subcommand := range CommandList() {
 		splitted := strings.Split(subcommand.Usage, " ")
