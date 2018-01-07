@@ -4,27 +4,21 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
 )
 
-var commands []Command
+var commands []model.Command
 
 const directChannelPrefix = "D"
 
-// Command defines a command to be register to slack
-type Command struct {
-	Usage       string
-	Description string
-	Handler     func(request *slacker.Request, response slacker.ResponseWriter)
-}
-
 // Register add a command to commands list an prepare to register to slacker
 func Register(usage string, description string, handler func(request *slacker.Request, response slacker.ResponseWriter)) {
-	commands = append(commands, Command{Usage: usage, Description: description, Handler: handler})
+	commands = append(commands, model.Command{Usage: usage, Description: description, Handler: handler})
 }
 
 // CommandList returns the list of registered commands
-func CommandList() []Command {
+func CommandList() []model.Command {
 	return commands
 }
 
