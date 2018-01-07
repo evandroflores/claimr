@@ -16,7 +16,7 @@ func admin(request *slacker.Request, response slacker.ResponseWriter) {
 	response.Typing()
 
 	event := getEvent(request)
-	if event.User != os.Getenv("CLAIMR_SUPERUSER") { // TODO: Implement a Admin check
+	if event.User != os.Getenv("CLAIMR_SUPERUSER") {
 		response.Reply("Command available only for admins. 🛑")
 		return
 	}
@@ -31,7 +31,7 @@ func admin(request *slacker.Request, response slacker.ResponseWriter) {
 		}
 	}
 	if !found {
-		response.Reply("Command not found, printing subcommand help")
-		adm.AdminHelp(request, response)
+		response.Reply("Command not found, Type @claimr admin command-list` for valid admin sub commands.")
+
 	}
 }
