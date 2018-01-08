@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	log.SetLevel(log.DebugLevel)
+	log.SetLevel(log.InfoLevel)
 	token := os.Getenv("CLAIMR_TOKEN")
 	if token == "" {
 		log.Fatal("Claimr slack bot token unset. Set CLAIMR_TOKEN to continue.")
@@ -19,7 +19,7 @@ func main() {
 
 	log.Debug("Loading commands...")
 	for _, command := range cmd.CommandList() {
-		log.Debugf("%s - %s", command.Usage, command.Description)
+		log.Infof("%s - %s", command.Usage, command.Description)
 		bot.Command(command.Usage, command.Description, command.Handler)
 	}
 	bot.Default(func(request *slacker.Request, response slacker.ResponseWriter) {
