@@ -13,6 +13,7 @@ func init() {
 }
 
 func purge(request *slacker.Request, response slacker.ResponseWriter) {
+	response.Typing()
 	result := database.DB.Unscoped().Where("deleted_at is not null").Delete(&model.Container{})
 	response.Reply(fmt.Sprintf("%d Container rows purged", result.RowsAffected))
 }

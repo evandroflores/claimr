@@ -12,6 +12,7 @@ func init() {
 }
 
 func subCommandHelp(request *slacker.Request, response slacker.ResponseWriter) {
+	response.Typing()
 	help := GenerateCommandHelp()
 	response.Reply(help)
 }

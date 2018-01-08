@@ -27,7 +27,7 @@ func TestAdminTryToCallAdminCommandWithoutCommand(t *testing.T) {
 	channelName := "TestChannel"
 	userName := "TESTSUPERUSER"
 
-	mockResponse, patchReply := createMockReply(t, "Command not found, Type @claimr admin command-list` for valid admin sub commands.")
+	mockResponse, patchReply := createMockReply(t, "Command not found, Type `@claimr admin command-list` for valid admin sub commands.")
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, nil)
 

@@ -31,7 +31,7 @@ func admin(request *slacker.Request, response slacker.ResponseWriter) {
 		}
 	}
 	if !found {
-		response.Reply("Command not found, Type @claimr admin command-list` for valid admin sub commands.")
+		response.Reply("Command not found, Type `@claimr admin command-list` for valid admin sub commands.")
 
 	}
 }

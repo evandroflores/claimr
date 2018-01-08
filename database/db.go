@@ -31,5 +31,4 @@ func initDB() {
 		log.Fatalf("could not create a database connection - %s", err)
 		return
 	}
-	DB.LogMode(true)
 }
