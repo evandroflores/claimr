@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"reflect"
 	"testing"
@@ -52,4 +53,30 @@ func TestSlackerCommands(t *testing.T) {
 	}
 	patchCommand.Unpatch()
 	patchListen.Unpatch()
+}
+
+func TestSlackerListenError(t *testing.T) {
+	var mockSlacker *slacker.Slacker
+
+	patchCommand := monkey.PatchInstanceMethod(reflect.TypeOf(mockSlacker), "Command",
+		func(slacker *slacker.Slacker, usage string, description string, handler func(request *slacker.Request, response slacker.ResponseWriter)) {
+		})
+
+	patchListen := monkey.PatchInstanceMethod(reflect.TypeOf(mockSlacker), "Listen", func(*slacker.Slacker) error {
+		return fmt.Errorf("Simulated Error")
+	})
+
+	expectedMsg := fmt.Errorf("Simulated Error")
+
+	mockLogFatal := func(msg ...interface{}) {
+		assert.Equal(t, expectedMsg, msg[0])
+		panic("log.Fatal called")
+	}
+	patchLog := monkey.Patch(log.Fatal, mockLogFatal)
+
+	defer patchCommand.Unpatch()
+	defer patchListen.Unpatch()
+	defer patchLog.Unpatch()
+
+	assert.PanicsWithValue(t, "log.Fatal called", main, "log.Fatal called was not called")
 }
