@@ -1,4 +1,5 @@
 claimr.db
 build/*
 .idea/*
+.vscode/*
 coverage.*
