@@ -148,3 +148,8 @@ func TestAllCmdsErrorWhenGettingFromDB(t *testing.T) {
 	guard.Unpatch()
 
 }
+
+func TestNilGetEvent(t *testing.T) {
+	event := getEvent(nil)
+	assert.ObjectsAreEqual(ClaimrEvent{}, event)
+}
