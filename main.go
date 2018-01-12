@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	log.SetLevel(log.InfoLevel)
+	log.SetLevel(log.DebugLevel)
 	token := os.Getenv("CLAIMR_TOKEN")
 	if token == "" {
 		log.Fatal("Claimr slack bot token unset. Set CLAIMR_TOKEN to continue.")
