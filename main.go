@@ -5,7 +5,7 @@ import (
 
 	"github.com/evandroflores/claimr/cmd"
 	"github.com/evandroflores/claimr/database"
-	"github.com/shomali11/slacker"
+	"github.com/evandroflores/slacker"
 	log "github.com/sirupsen/logrus"
 )
 
