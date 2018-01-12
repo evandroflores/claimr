@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	adm "github.com/evandroflores/claimr/cmd/admin"
-	"github.com/shomali11/slacker"
+	"github.com/evandroflores/slacker"
 )
 
 func init() {

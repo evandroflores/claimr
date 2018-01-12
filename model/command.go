@@ -1,6 +1,6 @@
 package model
 
-import "github.com/shomali11/slacker"
+import "github.com/evandroflores/slacker"
 
 // Command defines a command to be register to slack
 type Command struct {

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/shomali11/slacker"
+	"github.com/evandroflores/slacker"
 )
 
 func init() {
