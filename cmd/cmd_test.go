@@ -64,7 +64,8 @@ func TestCmdCommandList(t *testing.T) {
 		"list",
 		"remove <container-name>",
 		"show <container-name>",
-		"admin <sub-command> <sub-command-parameter>",
+		"log-level <level>",
+		"purge",
 	}
 	commands := CommandList()
 
@@ -96,7 +97,7 @@ func TestAllCmdsCheckingDirect(t *testing.T) {
 	patchGetEvent := createMockEvent(t, "team", "DIRECT", "user")
 
 	for _, command := range commands {
-		if !strings.Contains(command.Description, "Administrative set of commands.") {
+		if !strings.Contains(command.Description, "admin-only") {
 			command.Handler(new(slacker.Request), mockResponse)
 		}
 	}

@@ -1,4 +1,4 @@
-package admin
+package cmd
 
 import (
 	"fmt"
@@ -7,11 +7,8 @@ import (
 	"github.com/evandroflores/slacker"
 )
 
-func init() {
-	Register("command-list", "List admin sub commands list (help is reserved for the main commands)", subCommandHelp)
-}
-
-func subCommandHelp(request *slacker.Request, response slacker.ResponseWriter) {
+// Help overides the default help function
+func Help(request *slacker.Request, response slacker.ResponseWriter) {
 	response.Typing()
 	help := GenerateCommandHelp()
 	response.Reply(help)

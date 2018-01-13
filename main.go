@@ -24,6 +24,8 @@ func main() {
 	}
 	bot.Default(cmd.Default)
 
+	bot.Help(cmd.Help)
+
 	log.Infof("Commands loaded. (%d)", len(cmd.CommandList()))
 
 	err := bot.Listen()

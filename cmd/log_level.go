@@ -1,4 +1,4 @@
-package admin
+package cmd
 
 import (
 	"fmt"
@@ -10,13 +10,20 @@ import (
 )
 
 func init() {
-	Register("log-level `level`", "Change the current log level", changeLogLevel)
+	Register("log-level <level>", "Change the current log level. admin-only", changeLogLevel)
 }
 
 func changeLogLevel(request *slacker.Request, response slacker.ResponseWriter) {
 	response.Typing()
+
+	event := getEvent(request)
+	if !isAdmin(event.User) {
+		response.Reply("Command available only for admins. 🛑")
+		return
+	}
+
 	currentLogLevel := log.GetLevel()
-	newLogLevel := request.Param("sub-command-parameter")
+	newLogLevel := request.Param("level")
 
 	if newLogLevel == "" {
 		response.Reply(fmt.Sprintf("No log level provided, keeping in `%s`", currentLogLevel))

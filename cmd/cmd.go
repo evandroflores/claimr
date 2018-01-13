@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/evandroflores/claimr/model"
@@ -54,4 +55,8 @@ type ClaimrEvent struct {
 // GetEventText exists to help testing event message
 func GetEventText(request *slacker.Request) string {
 	return request.Event.Msg.Text
+}
+
+func isAdmin(userName string) bool {
+	return userName == os.Getenv("CLAIMR_SUPERUSER")
 }

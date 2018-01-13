@@ -1,4 +1,4 @@
-package admin
+package cmd
 
 import (
 	"reflect"
@@ -22,7 +22,7 @@ func TestCallHelp(t *testing.T) {
 	_ = monkey.PatchInstanceMethod(reflect.TypeOf(mockResponse), "Typing",
 		func(response *slacker.Response) {})
 
-	subCommandHelp(nil, mockResponse)
+	Help(nil, mockResponse)
 
 	patchReply.Unpatch()
 }
