@@ -37,7 +37,7 @@ func TestNonAdminTryPurgeContainers(t *testing.T) {
 	channelName := "TestChannel"
 	userName := "NotAAdmin"
 
-	mockResponse, patchReply := createMockReply(t, "Command available only for admins. 🛑")
+	mockResponse, patchReply := createMockReply(t, "Command available only for admins. ⛔")
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 
 	purge(nil, mockResponse)

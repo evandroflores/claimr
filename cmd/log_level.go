@@ -18,7 +18,7 @@ func changeLogLevel(request *slacker.Request, response slacker.ResponseWriter) {
 
 	event := getEvent(request)
 	if !isAdmin(event.User) {
-		response.Reply("Command available only for admins. 🛑")
+		response.Reply("Command available only for admins. ⛔")
 		return
 	}
 
