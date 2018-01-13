@@ -7,6 +7,7 @@ import (
 	"github.com/evandroflores/slacker"
 )
 
+// Help overides the default help function
 func Help(request *slacker.Request, response slacker.ResponseWriter) {
 	response.Typing()
 	help := GenerateCommandHelp()
