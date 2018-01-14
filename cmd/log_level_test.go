@@ -51,3 +51,26 @@ func TestTryToChangeLogLevelToUnknownLevel(t *testing.T) {
 	patchGetEvent.Unpatch()
 	patchParam.Unpatch()
 }
+
+func TestChangeLogLevelToDebug(t *testing.T) {
+	teamName := "TestTeam"
+	channelName := "TestChannel"
+	userName := os.Getenv("CLAIMR_SUPERUSER")
+
+	currentLogLevel := log.GetLevel().String()
+	newLogLevel := log.DebugLevel.String()
+
+	message := fmt.Sprintf("Log level changed from `%s` to `%s`", currentLogLevel, newLogLevel)
+	mockResponse, patchReply := createMockReply(t, message)
+	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
+
+	mockRequest, patchParam := createMockRequest(t, map[string]string{"level": newLogLevel})
+
+	changeLogLevel(mockRequest, mockResponse)
+
+	assert.Equal(t, newLogLevel, log.GetLevel().String())
+
+	patchReply.Unpatch()
+	patchGetEvent.Unpatch()
+	patchParam.Unpatch()
+}
