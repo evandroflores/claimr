@@ -74,3 +74,26 @@ func TestChangeLogLevelToDebug(t *testing.T) {
 	patchGetEvent.Unpatch()
 	patchParam.Unpatch()
 }
+
+func TestChangeLogLevelToSameAsActual(t *testing.T) {
+	teamName := "TestTeam"
+	channelName := "TestChannel"
+	userName := os.Getenv("CLAIMR_SUPERUSER")
+
+	currentLogLevel := log.GetLevel().String()
+	newLogLevel := currentLogLevel
+
+	message := "Same log level than actual. Nothing change."
+	mockResponse, patchReply := createMockReply(t, message)
+	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
+
+	mockRequest, patchParam := createMockRequest(t, map[string]string{"level": newLogLevel})
+
+	changeLogLevel(mockRequest, mockResponse)
+
+	assert.Equal(t, currentLogLevel, log.GetLevel().String())
+
+	patchReply.Unpatch()
+	patchGetEvent.Unpatch()
+	patchParam.Unpatch()
+}
