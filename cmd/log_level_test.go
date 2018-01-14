@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	log "github.com/sirupsen/logrus"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestTryToChangeLogLevelWithoutParameter(t *testing.T) {
@@ -21,6 +22,8 @@ func TestTryToChangeLogLevelWithoutParameter(t *testing.T) {
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"level": ""})
 
 	changeLogLevel(mockRequest, mockResponse)
+
+	assert.Equal(t, currentLogLevel, log.GetLevel())
 
 	patchReply.Unpatch()
 	patchGetEvent.Unpatch()
