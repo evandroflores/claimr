@@ -154,3 +154,22 @@ func TestNilGetEvent(t *testing.T) {
 	event := getEvent(nil)
 	assert.ObjectsAreEqual(ClaimrEvent{}, event)
 }
+
+func TestNonAdminTryAccessAdminOnlyCmds(t *testing.T) {
+	teamName := "TestPurge"
+	channelName := "TestChannel"
+	userName := "NotAAdmin"
+
+	mockResponse, patchReply := createMockReply(t, "Command available only for admins. ⛔")
+	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
+	mockRequest, _ := createMockRequest(t, nil)
+
+	for _, command := range commands {
+		if strings.Contains(command.Description, "admin-only") {
+			command.Handler(mockRequest, mockResponse)
+		}
+	}
+
+	patchReply.Unpatch()
+	patchGetEvent.Unpatch()
+}
