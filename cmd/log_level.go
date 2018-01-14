@@ -37,6 +37,11 @@ func changeLogLevel(request *slacker.Request, response slacker.ResponseWriter) {
 		return
 	}
 
+	if currentLogLevel == logrusLevel {
+		response.Reply("Same log level than actual. Nothing change.")
+		return
+	}
+
 	database.DB.LogMode(logrusLevel == log.DebugLevel)
 
 	log.SetLevel(logrusLevel)

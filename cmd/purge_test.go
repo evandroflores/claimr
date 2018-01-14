@@ -31,17 +31,3 @@ func TestPurgeContainers(t *testing.T) {
 	patchReply.Unpatch()
 	patchGetEvent.Unpatch()
 }
-
-func TestNonAdminTryPurgeContainers(t *testing.T) {
-	teamName := "TestPurge"
-	channelName := "TestChannel"
-	userName := "NotAAdmin"
-
-	mockResponse, patchReply := createMockReply(t, "Command available only for admins. ⛔")
-	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
-
-	purge(nil, mockResponse)
-
-	patchReply.Unpatch()
-	patchGetEvent.Unpatch()
-}
