@@ -14,7 +14,7 @@ func TestTryToChangeLogLevelWithoutParameter(t *testing.T) {
 	channelName := "TestChannel"
 	userName := os.Getenv("CLAIMR_SUPERUSER")
 
-	currentLogLevel := log.GetLevel()
+	currentLogLevel := log.GetLevel().String()
 	message := fmt.Sprintf("No log level provided, keeping in `%s`", currentLogLevel)
 	mockResponse, patchReply := createMockReply(t, message)
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
@@ -23,7 +23,29 @@ func TestTryToChangeLogLevelWithoutParameter(t *testing.T) {
 
 	changeLogLevel(mockRequest, mockResponse)
 
-	assert.Equal(t, currentLogLevel, log.GetLevel())
+	assert.Equal(t, currentLogLevel, log.GetLevel().String())
+
+	patchReply.Unpatch()
+	patchGetEvent.Unpatch()
+	patchParam.Unpatch()
+}
+
+func TestTryToChangeLogLevelToUnknownLevel(t *testing.T) {
+	teamName := "TestTeam"
+	channelName := "TestChannel"
+	userName := os.Getenv("CLAIMR_SUPERUSER")
+
+	currentLogLevel := log.GetLevel().String()
+	unknownLogLevel := "unknown"
+	message := fmt.Sprintf("not a valid logrus Level: \"%s\"", unknownLogLevel)
+	mockResponse, patchReply := createMockReply(t, message)
+	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
+
+	mockRequest, patchParam := createMockRequest(t, map[string]string{"level": unknownLogLevel})
+
+	changeLogLevel(mockRequest, mockResponse)
+
+	assert.Equal(t, currentLogLevel, log.GetLevel().String())
 
 	patchReply.Unpatch()
 	patchGetEvent.Unpatch()
