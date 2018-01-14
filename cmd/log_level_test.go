@@ -5,6 +5,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/evandroflores/claimr/database"
 	log "github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 )
@@ -73,6 +74,10 @@ func TestChangeLogLevelToDebug(t *testing.T) {
 	patchReply.Unpatch()
 	patchGetEvent.Unpatch()
 	patchParam.Unpatch()
+
+	// Returning log levels
+	database.DB.LogMode(false)
+	log.SetLevel(log.InfoLevel)
 }
 
 func TestChangeLogLevelToSameAsActual(t *testing.T) {
