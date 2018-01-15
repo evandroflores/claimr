@@ -45,6 +45,12 @@
 			"revisionTime": "2017-12-12T03:14:30Z"
 		},
 		{
+			"checksumSHA1": "TRVJy/PPovga11LeBHbL/rcXMRg=",
+			"path": "github.com/shomali11/proper",
+			"revision": "0244d42823dce3e0cd5e74e11c9ab1cb92013cbe",
+			"revisionTime": "2017-06-15T01:55:11Z"
+		},
+		{
 			"checksumSHA1": "I5DMrLM0FpmvG81tAWZ3zoydBIo=",
 			"path": "github.com/sirupsen/logrus",
 			"revision": "181d419aa9e2223811b824e8f0b4af96f9ba9302",
