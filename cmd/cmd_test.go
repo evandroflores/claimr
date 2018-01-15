@@ -10,6 +10,8 @@ import (
 	"github.com/bouk/monkey"
 	"github.com/evandroflores/claimr/model"
 	"github.com/evandroflores/slacker"
+	"github.com/nlopes/slack"
+	"github.com/shomali11/proper"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -98,7 +100,7 @@ func TestAllCmdsCheckingDirect(t *testing.T) {
 
 	for _, command := range commands {
 		if !strings.Contains(command.Description, "admin-only") {
-			command.Handler(new(slacker.Request), mockResponse)
+			command.Handler(nil, mockResponse)
 		}
 	}
 
@@ -153,6 +155,28 @@ func TestAllCmdsErrorWhenGettingFromDB(t *testing.T) {
 func TestNilGetEvent(t *testing.T) {
 	event := getEvent(nil)
 	assert.ObjectsAreEqual(ClaimrEvent{}, event)
+}
+
+func TestGetEventFromNSLopesEvent(t *testing.T) {
+	var message slack.MessageEvent
+	message.Team = "Team"
+	message.Channel = "Channel"
+	message.User = "User"
+	request := slacker.NewRequest(nil, &message, &proper.Properties{})
+	event := getEvent(request)
+	assert.ObjectsAreEqual(ClaimrEvent{}, event)
+}
+
+func TestGetEventText(t *testing.T) {
+	text := "Text"
+	var message slack.MessageEvent
+	message.Team = "Team"
+	message.Channel = "Channel"
+	message.User = "User"
+	message.Text = text
+	request := slacker.NewRequest(nil, &message, &proper.Properties{})
+
+	assert.Equal(t, text, GetEventText(request))
 }
 
 func TestNonAdminTryAccessAdminOnlyCmds(t *testing.T) {
