@@ -14,7 +14,7 @@ before_script:
   - ./cc-test-reporter before-build
   
 before_install:
-  - go get -t -v ./...
+    #- go get -t -v ./...
   - mysql -e 'CREATE DATABASE IF NOT EXISTS claimr;'
 
 script:
