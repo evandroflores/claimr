@@ -10,14 +10,17 @@
 
 ## Commands
 
-* **help** - *Shows commands list.*
+* **help** - *Shows this command list.*
 * **add** `container-name` - *Adds a container to your channel.*
 * **claim** `container-name` `reason` - *Claims a container for your use.*
 * **free** `container-name` - *Makes a container available for use.*
 * **list** - *List all containers.*
+* **log-level** `level` - _Change the current log level. admin-only_
+* **purge**  - _Purge soft delete models from the database. admin-only_
 * **remove** `container-name` - *Removes a container from your channel.*
 * **show** `container-name` - *Shows a container details.*
 
+_"admin-only" commnads will be shown and are enabled only for the super user_
 ---
 Make sure to have your credentials on environment set in order to connect
 to Slack `CLAIMR_TOKEN` and MySQL `CLAIMR_DATABASE`.
