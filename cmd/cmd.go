@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/evandroflores/claimr/model"
-	"github.com/evandroflores/slacker"
+	"github.com/shomali11/slacker"
 )
 
 var commands []model.Command

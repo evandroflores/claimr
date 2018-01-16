@@ -6,7 +6,7 @@ import (
 	"github.com/evandroflores/claimr/database"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/evandroflores/slacker"
+	"github.com/shomali11/slacker"
 )
 
 func init() {

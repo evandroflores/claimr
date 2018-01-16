@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/evandroflores/claimr/model"
-	"github.com/evandroflores/slacker"
+	"github.com/shomali11/slacker"
 	log "github.com/sirupsen/logrus"
 )
 
