@@ -15,12 +15,6 @@
 			"revisionTime": "2017-10-02T20:02:53Z"
 		},
 		{
-			"checksumSHA1": "TWCo8j5gJKCMyjmpik6oc6YYFhg=",
-			"path": "github.com/evandroflores/slacker",
-			"revision": "a4e13a9434af2d4a864396d26da184f23103b831",
-			"revisionTime": "2018-01-13T12:57:14Z"
-		},
-		{
 			"checksumSHA1": "HnjM0xNE7bh3cTub92/JjhAwBp8=",
 			"path": "github.com/go-sql-driver/mysql",
 			"revision": "7785c74297136c027fdf2fd6f8931c0e19be8aa7",
@@ -61,6 +55,12 @@
 			"path": "github.com/shomali11/proper",
 			"revision": "0244d42823dce3e0cd5e74e11c9ab1cb92013cbe",
 			"revisionTime": "2017-06-15T01:55:11Z"
+		},
+		{
+			"checksumSHA1": "Pf8eQVD5Q+iTSL9SEhKwro4H1Wc=",
+			"path": "github.com/shomali11/slacker",
+			"revision": "14c648b23682c4360707e0002d68e3dbaa5a4594",
+			"revisionTime": "2018-01-13T12:17:15Z"
 		},
 		{
 			"checksumSHA1": "I5DMrLM0FpmvG81tAWZ3zoydBIo=",

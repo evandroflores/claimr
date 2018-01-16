@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/bouk/monkey"
-	"github.com/evandroflores/slacker"
+	"github.com/shomali11/slacker"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/evandroflores/slacker"
+	"github.com/shomali11/slacker"
 )
 
 // Help overides the default help function

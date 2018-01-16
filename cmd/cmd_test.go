@@ -9,9 +9,9 @@ import (
 
 	"github.com/bouk/monkey"
 	"github.com/evandroflores/claimr/model"
-	"github.com/evandroflores/slacker"
 	"github.com/nlopes/slack"
 	"github.com/shomali11/proper"
+	"github.com/shomali11/slacker"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -9,7 +9,7 @@ import (
 	"github.com/bouk/monkey"
 	"github.com/evandroflores/claimr/cmd"
 	"github.com/evandroflores/claimr/model"
-	"github.com/evandroflores/slacker"
+	"github.com/shomali11/slacker"
 	log "github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 )

@@ -6,7 +6,7 @@ import (
 
 	"github.com/evandroflores/claimr/model"
 	"github.com/evandroflores/claimr/utils"
-	"github.com/evandroflores/slacker"
+	"github.com/shomali11/slacker"
 )
 
 func init() {
