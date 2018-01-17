@@ -31,7 +31,7 @@ func add(request *slacker.Request, response slacker.ResponseWriter) {
 	}
 
 	if container != (model.Container{}) {
-		response.Reply("There is a container with the same name on this channel. Try a different one.")
+		response.Reply(Messages["same-name"])
 		return
 	}
 
@@ -50,5 +50,5 @@ func add(request *slacker.Request, response slacker.ResponseWriter) {
 		return
 	}
 
-	response.Reply(fmt.Sprintf("Container `%s` added to channel <#%s>.", containerName, event.Channel))
+	response.Reply(fmt.Sprintf(Messages["added-to-channel"], containerName, event.Channel))
 }
