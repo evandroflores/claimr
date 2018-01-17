@@ -34,12 +34,12 @@ func claim(request *slacker.Request, response slacker.ResponseWriter) {
 	}
 
 	if container == (model.Container{}) {
-		response.Reply(fmt.Sprintf("I couldn't find the container `%s` on <#%s>.", containerName, event.Channel))
+		response.Reply(fmt.Sprintf(Messages["container-not-found-on-channel"], containerName, event.Channel))
 		return
 	}
 
 	if container.InUseBy != "" {
-		response.Reply(fmt.Sprintf("Container `%s` is already in use, try another one.", containerName))
+		response.Reply(fmt.Sprintf(Messages["container-in-use"], containerName))
 		return
 	}
 
@@ -49,11 +49,11 @@ func claim(request *slacker.Request, response slacker.ResponseWriter) {
 	err = container.Update()
 	if err != nil {
 		log.Errorf("Fail to update the container. %s", err)
-		response.Reply("Fail to update the container.")
+		response.Reply(Messages["fail-to-update"])
 		return
 	}
 
-	response.Reply(fmt.Sprintf("Got it. Container `%s` is all yours <@%s>.", containerName, event.User))
+	response.Reply(fmt.Sprintf(Messages["container-claimed"], containerName, event.User))
 }
 
 func getReason(request *slacker.Request) string {

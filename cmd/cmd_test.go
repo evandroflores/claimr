@@ -51,7 +51,7 @@ func createMockEvent(t *testing.T, team string, channel string, user string) *mo
 }
 
 func TestCmdNotImplemented(t *testing.T) {
-	mockResponse, patchReply := createMockReply(t, "No pancakes for you! 🥞")
+	mockResponse, patchReply := createMockReply(t, Messages["not-implemented"])
 
 	notImplemented(new(slacker.Request), mockResponse)
 
@@ -91,11 +91,11 @@ func TestCmdNotDirect(t *testing.T) {
 func TestCmdDirect(t *testing.T) {
 	isDirect, err := checkDirect("DIRECT")
 	assert.True(t, isDirect)
-	assert.Error(t, err, "this look like a direct message. Containers are related to a channels")
+	assert.Error(t, err, Messages["direct-not-allowed"])
 }
 
 func TestAllCmdsCheckingDirect(t *testing.T) {
-	mockResponse, patchReply := createMockReply(t, "this look like a direct message. Containers are related to a channels")
+	mockResponse, patchReply := createMockReply(t, Messages["direct-not-allowed"])
 	patchGetEvent := createMockEvent(t, "team", "DIRECT", "user")
 
 	for _, command := range commands {
@@ -109,7 +109,7 @@ func TestAllCmdsCheckingDirect(t *testing.T) {
 }
 
 func TestAllCmdsCheckingNoName(t *testing.T) {
-	mockResponse, patchReply := createMockReply(t, "can not continue without a container name 🙄")
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(Messages["field-name-required"]))
 	patchGetEvent := createMockEvent(t, "team", "channel", "user")
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": ""})
 
@@ -184,7 +184,7 @@ func TestNonAdminTryAccessAdminOnlyCmds(t *testing.T) {
 	channelName := "TestChannel"
 	userName := "NotAAdmin"
 
-	mockResponse, patchReply := createMockReply(t, "Command available only for admins. ⛔")
+	mockResponse, patchReply := createMockReply(t, Messages["admin-only"])
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, _ := createMockRequest(t, nil)
 

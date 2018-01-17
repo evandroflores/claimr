@@ -17,7 +17,7 @@ func TestTryToAddBigName(t *testing.T) {
 	channelName := "TestChannel"
 	userName := "user"
 
-	mockResponse, patchReply := createMockReply(t, fmt.Sprintf("try a smaller container name up to %d characters", model.MaxNameSize))
+	mockResponse, patchReply := createMockReply(t, Messages["field-name-too-big"])
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
 
@@ -40,7 +40,7 @@ func TestTryToAddExistentContainer(t *testing.T) {
 
 	assert.NoError(t, err)
 
-	mockResponse, patchReply := createMockReply(t, "There is a container with the same name on this channel. Try a different one.")
+	mockResponse, patchReply := createMockReply(t, Messages["same-name"])
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
 
@@ -81,7 +81,7 @@ func TestAddContainer(t *testing.T) {
 	channelName := "TestChannel"
 	userName := "user"
 
-	msg := fmt.Sprintf("Container `%s` added to channel <#%s>.", containerName, channelName)
+	msg := fmt.Sprintf(Messages["added-to-channel"], containerName, channelName)
 	mockResponse, patchReply := createMockReply(t, msg)
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})

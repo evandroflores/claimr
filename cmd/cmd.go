@@ -24,12 +24,12 @@ func CommandList() []model.Command {
 }
 
 func notImplemented(request *slacker.Request, response slacker.ResponseWriter) {
-	response.Reply("No pancakes for you! 🥞")
+	response.Reply(Messages["not-implemented"])
 }
 
 func checkDirect(channelID string) (bool, error) {
 	if strings.HasPrefix(channelID, directChannelPrefix) {
-		return true, fmt.Errorf("this look like a direct message. Containers are related to a channels")
+		return true, fmt.Errorf(Messages["direct-not-allowed"])
 	}
 	return false, nil
 }
