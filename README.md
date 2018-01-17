@@ -20,7 +20,8 @@
 * **remove** `container-name` - *Removes a container from your channel.*
 * **show** `container-name` - *Shows a container details.*
 
-_"admin-only" commnads will be shown and are enabled only for the super user_
+Notice that commands tagged as _admin-only_ will be shown and are enabled only for the super user.
+
 ---
 Make sure to have your credentials on environment set in order to connect
-to Slack `CLAIMR_TOKEN` and MySQL `CLAIMR_DATABASE`.
+to Slack `CLAIMR_TOKEN`, MySQL `CLAIMR_DATABASE`, and `CLAIMR_SUPERUSER`
