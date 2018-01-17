@@ -109,7 +109,7 @@ func TestAllCmdsCheckingDirect(t *testing.T) {
 }
 
 func TestAllCmdsCheckingNoName(t *testing.T) {
-	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(Messages["field-container-name"]))
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(Messages["field-name-required"]))
 	patchGetEvent := createMockEvent(t, "team", "channel", "user")
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": ""})
 
