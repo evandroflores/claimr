@@ -20,4 +20,6 @@ var Messages = map[string]string{
 	"container-in-use":               "Container `%s` is already in use, try another one.",
 	"fail-to-update":                 "Fail to update the container.",
 	"container-claimed":              "Got it. Container `%s` is all yours <@%s>.",
+	"container-in-use-by-other":      "Hum Container `%s` is not being used by you.",
+	"container-free":                 "Got it. Container `%s` is now available",
 }
