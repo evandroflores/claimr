@@ -16,7 +16,7 @@ func TestTryToFreeInexistentContainer(t *testing.T) {
 	channelName := "TestChannel"
 	userName := "user"
 
-	mockResponse, patchReply := createMockReply(t, fmt.Sprintf("I couldn't find the container `%s` on <#%s>.", containerName, channelName))
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(Messages["container-not-found-on-channel"], containerName, channelName))
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
 
@@ -40,7 +40,7 @@ func TestTryToFreeAContainerInUseByAnotherUser(t *testing.T) {
 
 	assert.NoError(t, err)
 
-	mockResponse, patchReply := createMockReply(t, fmt.Sprintf("Humm Container `%s` is not being used by you.", containerName))
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(Messages["container-in-use-by-other"], containerName))
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
 
@@ -68,7 +68,7 @@ func TestFreeError(t *testing.T) {
 	defer container.Delete()
 	assert.NoError(t, err)
 
-	mockResponse, patchReply := createMockReply(t, "Fail to update the container.")
+	mockResponse, patchReply := createMockReply(t, Messages["fail-to-update"])
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
 
@@ -91,7 +91,7 @@ func TestFreeing(t *testing.T) {
 	assert.NoError(t, err)
 	defer container.Delete()
 
-	mockResponse, patchReply := createMockReply(t, fmt.Sprintf("Got it. Container `%s` is now available", containerName))
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(Messages["container-free"], containerName))
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
 

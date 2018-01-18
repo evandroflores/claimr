@@ -32,12 +32,12 @@ func free(request *slacker.Request, response slacker.ResponseWriter) {
 	}
 
 	if container == (model.Container{}) {
-		response.Reply(fmt.Sprintf("I couldn't find the container `%s` on <#%s>.", containerName, event.Channel))
+		response.Reply(fmt.Sprintf(Messages["container-not-found-on-channel"], containerName, event.Channel))
 		return
 	}
 
 	if container.InUseBy != event.User {
-		response.Reply(fmt.Sprintf("Humm Container `%s` is not being used by you.", containerName))
+		response.Reply(fmt.Sprintf(Messages["container-in-use-by-other"], containerName))
 		return
 	}
 
@@ -46,10 +46,10 @@ func free(request *slacker.Request, response slacker.ResponseWriter) {
 
 	err = container.Update()
 	if err != nil {
-		log.Errorf("Fail to update the container. %s", err)
-		response.Reply("Fail to update the container.")
+		log.Errorf(Messages["fail-to-update"]+"%s", err)
+		response.Reply(Messages["fail-to-update"])
 		return
 	}
 
-	response.Reply(fmt.Sprintf("Got it. Container `%s` is now available", containerName))
+	response.Reply(fmt.Sprintf(Messages["container-free"], containerName))
 }

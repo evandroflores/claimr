@@ -11,6 +11,7 @@ var Messages = map[string]string{
 	"not-implemented":                "No pancakes for you! 🥞",
 	"direct-not-allowed":             "this look like a direct message. Containers are related to a channels",
 	"admin-only":                     "Command available only for admins. ⛔",
+	"command-not-found":              "Not sure what you are asking for. Type `@claimr help` for valid commands.",
 	"same-name":                      "There is a container with the same name on this channel. Try a different one.",
 	"added-to-channel":               "Container `%s` added to channel <#%s>.",
 	"field-name-too-big":             fmt.Sprintf("try a smaller container name up to %d characters", model.MaxNameSize),
@@ -19,4 +20,6 @@ var Messages = map[string]string{
 	"container-in-use":               "Container `%s` is already in use, try another one.",
 	"fail-to-update":                 "Fail to update the container.",
 	"container-claimed":              "Got it. Container `%s` is all yours <@%s>.",
+	"container-in-use-by-other":      "Hum Container `%s` is not being used by you.",
+	"container-free":                 "Got it. Container `%s` is now available",
 }
