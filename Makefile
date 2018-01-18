@@ -36,8 +36,7 @@ docker-run: check-keys
 	            evandroflores/claimr
 
 test: check-keys
-	go test -gcflags=-l -cover ./...
-	#go list ./... | grep -v vendor | xargs -n1 -I{} sh -c 'go test -gcflags=-l -cover -race {}'
+	go test -gcflags=-l -cover ./... | grep -v vendor
 
 cover: check-keys
 	@rm -f coverage.*
