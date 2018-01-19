@@ -25,4 +25,8 @@ var Messages = map[string]string{
 	"fail-getting-containers":        "Fail to list containers.",
 	"empty-containers-list":          "No containers to list.",
 	"containers-list":                "Here is a list of containers for this channel:",
+	"no-level-provided":              "No log level provided, keeping in `%s`",
+	"same-log-level":                 "Same log level than actual. Nothing change.",
+	"invalid-log-level":              "not a valid logrus Level: \"%s\"",
+	"level-log-changed":              "Log level changed from `%s` to `%s`",
 }
