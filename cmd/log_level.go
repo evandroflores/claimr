@@ -18,7 +18,7 @@ func changeLogLevel(request *slacker.Request, response slacker.ResponseWriter) {
 
 	event := getEvent(request)
 	if !isAdmin(event.User) {
-		response.Reply("Command available only for admins. ⛔")
+		response.Reply(Messages["admin-only"])
 		return
 	}
 
@@ -26,7 +26,7 @@ func changeLogLevel(request *slacker.Request, response slacker.ResponseWriter) {
 	newLogLevel := request.Param("level")
 
 	if newLogLevel == "" {
-		response.Reply(fmt.Sprintf("No log level provided, keeping in `%s`", currentLogLevel))
+		response.Reply(fmt.Sprintf(Messages["no-level-provided"], currentLogLevel))
 		return
 	}
 
@@ -38,7 +38,7 @@ func changeLogLevel(request *slacker.Request, response slacker.ResponseWriter) {
 	}
 
 	if currentLogLevel == logrusLevel {
-		response.Reply("Same log level than actual. Nothing change.")
+		response.Reply(Messages["same-log-level"])
 		return
 	}
 
@@ -46,5 +46,5 @@ func changeLogLevel(request *slacker.Request, response slacker.ResponseWriter) {
 
 	log.SetLevel(logrusLevel)
 	log.Printf("Log Test [%s -> %s]", currentLogLevel, newLogLevel)
-	response.Reply(fmt.Sprintf("Log level changed from `%s` to `%s`", currentLogLevel, newLogLevel))
+	response.Reply(fmt.Sprintf(Messages["level-log-changed"], currentLogLevel, newLogLevel))
 }
