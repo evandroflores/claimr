@@ -29,4 +29,5 @@ var Messages = map[string]string{
 	"same-log-level":                 "Same log level than actual. Nothing change.",
 	"invalid-log-level":              "not a valid logrus Level: \"%s\"",
 	"level-log-changed":              "Log level changed from `%s` to `%s`",
+	"x-purged":                       "%d Container rows purged",
 }

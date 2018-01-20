@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"os"
 	"testing"
 
@@ -14,12 +15,13 @@ func TestPurgeContainers(t *testing.T) {
 	channelName := "TestChannel"
 	userName := os.Getenv("CLAIMR_SUPERUSER")
 
-	expected := "10 Container rows purged"
+	testAmount := 10
+	expected := fmt.Sprintf(Messages["x-purged"], testAmount)
 
 	mockResponse, patchReply := createMockReply(t, expected)
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 
-	for i := 1; i <= 10; i++ {
+	for i := 1; i <= testAmount; i++ {
 		container := model.Container{TeamID: teamName, ChannelID: channelName, Name: containerName, CreatedByUser: userName}
 		container.Add()
 		container.Delete()
