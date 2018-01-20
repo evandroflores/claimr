@@ -15,7 +15,7 @@ func TestTryToShowInexistentContainer(t *testing.T) {
 	channelName := "TestChannel"
 	userName := "user"
 
-	mockResponse, patchReply := createMockReply(t, fmt.Sprintf("I couldn't find the container `%s` on <#%s>.", containerName, channelName))
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(Messages["container-not-found-on-channel"], containerName, channelName))
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
 
@@ -34,7 +34,7 @@ func TestTryToShowInUse(t *testing.T) {
 	anotherUser := "anotherUser"
 	reason := "testing"
 
-	container := model.Container{TeamID: teamName, ChannelID: channelName, Name: containerName, InUseBy: anotherUser, InUseForReason: reason}
+	container := model.Container{TeamID: teamName, ChannelID: channelName, Name: containerName, InUseBy: anotherUser, InUseForReason: reason, CreatedByUser: userName}
 	err := container.Add()
 
 	defer container.Delete()
@@ -43,8 +43,8 @@ func TestTryToShowInUse(t *testing.T) {
 	containerFromDB, err := model.GetContainer(teamName, channelName, containerName)
 	assert.NoError(t, err)
 
-	text := fmt.Sprintf("Container `%s`.\nCreated by <@%s>.\nIn use by <@%s> for %s since _%s_.",
-		containerName, container.CreatedByUser, anotherUser, reason, containerFromDB.UpdatedAt.Format(time.RFC1123))
+	text := fmt.Sprintf(Messages["container-created-by"], containerName, container.CreatedByUser)
+	text += fmt.Sprintf(Messages["container-in-use-by-w-reason"], anotherUser, " for "+reason, containerFromDB.UpdatedAt.Format(time.RFC1123))
 
 	mockResponse, patchReply := createMockReply(t, text)
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
@@ -63,17 +63,14 @@ func TestTryToShowAvailable(t *testing.T) {
 	channelName := "TestChannel"
 	userName := "user"
 
-	container := model.Container{TeamID: teamName, ChannelID: channelName, Name: containerName}
+	container := model.Container{TeamID: teamName, ChannelID: channelName, Name: containerName, CreatedByUser: userName}
 	err := container.Add()
 
 	defer container.Delete()
 	assert.NoError(t, err)
 
-	containerFromDB, err := model.GetContainer(teamName, channelName, containerName)
-	assert.NoError(t, err)
-
-	text := fmt.Sprintf("Container `%s`.\nCreated by <@%s>.\n_Available_ since _%s_.",
-		containerName, container.CreatedByUser, containerFromDB.UpdatedAt.Format(time.RFC1123))
+	text := fmt.Sprintf("Container `%s`.\nCreated by <@%s>.\n_Available_",
+		containerName, container.CreatedByUser)
 
 	mockResponse, patchReply := createMockReply(t, text)
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
