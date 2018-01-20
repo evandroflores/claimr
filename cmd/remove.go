@@ -6,7 +6,6 @@ import (
 
 	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
-	log "github.com/sirupsen/logrus"
 )
 
 func init() {
@@ -33,26 +32,25 @@ func remove(request *slacker.Request, response slacker.ResponseWriter) {
 	}
 
 	if container == (model.Container{}) {
-		response.Reply(fmt.Sprintf("I couldn't find the container `%s` on <#%s>.", containerName, event.Channel))
+		response.Reply(fmt.Sprintf(Messages["container-not-found-on-channel"], containerName, event.Channel))
 		return
 	}
 
 	if container.InUseBy != "" {
-		response.Reply(fmt.Sprintf("Can't remove. Container `%s` is in used by <@%s> since _%s_.", containerName, container.InUseBy, container.UpdatedAt.Format(time.RFC1123)))
+		response.Reply(fmt.Sprintf(Messages["container-in-use-by-this"], containerName, container.InUseBy, container.UpdatedAt.Format(time.RFC1123)))
 		return
 	}
 
 	if container.CreatedByUser != event.User {
-		response.Reply(fmt.Sprintf("Only who created the container `%s` can remove it. Please check with <@%s>.", containerName, container.CreatedByUser))
+		response.Reply(fmt.Sprintf(Messages["only-owner-can-remove"], containerName, container.CreatedByUser))
 		return
 	}
 
 	err = container.Delete()
 	if err != nil {
-		log.Errorf("Fail to remove the container. %s", err)
 		response.Reply(err.Error())
 		return
 	}
 
-	response.Reply(fmt.Sprintf("Container `%s` removed.", containerName))
+	response.Reply(fmt.Sprintf(Messages["container-removed"], containerName))
 }
