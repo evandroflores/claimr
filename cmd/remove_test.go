@@ -17,7 +17,7 @@ func TestTryToRemoveInexistentContainer(t *testing.T) {
 	channelName := "TestChannel"
 	userName := "user"
 
-	mockResponse, patchReply := createMockReply(t, fmt.Sprintf("I couldn't find the container `%s` on <#%s>.", containerName, channelName))
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(Messages["container-not-found-on-channel"], containerName, channelName))
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
 
@@ -44,7 +44,7 @@ func TestTryToRemoveInUseContainer(t *testing.T) {
 	containerFromDB, err := model.GetContainer(teamName, channelName, containerName)
 	assert.NoError(t, err)
 
-	mockResponse, patchReply := createMockReply(t, fmt.Sprintf("Can't remove. Container `%s` is in used by <@%s> since _%s_.",
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(Messages["container-in-use-by-this"],
 		containerName, anotherUser, containerFromDB.UpdatedAt.Format(time.RFC1123)))
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
@@ -69,7 +69,7 @@ func TestTryToRemoveAContainerCreatedByAnotherUser(t *testing.T) {
 
 	assert.NoError(t, err)
 
-	mockResponse, patchReply := createMockReply(t, fmt.Sprintf("Only who created the container `%s` can remove it. Please check with <@%s>.",
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(Messages["only-owner-can-remove"],
 		containerName, anotherUser))
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
@@ -120,7 +120,7 @@ func TestRemoving(t *testing.T) {
 	err := container.Add()
 	assert.NoError(t, err)
 
-	mockResponse, patchReply := createMockReply(t, fmt.Sprintf("Container `%s` removed.", containerName))
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(Messages["container-removed"], containerName))
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
 

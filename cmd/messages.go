@@ -21,6 +21,7 @@ var Messages = map[string]string{
 	"fail-to-update":                 "Fail to update the container.",
 	"container-claimed":              "Got it. Container `%s` is all yours <@%s>.",
 	"container-in-use-by-other":      "Hum Container `%s` is not being used by you.",
+	"container-in-use-by-this":       "Can't remove. Container `%s` is in used by <@%s> since _%s_.",
 	"container-free":                 "Got it. Container `%s` is now available",
 	"fail-getting-containers":        "Fail to list containers.",
 	"empty-containers-list":          "No containers to list.",
@@ -29,4 +30,7 @@ var Messages = map[string]string{
 	"same-log-level":                 "Same log level than actual. Nothing change.",
 	"invalid-log-level":              "not a valid logrus Level: \"%s\"",
 	"level-log-changed":              "Log level changed from `%s` to `%s`",
+	"x-purged":                       "%d Container rows purged",
+	"only-owner-can-remove":          "Only who created the container `%s` can remove it. Please check with <@%s>.",
+	"container-removed":              "Container `%s` removed.",
 }
