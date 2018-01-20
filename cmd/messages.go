@@ -33,4 +33,6 @@ var Messages = map[string]string{
 	"x-purged":                       "%d Container rows purged",
 	"only-owner-can-remove":          "Only who created the container `%s` can remove it. Please check with <@%s>.",
 	"container-removed":              "Container `%s` removed.",
+	"container-created-by":           "Container `%s`.\nCreated by <@%s>.\n",
+	"container-in-use-by-w-reason":   "In use by <@%s>%s since _%s_.",
 }

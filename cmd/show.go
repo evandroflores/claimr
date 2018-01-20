@@ -33,18 +33,20 @@ func show(request *slacker.Request, response slacker.ResponseWriter) {
 	}
 
 	if container == (model.Container{}) {
-		response.Reply(fmt.Sprintf("I couldn't find the container `%s` on <#%s>.", containerName, event.Channel))
+		response.Reply(fmt.Sprintf(Messages["container-not-found-on-channel"], containerName, event.Channel))
 		return
 	}
 
-	text := fmt.Sprintf("Container `%s`.\nCreated by <@%s>.\n", containerName, container.CreatedByUser)
+	text := fmt.Sprintf(Messages["container-created-by"], containerName, container.CreatedByUser)
 
 	if container.InUseBy == "" {
 		text += "_Available_"
 	} else {
-		text += fmt.Sprintf("In use by <@%s>%s", container.InUseBy,
-			utils.IfThenElse(container.InUseForReason != "", fmt.Sprintf(" for %s", container.InUseForReason), ""))
+		text += fmt.Sprintf(
+			Messages["container-in-use-by-w-reason"],
+			container.InUseBy,
+			utils.IfThenElse(container.InUseForReason != "", fmt.Sprintf(" for %s", container.InUseForReason), ""),
+			container.UpdatedAt.Format(time.RFC1123))
 	}
-	text += fmt.Sprintf(" since _%s_.", container.UpdatedAt.Format(time.RFC1123))
 	response.Reply(text)
 }
