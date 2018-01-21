@@ -22,7 +22,7 @@
 * **show** `container-name` - *Shows a container details.*
 
 Notice that commands tagged as _admin-only_ will be shown and are enabled only
-for the super user (or 'admins' as soon I create the model).
+for the super user (or 'admins' as soon I create a better way of doing).
 
 ---
 Make sure to have your credentials on environment set in order to connect
