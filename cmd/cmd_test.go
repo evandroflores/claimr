@@ -89,9 +89,33 @@ func TestCmdNotDirect(t *testing.T) {
 }
 
 func TestCmdDirect(t *testing.T) {
-	isDirect, err := isDirect("DIRECT")
-	assert.True(t, isDirect)
+	direct, err := isDirect("DIRECT")
+	assert.True(t, direct)
 	assert.Error(t, err, Messages["direct-not-allowed"])
+}
+
+func TestMessageHasUser(t *testing.T) {
+	hasUser, err := hasUserOnText("lorem ipsum <@USER>")
+	assert.True(t, hasUser)
+	assert.Error(t, err, Messages["shouldnt-mention-user"])
+}
+
+func TestMessageHasntUser(t *testing.T) {
+	hasUser, err := hasUserOnText("lorem ipsum")
+	assert.False(t, hasUser)
+	assert.NoError(t, err)
+}
+
+func TestMessageHasChannel(t *testing.T) {
+	hasChannel, err := hasChannelOnText("lorem ipsum <#CHANNEL>")
+	assert.True(t, hasChannel)
+	assert.Error(t, err, Messages["shouldnt-mention-channel"])
+}
+
+func TestMessageHasntChannel(t *testing.T) {
+	hasChannel, err := hasUserOnText("lorem ipsum")
+	assert.False(t, hasChannel)
+	assert.NoError(t, err)
 }
 
 func TestAllCmdsCheckingDirect(t *testing.T) {

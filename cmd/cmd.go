@@ -39,14 +39,14 @@ func isDirect(channelID string) (bool, error) {
 }
 
 func hasUserOnText(message string) (bool, error) {
-	if strings.HasPrefix(message, userPrefix) {
+	if strings.Contains(message, userPrefix) {
 		return true, fmt.Errorf(Messages["shouldnt-mention-user"])
 	}
 	return false, nil
 }
 
 func hasChannelOnText(message string) (bool, error) {
-	if strings.HasPrefix(message, channelPrefix) {
+	if strings.Contains(message, channelPrefix) {
 		return true, fmt.Errorf(Messages["shouldnt-mention-channel"])
 	}
 	return false, nil
