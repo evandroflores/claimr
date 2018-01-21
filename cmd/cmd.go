@@ -32,21 +32,21 @@ func notImplemented(request *slacker.Request, response slacker.ResponseWriter) {
 }
 
 func isDirect(channelID string) (bool, error) {
-	if strings.HasPrefix(channelID, directMessagePrefix) {
+	if strings.HasPrefix(strings.ToUpper(channelID), directMessagePrefix) {
 		return true, fmt.Errorf(Messages["direct-not-allowed"])
 	}
 	return false, nil
 }
 
 func hasUserOnText(message string) (bool, error) {
-	if strings.Contains(message, userPrefix) {
+	if strings.Contains(strings.ToUpper(message), userPrefix) {
 		return true, fmt.Errorf(Messages["shouldnt-mention-user"])
 	}
 	return false, nil
 }
 
 func hasChannelOnText(message string) (bool, error) {
-	if strings.Contains(message, channelPrefix) {
+	if strings.Contains(strings.ToUpper(message), channelPrefix) {
 		return true, fmt.Errorf(Messages["shouldnt-mention-channel"])
 	}
 	return false, nil

@@ -97,3 +97,26 @@ func TestAddContainer(t *testing.T) {
 	patchGetEvent.Unpatch()
 	patchParam.Unpatch()
 }
+
+func TestAddContainerWithUserMention(t *testing.T) {
+	containerName := "<@user>"
+	teamName := "TestTeam"
+	channelName := "TestChannel"
+	userName := "user"
+
+	msg := Messages["shouldnt-mention-user"]
+	mockResponse, patchReply := createMockReply(t, msg)
+	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
+	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
+
+	defer func() {
+		container, _ := model.GetContainer(teamName, channelName, containerName)
+		container.Delete()
+	}()
+
+	add(mockRequest, mockResponse)
+
+	patchReply.Unpatch()
+	patchGetEvent.Unpatch()
+	patchParam.Unpatch()
+}
