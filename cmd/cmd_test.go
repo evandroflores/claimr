@@ -83,13 +83,13 @@ func TestCmdCommandList(t *testing.T) {
 }
 
 func TestCmdNotDirect(t *testing.T) {
-	isDirect, err := checkDirect("CHANNEL")
+	isDirect, err := isDirect("CHANNEL")
 	assert.False(t, isDirect)
 	assert.NoError(t, err)
 }
 
 func TestCmdDirect(t *testing.T) {
-	isDirect, err := checkDirect("DIRECT")
+	isDirect, err := isDirect("DIRECT")
 	assert.True(t, isDirect)
 	assert.Error(t, err, Messages["direct-not-allowed"])
 }

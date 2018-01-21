@@ -17,8 +17,8 @@ func show(request *slacker.Request, response slacker.ResponseWriter) {
 	response.Typing()
 
 	event := getEvent(request)
-	isDirect, msg := checkDirect(event.Channel)
-	if isDirect {
+	direct, msg := isDirect(event.Channel)
+	if direct {
 		response.Reply(msg.Error())
 		return
 	}
