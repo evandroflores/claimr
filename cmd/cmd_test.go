@@ -113,7 +113,7 @@ func TestMessageHasChannel(t *testing.T) {
 }
 
 func TestMessageHasntChannel(t *testing.T) {
-	hasChannel, err := hasUserOnText("lorem ipsum")
+	hasChannel, err := hasChannelOnText("lorem ipsum")
 	assert.False(t, hasChannel)
 	assert.NoError(t, err)
 }
