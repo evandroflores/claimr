@@ -16,12 +16,10 @@ func remove(request *slacker.Request, response slacker.ResponseWriter) {
 	response.Typing()
 
 	event := getEvent(request)
-	direct, msg := isDirect(event.Channel)
-	if direct {
-		response.Reply(msg.Error())
+	if direct, err := isDirect(event.Channel); direct {
+		response.Reply(err.Error())
 		return
 	}
-
 	containerName := request.Param("container-name")
 
 	container, err := model.GetContainer(event.Team, event.Channel, containerName)

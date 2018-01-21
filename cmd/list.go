@@ -18,9 +18,8 @@ func list(request *slacker.Request, response slacker.ResponseWriter) {
 	response.Typing()
 
 	event := getEvent(request)
-	direct, msg := isDirect(event.Channel)
-	if direct {
-		response.Reply(msg.Error())
+	if direct, err := isDirect(event.Channel); direct {
+		response.Reply(err.Error())
 		return
 	}
 
