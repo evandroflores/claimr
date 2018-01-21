@@ -35,4 +35,6 @@ var Messages = map[string]string{
 	"container-removed":              "Container `%s` removed.",
 	"container-created-by":           "Container `%s`.\nCreated by <@%s>.\n",
 	"container-in-use-by-w-reason":   "In use by <@%s>%s since _%s_.",
+	"shouldnt-mention-user":          "This message shouldn't contain user mentions",
+	"shouldnt-mention-channel":       "This message shouldn't contain channel mentions",
 }
