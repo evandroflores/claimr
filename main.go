@@ -5,6 +5,7 @@ import (
 
 	"github.com/evandroflores/claimr/cmd"
 	"github.com/evandroflores/claimr/database"
+	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
 	log "github.com/sirupsen/logrus"
 )
@@ -27,6 +28,8 @@ func main() {
 	bot.Help(cmd.Help)
 
 	log.Infof("Commands loaded. (%d)", len(cmd.CommandList()))
+
+	model.LoadAdmins(bot)
 
 	err := bot.Listen()
 	if err != nil {
