@@ -1,6 +1,7 @@
 package model
 
 import (
+	"reflect"
 	"testing"
 
 	"github.com/bouk/monkey"
@@ -11,15 +12,15 @@ import (
 
 func TestLoadingAdmins(t *testing.T) {
 
-	bot := slacker.NewClient("fake")
-
 	expectedAdmins := []Admin{
 		{ID: "U33333", RealName: "Admin 1"},
 		{ID: "U44444", RealName: "Owner"},
 	}
 
-	patchGetUsers := monkey.Patch(bot.Client.GetUsers,
-		func() ([]slack.User, error) {
+	var mockClient *slack.Client
+
+	patchGetUsers := monkey.PatchInstanceMethod(reflect.TypeOf(mockClient), "GetUsers",
+		func(*slack.Client) ([]slack.User, error) {
 			users := []slack.User{
 				{
 					ID:       "U11111",
@@ -50,7 +51,13 @@ func TestLoadingAdmins(t *testing.T) {
 			return users, nil
 		})
 
+	patchNewRTM := monkey.PatchInstanceMethod(reflect.TypeOf(mockClient), "NewRTM", func(*slack.Client) *slack.RTM { return nil })
+
+	bot := slacker.NewClient("fake")
 	LoadAdmins(bot)
 	assert.Equal(t, expectedAdmins, Admins)
+
+	patchNewRTM.Unpatch()
 	patchGetUsers.Unpatch()
+
 }
