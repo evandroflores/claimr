@@ -14,7 +14,7 @@ type Admin struct {
 	RealName string
 }
 
-// LoadAdmins
+// LoadAdmins will load the current slack team admins to be used on admin-only commands
 func LoadAdmins(bot *slacker.Slacker) {
 	log.Info("Loading admins...")
 	users, _ := bot.Client.GetUsers()
