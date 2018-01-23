@@ -26,4 +26,6 @@ for the super user (or 'admins' as soon I create a better way of doing).
 
 ---
 Make sure to have your credentials on environment set in order to connect
-to Slack `CLAIMR_TOKEN`, MySQL `CLAIMR_DATABASE`, and `CLAIMR_SUPERUSER`
+to Slack `CLAIMR_TOKEN`, MySQL `CLAIMR_DATABASE`, and `CLAIMR_SUPERUSER`.
+The admin-only commands can be used by your Slack admins and also the 
+given `CLAIMR_SUPERUSER`.
