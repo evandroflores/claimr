@@ -76,5 +76,15 @@ func GetEventText(request *slacker.Request) string {
 }
 
 func isAdmin(userName string) bool {
-	return userName == os.Getenv("CLAIMR_SUPERUSER")
+	if strings.ToUpper(userName) == strings.ToUpper(os.Getenv("CLAIMR_SUPERUSER")) {
+		return true
+	}
+
+	for _, admin := range model.Admins {
+		if strings.ToUpper(userName) == strings.ToUpper(admin.ID) {
+			return true
+		}
+	}
+
+	return false
 }
