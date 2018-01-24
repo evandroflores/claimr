@@ -64,6 +64,7 @@ func TestCmdCommandList(t *testing.T) {
 		"claim <container-name> <reason>",
 		"free <container-name>",
 		"list",
+		"refresh-admins",
 		"remove <container-name>",
 		"show <container-name>",
 		"log-level <level>",

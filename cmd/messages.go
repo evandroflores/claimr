@@ -37,4 +37,5 @@ var Messages = map[string]string{
 	"container-in-use-by-w-reason":   "In use by <@%s>%s since _%s_.",
 	"shouldnt-mention-user":          "This message shouldn't contain user mentions",
 	"shouldnt-mention-channel":       "This message shouldn't contain channel mentions",
+	"x-admin-loaded":                 "%d admins loaded.",
 }
