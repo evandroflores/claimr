@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 	"strings"
 	"testing"
 
@@ -208,6 +209,29 @@ func TestNonAdminTryAccessAdminOnlyCmds(t *testing.T) {
 	teamName := "TestPurge"
 	channelName := "TestChannel"
 	userName := "NotAAdmin"
+
+	mockResponse, patchReply := createMockReply(t, Messages["admin-only"])
+	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
+	mockRequest, _ := createMockRequest(t, nil)
+
+	for _, command := range commands {
+		if strings.Contains(command.Description, "admin-only") {
+			command.Handler(mockRequest, mockResponse)
+		}
+	}
+
+	patchReply.Unpatch()
+	patchGetEvent.Unpatch()
+}
+
+func TestNonAdminTryAccessAdminOnlyCmdsWhenEnvIsNotSet(t *testing.T) {
+	teamName := "TestPurge"
+	channelName := "TestChannel"
+	userName := "NotAAdmin"
+
+	currentEnv := os.Getenv("CLAIMR_SUPERUSER")
+	os.Unsetenv("CLAIMR_SUPERUSER")
+	defer func() { os.Setenv("CLAIMR_SUPERUSER", currentEnv) }()
 
 	mockResponse, patchReply := createMockReply(t, Messages["admin-only"])
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
