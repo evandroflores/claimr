@@ -18,6 +18,7 @@ type Admin struct {
 func LoadAdmins(bot *slacker.Slacker) {
 	log.Info("Loading admins...")
 	users, _ := bot.Client.GetUsers()
+	Admins = []Admin{}
 	for _, user := range users {
 		log.Debugf("%s %s isAdmin [%t]", user.ID, user.RealName, (user.IsAdmin || user.IsOwner))
 		if user.IsAdmin || user.IsOwner {
