@@ -258,3 +258,14 @@ func TestIsSuperUserAdminCaseInsensitive(t *testing.T) {
 func TestIsNotAdmin(t *testing.T) {
 	assert.False(t, isAdmin("ANOTHER-USER"))
 }
+
+func TestIsSlackAdmin(t *testing.T) {
+	currentAdmins := model.Admins
+	model.Admins = []model.Admin{}
+	defer func() {
+		model.Admins = currentAdmins
+	}()
+	model.Admins = []model.Admin{{ID: "SlackAdmin", RealName: "Fake Slack Admin"}}
+
+	assert.True(t, isAdmin("SlackAdmin"))
+}
