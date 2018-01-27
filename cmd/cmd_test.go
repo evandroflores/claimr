@@ -246,3 +246,7 @@ func TestNonAdminTryAccessAdminOnlyCmdsWhenEnvIsNotSet(t *testing.T) {
 	patchReply.Unpatch()
 	patchGetEvent.Unpatch()
 }
+
+func TestIsSuperUserAdmin(t *testing.T) {
+	assert.True(t, isAdmin(os.Getenv("CLAIMR_SUPERUSER")))
+}
