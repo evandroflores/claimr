@@ -246,3 +246,26 @@ func TestNonAdminTryAccessAdminOnlyCmdsWhenEnvIsNotSet(t *testing.T) {
 	patchReply.Unpatch()
 	patchGetEvent.Unpatch()
 }
+
+func TestIsSuperUserAdmin(t *testing.T) {
+	assert.True(t, isAdmin(os.Getenv("CLAIMR_SUPERUSER")))
+}
+
+func TestIsSuperUserAdminCaseInsensitive(t *testing.T) {
+	assert.True(t, isAdmin(strings.ToLower(os.Getenv("CLAIMR_SUPERUSER"))))
+}
+
+func TestIsNotAdmin(t *testing.T) {
+	assert.False(t, isAdmin("ANOTHER-USER"))
+}
+
+func TestIsSlackAdmin(t *testing.T) {
+	currentAdmins := model.Admins
+	model.Admins = []model.Admin{}
+	defer func() {
+		model.Admins = currentAdmins
+	}()
+	model.Admins = []model.Admin{{ID: "SlackAdmin", RealName: "Fake Slack Admin"}}
+
+	assert.True(t, isAdmin("SlackAdmin"))
+}
