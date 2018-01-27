@@ -254,3 +254,7 @@ func TestIsSuperUserAdmin(t *testing.T) {
 func TestIsSuperUserAdminCaseInsensitive(t *testing.T) {
 	assert.True(t, isAdmin(strings.ToLower(os.Getenv("CLAIMR_SUPERUSER"))))
 }
+
+func TestIsNotAdmin(t *testing.T) {
+	assert.False(t, isAdmin("ANOTHER-USER"))
+}
