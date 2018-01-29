@@ -29,19 +29,17 @@ func remove(request *slacker.Request, response slacker.ResponseWriter) {
 		return
 	}
 
-	if container == (model.Container{}) {
-		response.Reply(fmt.Sprintf(Messages["container-not-found-on-channel"], containerName, event.Channel))
-		return
+	checks := []Check{
+		{container == (model.Container{}), fmt.Sprintf(Messages["container-not-found-on-channel"], containerName, event.Channel)},
+		{container.InUseBy != "", fmt.Sprintf(Messages["container-in-use-by-this"], containerName, container.InUseBy, container.UpdatedAt.Format(time.RFC1123))},
+		{container.CreatedByUser != event.User, fmt.Sprintf(Messages["only-owner-can-remove"], containerName, container.CreatedByUser)},
 	}
 
-	if container.InUseBy != "" {
-		response.Reply(fmt.Sprintf(Messages["container-in-use-by-this"], containerName, container.InUseBy, container.UpdatedAt.Format(time.RFC1123)))
-		return
-	}
-
-	if container.CreatedByUser != event.User {
-		response.Reply(fmt.Sprintf(Messages["only-owner-can-remove"], containerName, container.CreatedByUser))
-		return
+	for _, check := range checks {
+		if check.isPositive {
+			response.Reply(check.message)
+			return
+		}
 	}
 
 	err = container.Delete()

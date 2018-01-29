@@ -88,3 +88,9 @@ func isAdmin(userName string) bool {
 
 	return false
 }
+
+// Check is a struct to help grouping checks before command execution
+type Check struct {
+	isPositive bool
+	message    string
+}
