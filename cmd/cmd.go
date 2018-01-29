@@ -88,3 +88,8 @@ func isAdmin(userName string) bool {
 
 	return false
 }
+
+type Check struct {
+	isPositive bool
+	message    string
+}
