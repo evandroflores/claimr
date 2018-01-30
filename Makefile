@@ -31,7 +31,7 @@ docker-build:
 	docker build -t evandroflores/claimr .
 
 docker-run: check-keys
-	@docker run evandroflores/claimr -e CLAIMR_TOKEN=${CLAIMR_TOKEN} -e CLAIMR_DATABASE=${CLAIMR_DATABASE}
+	@docker run -e "CLAIMR_TOKEN=${CLAIMR_TOKEN} CLAIMR_DATABASE=${CLAIMR_DATABASE}" evandroflores/claimr
 
 test: check-keys
 	go test -gcflags=-l -cover ./... | grep -v vendor
