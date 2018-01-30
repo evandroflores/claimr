@@ -34,7 +34,7 @@ docker-run: check-keys
 	@docker run -e "CLAIMR_TOKEN=${CLAIMR_TOKEN} CLAIMR_DATABASE=${CLAIMR_DATABASE}" evandroflores/claimr
 
 test: check-keys
-	go test -gcflags=-l -cover ./... | grep -v vendor
+	@go test -gcflags=-l -cover ./...
 
 cover: check-keys
 	@rm -f coverage.*
