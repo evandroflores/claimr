@@ -1,7 +1,7 @@
-FROM golang:1.8
-WORKDIR /go/src/claimr
+FROM golang:1.9.3
+WORKDIR /go/src/github.com/evandroflores/claimr
 COPY . .
-RUN go-wrapper download   # "go get -d -v ./..."
-RUN go-wrapper install    # "go install -v ./..."
 
-CMD ["go-wrapper", "run"] # ["claimr"]
+RUN go build -o build/claimr main.go
+RUN go install -v github.com/evandroflores/claimr
+CMD ["claimr"]
