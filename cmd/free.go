@@ -5,7 +5,6 @@ import (
 
 	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
-	log "github.com/sirupsen/logrus"
 )
 
 func init() {
@@ -45,7 +44,6 @@ func free(request *slacker.Request, response slacker.ResponseWriter) {
 
 	err = container.Update()
 	if err != nil {
-		log.Errorf(Messages["fail-to-update"]+"%s", err)
 		response.Reply(Messages["fail-to-update"])
 		return
 	}
