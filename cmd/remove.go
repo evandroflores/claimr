@@ -35,11 +35,10 @@ func remove(request *slacker.Request, response slacker.ResponseWriter) {
 		{container.CreatedByUser != event.User, fmt.Sprintf(Messages["only-owner-can-remove"], containerName, container.CreatedByUser)},
 	}
 
-	for _, check := range checks {
-		if check.isPositive {
-			response.Reply(check.message)
-			return
-		}
+	err = RunChecks(checks)
+	if err != nil {
+		response.Reply(err.Error())
+		return
 	}
 
 	err = container.Delete()
