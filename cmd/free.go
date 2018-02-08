@@ -29,13 +29,14 @@ func free(request *slacker.Request, response slacker.ResponseWriter) {
 		return
 	}
 
-	if container == (model.Container{}) {
-		response.Reply(fmt.Sprintf(Messages["container-not-found-on-channel"], containerName, event.Channel))
-		return
+	checks := []Check{
+		{container == (model.Container{}), fmt.Sprintf(Messages["container-not-found-on-channel"], containerName, event.Channel)},
+		{container.InUseBy != event.User, fmt.Sprintf(Messages["container-in-use-by-other"], containerName)},
 	}
 
-	if container.InUseBy != event.User {
-		response.Reply(fmt.Sprintf(Messages["container-in-use-by-other"], containerName))
+	err = RunChecks(checks)
+	if err != nil {
+		response.Reply(err.Error())
 		return
 	}
 
