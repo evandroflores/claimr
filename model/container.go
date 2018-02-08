@@ -140,3 +140,11 @@ func (container Container) Delete() error {
 
 	return nil
 }
+
+// ClearInUse removes information InUseBy and InUseForReason, for a given container
+func (container Container) ClearInUse() error {
+	container.InUseBy = ""
+	container.InUseForReason = ""
+
+	return container.Update()
+}

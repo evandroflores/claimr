@@ -40,10 +40,7 @@ func free(request *slacker.Request, response slacker.ResponseWriter) {
 		return
 	}
 
-	container.InUseBy = ""
-	container.InUseForReason = ""
-
-	err = container.Update()
+	err = container.ClearInUse()
 	if err != nil {
 		response.Reply(Messages["fail-to-update"])
 		return
