@@ -197,3 +197,33 @@ func TestListContainersValidateChannelID(t *testing.T) {
 	assert.EqualError(t, err, "can not continue without a channelID 🙄")
 	assert.ObjectsAreEqual(containers, []Container{})
 }
+
+func TestRemoveInUseData(t *testing.T) {
+	team := "TestTeam"
+	channel := "TestChannel"
+	containerName := "name"
+	user := "User"
+	reason := "testing"
+
+	container := Container{TeamID: team, ChannelID: channel, Name: containerName, InUseBy: user, InUseForReason: reason}
+	err := container.Add()
+	assert.NoError(t, err)
+
+	err2 := container.ClearInUse()
+	assert.NoError(t, err2)
+
+	containerExpected := Container{TeamID: team, ChannelID: channel, Name: containerName, InUseBy: "", InUseForReason: ""}
+	containerFromDB, err3 := GetContainer(team, channel, containerName)
+	assert.NoError(t, err3)
+
+	// Ignoring the difference for this fields
+	containerExpected.ID = containerFromDB.ID
+	containerExpected.CreatedAt = containerFromDB.CreatedAt
+	containerExpected.UpdatedAt = containerFromDB.UpdatedAt
+	containerExpected.DeletedAt = containerFromDB.DeletedAt
+
+	assert.Empty(t, containerFromDB.InUseBy)
+	assert.Empty(t, containerFromDB.InUseForReason)
+	assert.Equal(t, containerExpected, containerFromDB)
+	container.Delete()
+}
