@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	Register("refresh-admins", "Reload's slack admins list. admin-only", refreshAdmins)
+	Register("refresh-admins", "Reloads slack admins list. admin-only", refreshAdmins)
 }
 
 func refreshAdmins(request *slacker.Request, response slacker.ResponseWriter) {
