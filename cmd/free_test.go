@@ -10,8 +10,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestTryToFreeInexistentContainer(t *testing.T) {
-	containerName := "container-inexistent"
+func TestTryToFreeContainerNotFound(t *testing.T) {
+	containerName := "container-not-found"
 	teamName := "TestTeam"
 	channelName := "TestChannel"
 	userName := "user"

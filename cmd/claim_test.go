@@ -12,8 +12,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestTryToClaimInexistentContainer(t *testing.T) {
-	containerName := "container-inexistent"
+func TestTryToClaimContainerNotFound(t *testing.T) {
+	containerName := "container-not-found"
 	teamName := "TestTeam"
 	channelName := "TestChannel"
 	userName := "user"

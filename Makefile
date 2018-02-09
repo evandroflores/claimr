@@ -39,7 +39,7 @@ test: check-keys
 cover: check-keys
 	@rm -f coverage.*
 	@echo 'mode: atomic' > coverage.txt
-	go list ./... | grep -v vendor | xargs -n1 -I{} sh -c 'touch coverage.out & go test -gcflags=-l -race -covermode=atomic -coverprofile=coverage.out {} && tail -n +2 coverage.out >> coverage.txt'
+	go list ./... | xargs -n1 -I{} sh -c 'touch coverage.out & go test -gcflags=-l -race -covermode=atomic -coverprofile=coverage.out {} && tail -n +2 coverage.out >> coverage.txt'
 
 open-cover:
 	go tool cover -html coverage.txt

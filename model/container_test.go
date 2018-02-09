@@ -122,7 +122,7 @@ func TestDeleteContainerValidateName(t *testing.T) {
 	assert.EqualError(t, err, "can not continue without a container name 🙄")
 }
 
-func TestDeleteContainerInexistent(t *testing.T) {
+func TestDeleteContainerNotFound(t *testing.T) {
 	container := Container{TeamID: "TestTeam", ChannelID: "TestChannel", Name: "Name"}
 	err := container.Delete()
 	assert.EqualError(t, err, "could not find this container on this channel. Can not delete 😕")
@@ -162,7 +162,7 @@ func TestUpdateContainerValidateName(t *testing.T) {
 	assert.EqualError(t, err, "can not continue without a container name 🙄")
 }
 
-func TestUpdateContainerInexistent(t *testing.T) {
+func TestUpdateContainerNotFound(t *testing.T) {
 	container := Container{TeamID: "TestTeam", ChannelID: "TestChannel", Name: "Name"}
 	err := container.Update()
 	assert.EqualError(t, err, "could not find this container on this channel. Can not update 😕")
