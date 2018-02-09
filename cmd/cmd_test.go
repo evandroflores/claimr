@@ -114,13 +114,13 @@ func TestMessageHasChannel(t *testing.T) {
 	assert.Error(t, err, Messages["shouldnt-mention-channel"])
 }
 
-func TestMessageHasntChannel(t *testing.T) {
+func TestMessageHasNotChannel(t *testing.T) {
 	hasChannel, err := hasChannelOnText("lorem ipsum")
 	assert.False(t, hasChannel)
 	assert.NoError(t, err)
 }
 
-func TestAllCmdsCheckingDirect(t *testing.T) {
+func TestAllCommandsCheckingDirect(t *testing.T) {
 	mockResponse, patchReply := createMockReply(t, Messages["direct-not-allowed"])
 	patchGetEvent := createMockEvent(t, "team", "DIRECT", "user")
 
@@ -134,7 +134,7 @@ func TestAllCmdsCheckingDirect(t *testing.T) {
 	patchGetEvent.Unpatch()
 }
 
-func TestAllCmdsCheckingNoName(t *testing.T) {
+func TestAllCommandsCheckingNoName(t *testing.T) {
 	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(Messages["field-name-required"]))
 	patchGetEvent := createMockEvent(t, "team", "channel", "user")
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": ""})
@@ -150,7 +150,7 @@ func TestAllCmdsCheckingNoName(t *testing.T) {
 	patchParam.Unpatch()
 }
 
-func TestAllCmdsErrorWhenGettingFromDB(t *testing.T) {
+func TestAllCommandsErrorWhenGettingFromDB(t *testing.T) {
 
 	guard := monkey.Patch(model.GetContainer,
 		func(Team string, Channel string, Name string) (model.Container, error) {
@@ -205,7 +205,7 @@ func TestGetEventText(t *testing.T) {
 	assert.Equal(t, text, GetEventText(request))
 }
 
-func TestNonAdminTryAccessAdminOnlyCmds(t *testing.T) {
+func TestNonAdminTryAccessAdminOnlyCommands(t *testing.T) {
 	teamName := "TestPurge"
 	channelName := "TestChannel"
 	userName := "NotAAdmin"
@@ -224,7 +224,7 @@ func TestNonAdminTryAccessAdminOnlyCmds(t *testing.T) {
 	patchGetEvent.Unpatch()
 }
 
-func TestNonAdminTryAccessAdminOnlyCmdsWhenEnvIsNotSet(t *testing.T) {
+func TestNonAdminTryAccessAdminOnlyCommandsWhenEnvIsNotSet(t *testing.T) {
 	teamName := "TestPurge"
 	channelName := "TestChannel"
 	userName := "NotAAdmin"
