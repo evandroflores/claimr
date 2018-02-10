@@ -227,3 +227,31 @@ func TestRemoveInUseData(t *testing.T) {
 	assert.Equal(t, containerExpected, containerFromDB)
 	container.Delete()
 }
+
+func TestSetInUseData(t *testing.T) {
+	team := "TestTeam"
+	channel := "TestChannel"
+	containerName := "name"
+	user := "User"
+	reason := "testing"
+
+	container := Container{TeamID: team, ChannelID: channel, Name: containerName, InUseBy: "", InUseForReason: ""}
+	err := container.Add()
+	assert.NoError(t, err)
+
+	err2 := container.SetInUse(user, reason)
+	assert.NoError(t, err2)
+
+	containerExpected := Container{TeamID: team, ChannelID: channel, Name: containerName, InUseBy: user, InUseForReason: reason}
+	containerFromDB, err3 := GetContainer(team, channel, containerName)
+	assert.NoError(t, err3)
+
+	// Ignoring the difference for this fields
+	containerExpected.ID = containerFromDB.ID
+	containerExpected.CreatedAt = containerFromDB.CreatedAt
+	containerExpected.UpdatedAt = containerFromDB.UpdatedAt
+	containerExpected.DeletedAt = containerFromDB.DeletedAt
+
+	assert.Equal(t, containerExpected, containerFromDB)
+	container.Delete()
+}
