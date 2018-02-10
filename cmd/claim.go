@@ -7,7 +7,6 @@ import (
 
 	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
-	log "github.com/sirupsen/logrus"
 )
 
 func init() {
@@ -42,12 +41,8 @@ func claim(request *slacker.Request, response slacker.ResponseWriter) {
 		return
 	}
 
-	container.InUseBy = event.User
-	container.InUseForReason = getReason(request)
-
-	err = container.Update()
+	err = container.SetInUse(event.User, getReason(request))
 	if err != nil {
-		log.Errorf("Fail to update the container. %s", err)
 		response.Reply(Messages["fail-to-update"])
 		return
 	}
