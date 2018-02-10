@@ -46,3 +46,6 @@ open-cover:
 
 linter:
 	@gometalinter ./... --vendor
+
+linter-install:
+	go get -u github.com/alecthomas/gometalinter; gometalinter --install
