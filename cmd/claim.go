@@ -41,8 +41,7 @@ func claim(request *slacker.Request, response slacker.ResponseWriter) {
 		return
 	}
 
-	err = container.SetInUse(event.User, getReason(request))
-	if err != nil {
+	if container.SetInUse(event.User, getReason(request)) != nil {
 		response.Reply(Messages["fail-to-update"])
 		return
 	}
