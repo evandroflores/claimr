@@ -149,6 +149,7 @@ func (container Container) ClearInUse() error {
 	return container.Update()
 }
 
+// SetInUse sets information InUseBy and InUseForReason, for a given container
 func (container Container) SetInUse(by string, reason string) error {
 	container.InUseBy = by
 	container.InUseForReason = reason
