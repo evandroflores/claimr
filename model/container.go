@@ -148,3 +148,10 @@ func (container Container) ClearInUse() error {
 
 	return container.Update()
 }
+
+func (container Container) SetInUse(by string, reason string) error {
+	container.InUseBy = by
+	container.InUseForReason = reason
+
+	return container.Update()
+}
