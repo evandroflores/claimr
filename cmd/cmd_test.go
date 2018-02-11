@@ -96,25 +96,25 @@ func TestCmdDirect(t *testing.T) {
 	assert.Error(t, err, Messages["direct-not-allowed"])
 }
 
-func TestMessageHasUser(t *testing.T) {
+func TestMessageContainsUser(t *testing.T) {
 	hasUser, err := hasUserOnText("lorem ipsum <@USER>")
 	assert.True(t, hasUser)
 	assert.Error(t, err, Messages["shouldnt-mention-user"])
 }
 
-func TestMessageHasntUser(t *testing.T) {
+func TestMessageDoesNotContainsUser(t *testing.T) {
 	hasUser, err := hasUserOnText("lorem ipsum")
 	assert.False(t, hasUser)
 	assert.NoError(t, err)
 }
 
-func TestMessageHasChannel(t *testing.T) {
+func TestMessageContainsChannel(t *testing.T) {
 	hasChannel, err := hasChannelOnText("lorem ipsum <#CHANNEL>")
 	assert.True(t, hasChannel)
 	assert.Error(t, err, Messages["shouldnt-mention-channel"])
 }
 
-func TestMessageHasNotChannel(t *testing.T) {
+func TestMessageDoesNotContainsChannel(t *testing.T) {
 	hasChannel, err := hasChannelOnText("lorem ipsum")
 	assert.False(t, hasChannel)
 	assert.NoError(t, err)
