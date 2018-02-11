@@ -24,7 +24,7 @@ func TestIfThenElseBooleanFalse(t *testing.T) {
 	assert.Equal(t, notTrue, returned)
 }
 
-func TestIfThenElseNumersTrue(t *testing.T) {
+func TestIfThenElseNumbersTrue(t *testing.T) {
 	theTruth := "I am the way and the truth and the life"
 	notTrue := "Fake news"
 
@@ -33,7 +33,7 @@ func TestIfThenElseNumersTrue(t *testing.T) {
 	assert.Equal(t, theTruth, returned)
 }
 
-func TestIfThenElseNumersFalse(t *testing.T) {
+func TestIfThenElseNumbersFalse(t *testing.T) {
 	theTruth := "I am the way and the truth and the life"
 	notTrue := "Fake news"
 
