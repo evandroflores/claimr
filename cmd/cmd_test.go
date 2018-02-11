@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"strings"
@@ -71,13 +72,13 @@ func TestCmdCommandList(t *testing.T) {
 		"log-level <level>",
 		"purge",
 	}
-	commands := CommandList()
+	commandList := CommandList()
 
-	assert.Len(t, commands, len(usageExpected))
+	assert.Len(t, commandList, len(usageExpected))
 
 	usageActual := []string{}
 
-	for _, command := range commands {
+	for _, command := range commandList {
 		usageActual = append(usageActual, command.Usage)
 	}
 
@@ -96,25 +97,25 @@ func TestCmdDirect(t *testing.T) {
 	assert.Error(t, err, Messages["direct-not-allowed"])
 }
 
-func TestMessageHasUser(t *testing.T) {
+func TestMessageContainsUser(t *testing.T) {
 	hasUser, err := hasUserOnText("lorem ipsum <@USER>")
 	assert.True(t, hasUser)
 	assert.Error(t, err, Messages["shouldnt-mention-user"])
 }
 
-func TestMessageHasntUser(t *testing.T) {
+func TestMessageDoesNotContainsUser(t *testing.T) {
 	hasUser, err := hasUserOnText("lorem ipsum")
 	assert.False(t, hasUser)
 	assert.NoError(t, err)
 }
 
-func TestMessageHasChannel(t *testing.T) {
+func TestMessageContainsChannel(t *testing.T) {
 	hasChannel, err := hasChannelOnText("lorem ipsum <#CHANNEL>")
 	assert.True(t, hasChannel)
 	assert.Error(t, err, Messages["shouldnt-mention-channel"])
 }
 
-func TestMessageHasNotChannel(t *testing.T) {
+func TestMessageDoesNotContainsChannel(t *testing.T) {
 	hasChannel, err := hasChannelOnText("lorem ipsum")
 	assert.False(t, hasChannel)
 	assert.NoError(t, err)
@@ -188,7 +189,7 @@ func TestGetEventFromNSLopesEvent(t *testing.T) {
 	message.Team = "Team"
 	message.Channel = "Channel"
 	message.User = "User"
-	request := slacker.NewRequest(nil, &message, &proper.Properties{})
+	request := slacker.NewRequest(context.Background(), &message, &proper.Properties{})
 	event := getEvent(request)
 	assert.ObjectsAreEqual(ClaimrEvent{}, event)
 }
@@ -200,7 +201,7 @@ func TestGetEventText(t *testing.T) {
 	message.Channel = "Channel"
 	message.User = "User"
 	message.Text = text
-	request := slacker.NewRequest(nil, &message, &proper.Properties{})
+	request := slacker.NewRequest(context.Background(), &message, &proper.Properties{})
 
 	assert.Equal(t, text, GetEventText(request))
 }

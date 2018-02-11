@@ -33,7 +33,7 @@ docker-build:
 docker-run: check-keys
 	@docker run -e "CLAIMR_TOKEN=${CLAIMR_TOKEN} CLAIMR_DATABASE=${CLAIMR_DATABASE}" evandroflores/claimr
 
-test: check-keys #linter
+test: check-keys #lint
 	@go test -gcflags=-l -cover ./...
 
 cover: check-keys
@@ -44,7 +44,7 @@ cover: check-keys
 open-cover:
 	go tool cover -html coverage.txt
 
-linter:
+lint:
 	@gometalinter ./... --vendor
 
 linter-install:
