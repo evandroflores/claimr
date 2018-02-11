@@ -71,13 +71,13 @@ func TestCmdCommandList(t *testing.T) {
 		"log-level <level>",
 		"purge",
 	}
-	commands := CommandList()
+	commandList := CommandList()
 
-	assert.Len(t, commands, len(usageExpected))
+	assert.Len(t, commandList, len(usageExpected))
 
 	usageActual := []string{}
 
-	for _, command := range commands {
+	for _, command := range commandList {
 		usageActual = append(usageActual, command.Usage)
 	}
 
