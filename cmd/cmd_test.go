@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"strings"
@@ -188,7 +189,7 @@ func TestGetEventFromNSLopesEvent(t *testing.T) {
 	message.Team = "Team"
 	message.Channel = "Channel"
 	message.User = "User"
-	request := slacker.NewRequest(nil, &message, &proper.Properties{})
+	request := slacker.NewRequest(context.Background(), &message, &proper.Properties{})
 	event := getEvent(request)
 	assert.ObjectsAreEqual(ClaimrEvent{}, event)
 }
@@ -200,7 +201,7 @@ func TestGetEventText(t *testing.T) {
 	message.Channel = "Channel"
 	message.User = "User"
 	message.Text = text
-	request := slacker.NewRequest(nil, &message, &proper.Properties{})
+	request := slacker.NewRequest(context.Background(), &message, &proper.Properties{})
 
 	assert.Equal(t, text, GetEventText(request))
 }
