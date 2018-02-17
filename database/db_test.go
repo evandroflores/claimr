@@ -2,11 +2,13 @@ package database
 
 import (
 	"os"
+	"reflect"
 	"testing"
 
 	"errors"
 
 	"fmt"
+
 	"github.com/bouk/monkey"
 	"github.com/jinzhu/gorm"
 	log "github.com/sirupsen/logrus"
@@ -48,4 +50,42 @@ func TestDBError(t *testing.T) {
 	defer patchGorm.Unpatch()
 
 	assert.PanicsWithValue(t, "log.Fatal called", initDB, "log.Fatal was not called")
+}
+
+func TestDBClose(t *testing.T) {
+	mockLogInfo := func(args ...interface{}) {
+		assert.Equal(t, "DB Closed", args[0])
+	}
+
+	mockDBClose := func(db *gorm.DB) error {
+		return nil
+	}
+
+	patchLog := monkey.Patch(log.Info, mockLogInfo)
+	patchClose := monkey.PatchInstanceMethod(reflect.TypeOf(DB), "Close", mockDBClose)
+
+	CloseDB()
+
+	patchLog.Unpatch()
+	patchClose.Unpatch()
+}
+
+func TestDBCloseError(t *testing.T) {
+	expectedMsg := "Error while closing database. Please check for memory leak [Simulated error]"
+
+	mockLogWarnf := func(format string, args ...interface{}) {
+		assert.Equal(t, expectedMsg, fmt.Sprintf(format, args))
+	}
+
+	mockDBClose := func(db *gorm.DB) error {
+		return fmt.Errorf("Simulated error")
+	}
+
+	patchLog := monkey.Patch(log.Warnf, mockLogWarnf)
+	patchClose := monkey.PatchInstanceMethod(reflect.TypeOf(DB), "Close", mockDBClose)
+
+	CloseDB()
+
+	patchLog.Unpatch()
+	patchClose.Unpatch()
 }

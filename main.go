@@ -35,14 +35,5 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer func() {
-		log.Info("About to close database connection...")
-		err := database.DB.Close()
-		if err != nil {
-			log.Warnf("Error while closing database. Please check for memory leak %s", err)
-		} else {
-			log.Info("DB Closed")
-		}
-	}()
-
+	defer database.CloseDB()
 }
