@@ -33,8 +33,8 @@ func initDB() {
 	}
 }
 
-// CloseDB closes de database and warns if there is any error.
-func CloseDB() {
+// Close closes de database and warns if there is any error.
+func Close() {
 	log.Debug("About to close database connection...")
 	err := DB.Close()
 	if err != nil {
