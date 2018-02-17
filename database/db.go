@@ -33,9 +33,9 @@ func initDB() {
 	}
 }
 
-// Close closes de database and warns if there is any error.
-func Close() {
-	log.Info("About to close database connection...")
+// CloseDB closes de database and warns if there is any error.
+func CloseDB() {
+	log.Debug("About to close database connection...")
 	err := DB.Close()
 	if err != nil {
 		log.Warnf("Error while closing database. Please check for memory leak %s", err)

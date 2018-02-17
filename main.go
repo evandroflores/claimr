@@ -35,5 +35,5 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer database.Close()
+	defer database.CloseDB()
 }
