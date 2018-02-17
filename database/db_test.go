@@ -69,3 +69,21 @@ func TestDBClose(t *testing.T) {
 	patchLog.Unpatch()
 	patchClose.Unpatch()
 }
+
+func TestDBCloseError(t *testing.T) {
+	mockLogWarnf := func(format string, args ...interface{}) {
+		assert.Equal(t, "Error while closing database. Please check for memory leak %s", "Simulated error")
+	}
+
+	mockDBClose := func(db *gorm.DB) error {
+		return fmt.Errorf("Simulated error")
+	}
+
+	patchLog := monkey.Patch(log.Warnf, mockLogWarnf)
+	patchClose := monkey.PatchInstanceMethod(reflect.TypeOf(DB), "Close", mockDBClose)
+
+	DB.Close()
+
+	patchLog.Unpatch()
+	patchClose.Unpatch()
+}
