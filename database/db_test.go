@@ -64,7 +64,7 @@ func TestDBClose(t *testing.T) {
 	patchLog := monkey.Patch(log.Info, mockLogInfo)
 	patchClose := monkey.PatchInstanceMethod(reflect.TypeOf(DB), "Close", mockDBClose)
 
-	CloseDB()
+	Close()
 
 	patchLog.Unpatch()
 	patchClose.Unpatch()
@@ -84,7 +84,7 @@ func TestDBCloseError(t *testing.T) {
 	patchLog := monkey.Patch(log.Warnf, mockLogWarnf)
 	patchClose := monkey.PatchInstanceMethod(reflect.TypeOf(DB), "Close", mockDBClose)
 
-	CloseDB()
+	Close()
 
 	patchLog.Unpatch()
 	patchClose.Unpatch()
