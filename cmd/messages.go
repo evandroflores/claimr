@@ -22,6 +22,7 @@ var Messages = map[string]string{
 	"container-claimed":              "Got it. Container `%s` is all yours <@%s>.",
 	"container-in-use-by-other":      "Hum Container `%s` is not being used by you.",
 	"container-in-use-by-this":       "Can't remove. Container `%s` is in used by <@%s> since _%s_.",
+	"container-in-use-by-you":        "Container `%s` is already in use by you.",
 	"container-free":                 "Got it. Container `%s` is now available.",
 	"fail-getting-containers":        "Fail to list containers.",
 	"empty-containers-list":          "No containers to list.",
