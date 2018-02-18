@@ -53,6 +53,29 @@ func TestTryToClaimAContainerInUseByAnotherUser(t *testing.T) {
 	patchParam.Unpatch()
 }
 
+func TestTryToClaimAContainerInUseByYou(t *testing.T) {
+	containerName := "container"
+	teamName := "TestTeam"
+	channelName := "TestChannel"
+	userName := "user"
+
+	container := model.Container{TeamID: teamName, ChannelID: channelName, Name: containerName, InUseBy: userName}
+	err := container.Add()
+	defer container.Delete()
+
+	assert.NoError(t, err)
+
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(Messages["container-in-use-by-you"], containerName))
+	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
+	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
+
+	claim(mockRequest, mockResponse)
+
+	patchReply.Unpatch()
+	patchGetEvent.Unpatch()
+	patchParam.Unpatch()
+}
+
 func TestClaimErrorWhenUpdate(t *testing.T) {
 
 	guard := monkey.PatchInstanceMethod(reflect.TypeOf(model.Container{}), "Update",

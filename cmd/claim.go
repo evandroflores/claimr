@@ -37,7 +37,11 @@ func claim(request *slacker.Request, response slacker.ResponseWriter) {
 	}
 
 	if container.InUseBy != "" {
-		response.Reply(fmt.Sprintf(Messages["container-in-use"], containerName))
+		if container.InUseBy == event.User {
+			response.Reply(fmt.Sprintf(Messages["container-in-use-by-you"], containerName))
+		} else {
+			response.Reply(fmt.Sprintf(Messages["container-in-use"], containerName))
+		}
 		return
 	}
 
