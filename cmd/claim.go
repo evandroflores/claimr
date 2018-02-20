@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/evandroflores/claimr/model"
+	"github.com/evandroflores/claimr/utils"
 	"github.com/shomali11/slacker"
 )
 
@@ -37,11 +38,8 @@ func claim(request *slacker.Request, response slacker.ResponseWriter) {
 	}
 
 	if container.InUseBy != "" {
-		if container.InUseBy == event.User {
-			response.Reply(fmt.Sprintf(Messages["container-in-use-by-you"], containerName))
-		} else {
-			response.Reply(fmt.Sprintf(Messages["container-in-use"], containerName))
-		}
+		inUseMessageKey := utils.IfThenElse(container.InUseBy == event.User, "container-in-use-by-you", "container-in-use")
+		response.Reply(fmt.Sprintf(Messages[inUseMessageKey.(string)], containerName))
 		return
 	}
 
