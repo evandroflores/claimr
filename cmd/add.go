@@ -24,12 +24,7 @@ func add(request *slacker.Request, response slacker.ResponseWriter) {
 
 	containerName := request.Param("container-name")
 
-	if hasUser, err := hasUserOnText(containerName); hasUser {
-		response.Reply(err.Error())
-		return
-	}
-
-	if hasChannel, err := hasChannelOnText(containerName); hasChannel {
+	if hasUserOrChannel, err := hasUserOrChannelOnText(containerName); hasUserOrChannel {
 		response.Reply(err.Error())
 		return
 	}
