@@ -52,6 +52,15 @@ func hasChannelOnText(message string) (bool, error) {
 	return false, nil
 }
 
+func hasUserOrChannelOnText(message string) (bool, error) {
+	has, err := hasUserOnText(message)
+
+	if err != nil {
+		return has, err
+	}
+	return hasChannelOnText(message)
+}
+
 func getEvent(request *slacker.Request) ClaimrEvent {
 	if request == nil {
 		return ClaimrEvent{}
