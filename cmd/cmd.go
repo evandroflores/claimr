@@ -27,10 +27,6 @@ func CommandList() []model.Command {
 	return commands
 }
 
-func notImplemented(request *slacker.Request, response slacker.ResponseWriter) {
-	response.Reply(Messages["not-implemented"])
-}
-
 func isDirect(channelID string) (bool, error) {
 	if strings.HasPrefix(strings.ToUpper(channelID), directMessagePrefix) {
 		return true, fmt.Errorf(Messages["direct-not-allowed"])
