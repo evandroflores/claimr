@@ -52,14 +52,6 @@ func createMockEvent(t *testing.T, team string, channel string, user string) *mo
 	return patchGetEvent
 }
 
-func TestCmdNotImplemented(t *testing.T) {
-	mockResponse, patchReply := createMockReply(t, Messages["not-implemented"])
-
-	notImplemented(new(slacker.Request), mockResponse)
-
-	patchReply.Unpatch()
-}
-
 func TestCmdCommandList(t *testing.T) {
 	usageExpected := []string{
 		"add <container-name>",
