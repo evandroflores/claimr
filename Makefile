@@ -33,10 +33,10 @@ docker-build:
 docker-run: check-keys
 	@docker run -e "CLAIMR_TOKEN=${CLAIMR_TOKEN} CLAIMR_DATABASE=${CLAIMR_DATABASE}" evandroflores/claimr
 
-test: check-keys #lint
+test: check-keys lint
 	@go test -gcflags=-l -cover ./...
 
-cover: check-keys
+cover: check-keys lint
 	@rm -f coverage.*
 	@echo 'mode: atomic' > coverage.txt
 	go list ./... | xargs -n1 -I{} sh -c 'touch coverage.out & go test -gcflags=-l -race -covermode=atomic -coverprofile=coverage.out {} && tail -n +2 coverage.out >> coverage.txt'
