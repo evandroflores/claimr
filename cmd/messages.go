@@ -8,7 +8,6 @@ import (
 
 // Messages is a map of centralized strings to be used on the project
 var Messages = map[string]string{
-	"not-implemented":                "No pancakes for you! 🥞",
 	"direct-not-allowed":             "this look like a direct message. Containers are related to a channels.",
 	"admin-only":                     "Command available only for admins. ⛔",
 	"command-not-found":              "Not sure what you are asking for. Type `@claimr help` for valid commands.",
