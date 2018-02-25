@@ -1,9 +1,13 @@
 package cmd
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/evandroflores/claimr/messages"
+)
 
 func TestDefaultCommand(t *testing.T) {
-	mockResponse, patchReply := createMockReply(t, Messages["command-not-found"])
+	mockResponse, patchReply := createMockReply(t, messages.Messages["command-not-found"])
 	mockRequest, _ := createMockRequest(t, nil)
 
 	Default(mockRequest, mockResponse)
