@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/bouk/monkey"
+	"github.com/evandroflores/claimr/messages"
 	"github.com/evandroflores/claimr/model"
 	"github.com/stretchr/testify/assert"
 )
@@ -16,7 +17,7 @@ func TestTryToFreeContainerNotFound(t *testing.T) {
 	channelName := "TestChannel"
 	userName := "user"
 
-	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(Messages["container-not-found-on-channel"], containerName, channelName))
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(messages.Messages["container-not-found-on-channel"], containerName, channelName))
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
 
@@ -40,7 +41,7 @@ func TestTryToFreeAContainerInUseByAnotherUser(t *testing.T) {
 
 	assert.NoError(t, err)
 
-	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(Messages["container-in-use-by-other"], containerName))
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(messages.Messages["container-in-use-by-other"], containerName))
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
 
@@ -68,7 +69,7 @@ func TestFreeError(t *testing.T) {
 	defer container.Delete()
 	assert.NoError(t, err)
 
-	mockResponse, patchReply := createMockReply(t, Messages["fail-to-update"])
+	mockResponse, patchReply := createMockReply(t, messages.Messages["fail-to-update"])
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
 
@@ -91,7 +92,7 @@ func TestFreeing(t *testing.T) {
 	assert.NoError(t, err)
 	defer container.Delete()
 
-	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(Messages["container-free"], containerName))
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(messages.Messages["container-free"], containerName))
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
 
