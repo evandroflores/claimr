@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/evandroflores/claimr/messages"
 	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
 	log "github.com/sirupsen/logrus"
@@ -37,7 +38,7 @@ func add(request *slacker.Request, response slacker.ResponseWriter) {
 	}
 
 	if container != (model.Container{}) {
-		response.Reply(Messages["same-name"])
+		response.Reply(messages.Messages["same-name"])
 		return
 	}
 
@@ -51,5 +52,5 @@ func add(request *slacker.Request, response slacker.ResponseWriter) {
 		return
 	}
 
-	response.Reply(fmt.Sprintf(Messages["added-to-channel"], containerName, event.Channel))
+	response.Reply(fmt.Sprintf(messages.Messages["added-to-channel"], containerName, event.Channel))
 }

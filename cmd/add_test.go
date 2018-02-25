@@ -17,7 +17,7 @@ func TestTryToAddBigName(t *testing.T) {
 	channelName := "TestChannel"
 	userName := "user"
 
-	mockResponse, patchReply := createMockReply(t, Messages["field-name-too-big"])
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(Messages["field-name-too-big"], model.MaxNameSize))
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
 
