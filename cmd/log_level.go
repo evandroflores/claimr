@@ -4,9 +4,9 @@ import (
 	"fmt"
 
 	"github.com/evandroflores/claimr/database"
-	log "github.com/sirupsen/logrus"
-
+	"github.com/evandroflores/claimr/messages"
 	"github.com/shomali11/slacker"
+	log "github.com/sirupsen/logrus"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func changeLogLevel(request *slacker.Request, response slacker.ResponseWriter) {
 
 	event := getEvent(request)
 	if !isAdmin(event.User) {
-		response.Reply(Messages["admin-only"])
+		response.Reply(messages.Messages["admin-only"])
 		return
 	}
 
@@ -26,7 +26,7 @@ func changeLogLevel(request *slacker.Request, response slacker.ResponseWriter) {
 	newLogLevel := request.Param("level")
 
 	if newLogLevel == "" {
-		response.Reply(fmt.Sprintf(Messages["no-level-provided"], currentLogLevel))
+		response.Reply(fmt.Sprintf(messages.Messages["no-level-provided"], currentLogLevel))
 		return
 	}
 
@@ -38,7 +38,7 @@ func changeLogLevel(request *slacker.Request, response slacker.ResponseWriter) {
 	}
 
 	if currentLogLevel == logrusLevel {
-		response.Reply(Messages["same-log-level"])
+		response.Reply(messages.Messages["same-log-level"])
 		return
 	}
 
@@ -46,5 +46,5 @@ func changeLogLevel(request *slacker.Request, response slacker.ResponseWriter) {
 
 	log.SetLevel(logrusLevel)
 	log.Printf("Log Test [%s -> %s]", currentLogLevel, newLogLevel)
-	response.Reply(fmt.Sprintf(Messages["level-log-changed"], currentLogLevel, newLogLevel))
+	response.Reply(fmt.Sprintf(messages.Messages["level-log-changed"], currentLogLevel, newLogLevel))
 }
