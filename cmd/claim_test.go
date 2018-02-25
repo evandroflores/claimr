@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/bouk/monkey"
+	"github.com/evandroflores/claimr/messages"
 	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
 	"github.com/stretchr/testify/assert"
@@ -18,7 +19,7 @@ func TestTryToClaimContainerNotFound(t *testing.T) {
 	channelName := "TestChannel"
 	userName := "user"
 
-	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(Messages["container-not-found-on-channel"], containerName, channelName))
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(messages.Messages["container-not-found-on-channel"], containerName, channelName))
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
 
@@ -42,7 +43,7 @@ func TestTryToClaimAContainerInUseByAnotherUser(t *testing.T) {
 
 	assert.NoError(t, err)
 
-	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(Messages["container-in-use"], containerName))
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(messages.Messages["container-in-use"], containerName))
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
 
@@ -65,7 +66,7 @@ func TestTryToClaimAContainerInUseByYou(t *testing.T) {
 
 	assert.NoError(t, err)
 
-	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(Messages["container-in-use-by-you"], containerName))
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(messages.Messages["container-in-use-by-you"], containerName))
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
 
@@ -93,7 +94,7 @@ func TestClaimErrorWhenUpdate(t *testing.T) {
 	defer container.Delete()
 	assert.NoError(t, err)
 
-	mockResponse, patchReply := createMockReply(t, Messages["fail-to-update"])
+	mockResponse, patchReply := createMockReply(t, messages.Messages["fail-to-update"])
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName, "reason": ""})
 
@@ -116,7 +117,7 @@ func TestClaiming(t *testing.T) {
 	assert.NoError(t, err)
 	defer container.Delete()
 
-	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(Messages["container-claimed"], containerName, userName))
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(messages.Messages["container-claimed"], containerName, userName))
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
 
@@ -143,7 +144,7 @@ func TestClaimingWithOneWordReason(t *testing.T) {
 	assert.NoError(t, err)
 	defer container.Delete()
 
-	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(Messages["container-claimed"], containerName, userName))
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(messages.Messages["container-claimed"], containerName, userName))
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName, "reason": reason})
 	patchGetEventText := monkey.Patch(GetEventText,
@@ -177,7 +178,7 @@ func TestClaimingWithMultiwordsReason(t *testing.T) {
 	assert.NoError(t, err)
 	defer container.Delete()
 
-	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(Messages["container-claimed"], containerName, userName))
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(messages.Messages["container-claimed"], containerName, userName))
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName, "reason": firstWord})
 
