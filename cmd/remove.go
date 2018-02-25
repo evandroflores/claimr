@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/evandroflores/claimr/messages"
 	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
 )
@@ -30,9 +31,9 @@ func remove(request *slacker.Request, response slacker.ResponseWriter) {
 	}
 
 	checks := []Check{
-		{container == (model.Container{}), fmt.Sprintf(Messages["container-not-found-on-channel"], containerName, event.Channel)},
-		{container.InUseBy != "", fmt.Sprintf(Messages["container-in-use-by-this"], containerName, container.InUseBy, container.UpdatedAt.Format(time.RFC1123))},
-		{container.CreatedByUser != event.User, fmt.Sprintf(Messages["only-owner-can-remove"], containerName, container.CreatedByUser)},
+		{container == (model.Container{}), fmt.Sprintf(messages.Messages["container-not-found-on-channel"], containerName, event.Channel)},
+		{container.InUseBy != "", fmt.Sprintf(messages.Messages["container-in-use-by-this"], containerName, container.InUseBy, container.UpdatedAt.Format(time.RFC1123))},
+		{container.CreatedByUser != event.User, fmt.Sprintf(messages.Messages["only-owner-can-remove"], containerName, container.CreatedByUser)},
 	}
 
 	err = RunChecks(checks)
@@ -47,5 +48,5 @@ func remove(request *slacker.Request, response slacker.ResponseWriter) {
 		return
 	}
 
-	response.Reply(fmt.Sprintf(Messages["container-removed"], containerName))
+	response.Reply(fmt.Sprintf(messages.Messages["container-removed"], containerName))
 }
