@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/evandroflores/claimr/messages"
 	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
 )
@@ -17,11 +18,11 @@ func refreshAdmins(request *slacker.Request, response slacker.ResponseWriter) {
 
 	event := getEvent(request)
 	if !isAdmin(event.User) {
-		response.Reply(Messages["admin-only"])
+		response.Reply(messages.Messages["admin-only"])
 		return
 	}
 
 	bot := slacker.NewClient(os.Getenv("CLAIMR_TOKEN")) // This is terrible!
 	model.LoadAdmins(bot)
-	response.Reply(fmt.Sprintf(Messages["x-admin-loaded"], len(model.Admins)))
+	response.Reply(fmt.Sprintf(messages.Messages["x-admin-loaded"], len(model.Admins)))
 }
