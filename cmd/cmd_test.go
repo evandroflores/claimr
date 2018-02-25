@@ -204,7 +204,7 @@ func TestNonAdminTryAccessAdminOnlyCommands(t *testing.T) {
 	channelName := "TestChannel"
 	userName := "NotAAdmin"
 
-	mockResponse, patchReply := createMockReply(t, Messages["admin-only"])
+	mockResponse, patchReply := createMockReply(t, messages.Messages["admin-only"])
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, _ := createMockRequest(t, nil)
 
