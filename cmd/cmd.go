@@ -5,6 +5,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/evandroflores/claimr/messages"
 	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
 )
@@ -29,21 +30,21 @@ func CommandList() []model.Command {
 
 func isDirect(channelID string) (bool, error) {
 	if strings.HasPrefix(strings.ToUpper(channelID), directMessagePrefix) {
-		return true, fmt.Errorf(Messages["direct-not-allowed"])
+		return true, fmt.Errorf(messages.Messages["direct-not-allowed"])
 	}
 	return false, nil
 }
 
 func hasUserOnText(message string) (bool, error) {
 	if strings.Contains(strings.ToUpper(message), userPrefix) {
-		return true, fmt.Errorf(Messages["shouldnt-mention-user"])
+		return true, fmt.Errorf(messages.Messages["shouldnt-mention-user"])
 	}
 	return false, nil
 }
 
 func hasChannelOnText(message string) (bool, error) {
 	if strings.Contains(strings.ToUpper(message), channelPrefix) {
-		return true, fmt.Errorf(Messages["shouldnt-mention-channel"])
+		return true, fmt.Errorf(messages.Messages["shouldnt-mention-channel"])
 	}
 	return false, nil
 }
