@@ -5,6 +5,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/evandroflores/claimr/messages"
 	"github.com/evandroflores/claimr/model"
 	"github.com/stretchr/testify/assert"
 )
@@ -15,7 +16,7 @@ func TestTryToShowContainerNotFound(t *testing.T) {
 	channelName := "TestChannel"
 	userName := "user"
 
-	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(Messages["container-not-found-on-channel"], containerName, channelName))
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(messages.Messages["container-not-found-on-channel"], containerName, channelName))
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
 
@@ -43,8 +44,8 @@ func TestTryToShowInUse(t *testing.T) {
 	containerFromDB, err := model.GetContainer(teamName, channelName, containerName)
 	assert.NoError(t, err)
 
-	text := fmt.Sprintf(Messages["container-created-by"], containerName, container.CreatedByUser)
-	text += fmt.Sprintf(Messages["container-in-use-by-w-reason"], anotherUser, " for "+reason, containerFromDB.UpdatedAt.Format(time.RFC1123))
+	text := fmt.Sprintf(messages.Messages["container-created-by"], containerName, container.CreatedByUser)
+	text += fmt.Sprintf(messages.Messages["container-in-use-by-w-reason"], anotherUser, " for "+reason, containerFromDB.UpdatedAt.Format(time.RFC1123))
 
 	mockResponse, patchReply := createMockReply(t, text)
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
