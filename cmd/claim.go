@@ -5,6 +5,7 @@ import (
 
 	"strings"
 
+	"github.com/evandroflores/claimr/messages"
 	"github.com/evandroflores/claimr/model"
 	"github.com/evandroflores/claimr/utils"
 	"github.com/shomali11/slacker"
@@ -33,22 +34,22 @@ func claim(request *slacker.Request, response slacker.ResponseWriter) {
 	}
 
 	if container == (model.Container{}) {
-		response.Reply(fmt.Sprintf(Messages["container-not-found-on-channel"], containerName, event.Channel))
+		response.Reply(fmt.Sprintf(messages.Messages["container-not-found-on-channel"], containerName, event.Channel))
 		return
 	}
 
 	if container.InUseBy != "" {
 		inUseMessageKey := utils.IfThenElse(container.InUseBy == event.User, "container-in-use-by-you", "container-in-use")
-		response.Reply(fmt.Sprintf(Messages[inUseMessageKey.(string)], containerName))
+		response.Reply(fmt.Sprintf(messages.Messages[inUseMessageKey.(string)], containerName))
 		return
 	}
 
 	if container.SetInUse(event.User, getReason(request)) != nil {
-		response.Reply(Messages["fail-to-update"])
+		response.Reply(messages.Messages["fail-to-update"])
 		return
 	}
 
-	response.Reply(fmt.Sprintf(Messages["container-claimed"], containerName, event.User))
+	response.Reply(fmt.Sprintf(messages.Messages["container-claimed"], containerName, event.User))
 }
 
 func getReason(request *slacker.Request) string {
