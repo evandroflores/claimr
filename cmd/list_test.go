@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/bouk/monkey"
+	"github.com/evandroflores/claimr/messages"
 	"github.com/evandroflores/claimr/model"
 	"github.com/stretchr/testify/assert"
 )
@@ -21,7 +22,7 @@ func TestListError(t *testing.T) {
 	channelName := "TestChannel"
 	userName := "user"
 
-	mockResponse, patchReply := createMockReply(t, Messages["fail-getting-containers"])
+	mockResponse, patchReply := createMockReply(t, messages.Messages["fail-getting-containers"])
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, nil)
 
@@ -39,7 +40,7 @@ func TestListNoContainers(t *testing.T) {
 	channelName := "TestChannel"
 	userName := "user"
 
-	mockResponse, patchReply := createMockReply(t, Messages["empty-containers-list"])
+	mockResponse, patchReply := createMockReply(t, messages.Messages["empty-containers-list"])
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, nil)
 
@@ -55,7 +56,7 @@ func TestListAvailableContainers(t *testing.T) {
 	channelName := "TestChannel"
 	userName := "user"
 
-	expected := []string{Messages["containers-list"]}
+	expected := []string{messages.Messages["containers-list"]}
 
 	for i := 0; i < 5; i++ {
 		containerName := fmt.Sprintf("container_%d", i)
@@ -84,7 +85,7 @@ func TestListInUseContainers(t *testing.T) {
 	channelName := "TestChannel"
 	userName := "user"
 
-	expected := []string{Messages["containers-list"]}
+	expected := []string{messages.Messages["containers-list"]}
 
 	for i := 0; i < 5; i++ {
 		containerName := fmt.Sprintf("container_%d", i)
@@ -113,7 +114,7 @@ func TestListInUseWithReasonContainers(t *testing.T) {
 	channelName := "TestChannel"
 	userName := "user"
 	reason := "tests"
-	expected := []string{Messages["containers-list"]}
+	expected := []string{messages.Messages["containers-list"]}
 
 	for i := 0; i < 5; i++ {
 		containerName := fmt.Sprintf("container_%d", i)

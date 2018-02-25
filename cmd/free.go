@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/evandroflores/claimr/messages"
 	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
 )
@@ -30,8 +31,8 @@ func free(request *slacker.Request, response slacker.ResponseWriter) {
 	}
 
 	checks := []Check{
-		{container == (model.Container{}), fmt.Sprintf(Messages["container-not-found-on-channel"], containerName, event.Channel)},
-		{container.InUseBy != event.User, fmt.Sprintf(Messages["container-in-use-by-other"], containerName)},
+		{container == (model.Container{}), fmt.Sprintf(messages.Messages["container-not-found-on-channel"], containerName, event.Channel)},
+		{container.InUseBy != event.User, fmt.Sprintf(messages.Messages["container-in-use-by-other"], containerName)},
 	}
 
 	err = RunChecks(checks)
@@ -42,9 +43,9 @@ func free(request *slacker.Request, response slacker.ResponseWriter) {
 
 	err = container.ClearInUse()
 	if err != nil {
-		response.Reply(Messages["fail-to-update"])
+		response.Reply(messages.Messages["fail-to-update"])
 		return
 	}
 
-	response.Reply(fmt.Sprintf(Messages["container-free"], containerName))
+	response.Reply(fmt.Sprintf(messages.Messages["container-free"], containerName))
 }

@@ -1,10 +1,4 @@
-package cmd
-
-import (
-	"fmt"
-
-	"github.com/evandroflores/claimr/model"
-)
+package messages
 
 // Messages is a map of centralized strings to be used on the project
 var Messages = map[string]string{
@@ -13,7 +7,7 @@ var Messages = map[string]string{
 	"command-not-found":              "Not sure what you are asking for. Type `@claimr help` for valid commands.",
 	"same-name":                      "There is a container with the same name on this channel. Try a different one.",
 	"added-to-channel":               "Container `%s` added to channel <#%s>.",
-	"field-name-too-big":             fmt.Sprintf("try a smaller container name up to %d characters", model.MaxNameSize),
+	"field-name-too-big":             "try a smaller container name up to %d characters",
 	"field-name-required":            "can not continue without a container name 🙄",
 	"container-not-found-on-channel": "I couldn't find the container `%s` on <#%s>.",
 	"container-in-use":               "Container `%s` is already in use, try another one.",

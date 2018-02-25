@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/bouk/monkey"
+	"github.com/evandroflores/claimr/messages"
 	"github.com/evandroflores/claimr/model"
 	"github.com/nlopes/slack"
 	"github.com/shomali11/slacker"
@@ -97,7 +98,7 @@ func TestRefreshAdmins(t *testing.T) {
 	patchNewRTM := monkey.PatchInstanceMethod(reflect.TypeOf(mockClient), "NewRTM", func(*slack.Client) *slack.RTM { return nil })
 
 	patchGetEvent := createMockEvent(t, "test", "test", os.Getenv("CLAIMR_SUPERUSER"))
-	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(Messages["x-admin-loaded"], len(expected2ndRun)))
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(messages.Messages["x-admin-loaded"], len(expected2ndRun)))
 
 	refreshAdmins(nil, mockResponse)
 

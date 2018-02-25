@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/evandroflores/claimr/database"
+	"github.com/evandroflores/claimr/messages"
 	"github.com/evandroflores/claimr/model"
 )
 
@@ -16,7 +17,7 @@ func TestPurgeContainers(t *testing.T) {
 	userName := os.Getenv("CLAIMR_SUPERUSER")
 
 	testAmount := 10
-	expected := fmt.Sprintf(Messages["x-purged"], testAmount)
+	expected := fmt.Sprintf(messages.Messages["x-purged"], testAmount)
 
 	mockResponse, patchReply := createMockReply(t, expected)
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)

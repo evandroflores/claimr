@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/evandroflores/claimr/database"
+	"github.com/evandroflores/claimr/messages"
 	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
 )
@@ -17,10 +18,10 @@ func purge(request *slacker.Request, response slacker.ResponseWriter) {
 
 	event := getEvent(request)
 	if !isAdmin(event.User) {
-		response.Reply(Messages["admin-only"])
+		response.Reply(messages.Messages["admin-only"])
 		return
 	}
 
 	result := database.DB.Unscoped().Where("deleted_at is not null").Delete(&model.Container{})
-	response.Reply(fmt.Sprintf(Messages["x-purged"], result.RowsAffected))
+	response.Reply(fmt.Sprintf(messages.Messages["x-purged"], result.RowsAffected))
 }
