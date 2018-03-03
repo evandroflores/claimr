@@ -2,6 +2,7 @@ package messages
 
 // Messages is a map of centralized strings to be used on the project
 var Messages = map[string]string{
+	"invalid-message-key":            "🛑 Invalid message key! 🛑",
 	"direct-not-allowed":             "This look like a direct message. Containers are related to a channels.",
 	"admin-only":                     "Command available only for admins. ⛔",
 	"command-not-found":              "Not sure what you are asking for. Type `@claimr help` for valid commands.",
@@ -33,4 +34,14 @@ var Messages = map[string]string{
 	"shouldnt-mention-user":          "This message shouldn't contain user mentions.",
 	"shouldnt-mention-channel":       "This message shouldn't contain channel mentions.",
 	"x-admin-loaded":                 "%d admins loaded.",
+}
+
+// Get returns a message related to the given key for a map of centralized strings to be used on the project
+func Get(key string) string {
+	msg := Messages[key]
+
+	if msg == "" {
+		return Messages["invalid-message-key"]
+	}
+	return msg
 }
