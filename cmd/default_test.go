@@ -7,7 +7,7 @@ import (
 )
 
 func TestDefaultCommand(t *testing.T) {
-	mockResponse, patchReply := createMockReply(t, messages.Messages["command-not-found"])
+	mockResponse, patchReply := createMockReply(t, messages.Get("command-not-found"))
 	mockRequest, _ := createMockRequest(t, nil)
 
 	Default(mockRequest, mockResponse)
