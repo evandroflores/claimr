@@ -9,7 +9,7 @@ var Messages = map[string]string{
 	"container-not-found":            "Unable to find a container with this name on this channel.",
 	"added-to-channel":               "Container `%s` added to channel <#%s>.",
 	"field-name-too-big":             "Try a smaller container name up to %d characters",
-	"field-required":                 "Can not continue without a %s 🙄",
+	"field-required":                 "Can not continue without a %s. 🙄",
 	"container-not-found-on-channel": "I couldn't find the container `%s` on <#%s>.",
 	"container-in-use":               "Container `%s` is already in use, try another one.",
 	"fail-to-update":                 "Fail to update the container.",
