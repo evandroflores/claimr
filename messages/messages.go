@@ -2,13 +2,14 @@ package messages
 
 // Messages is a map of centralized strings to be used on the project
 var Messages = map[string]string{
-	"direct-not-allowed":             "this look like a direct message. Containers are related to a channels.",
+	"direct-not-allowed":             "This look like a direct message. Containers are related to a channels.",
 	"admin-only":                     "Command available only for admins. ⛔",
 	"command-not-found":              "Not sure what you are asking for. Type `@claimr help` for valid commands.",
 	"same-name":                      "There is a container with the same name on this channel. Try a different one.",
+	"container-not-found":            "Unable to find a container with this name on this channel.",
 	"added-to-channel":               "Container `%s` added to channel <#%s>.",
-	"field-name-too-big":             "try a smaller container name up to %d characters",
-	"field-name-required":            "can not continue without a container name 🙄",
+	"field-name-too-big":             "Try a smaller container name up to %d characters",
+	"field-required":                 "Can not continue without a %s 🙄",
 	"container-not-found-on-channel": "I couldn't find the container `%s` on <#%s>.",
 	"container-in-use":               "Container `%s` is already in use, try another one.",
 	"fail-to-update":                 "Fail to update the container.",
