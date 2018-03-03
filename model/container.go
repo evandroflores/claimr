@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/evandroflores/claimr/database"
+	"github.com/evandroflores/claimr/messages"
 	"github.com/jinzhu/gorm"
 )
 
@@ -45,7 +46,7 @@ func isValidContainerInput(teamID string, channelID string, containerName string
 	}
 
 	if len(containerName) > MaxNameSize {
-		return false, fmt.Errorf("try a smaller container name up to %d characters", MaxNameSize)
+		return false, fmt.Errorf(messages.Messages["field-name-too-big"], MaxNameSize)
 	}
 
 	return true, nil
@@ -53,7 +54,7 @@ func isValidContainerInput(teamID string, channelID string, containerName string
 
 func checkRequired(fieldName string, fieldValue string) error {
 	if fieldValue == "" {
-		return fmt.Errorf("can not continue without a %s 🙄", fieldName)
+		return fmt.Errorf(messages.Messages["field-required"], fieldName)
 	}
 	return nil
 }
@@ -97,7 +98,7 @@ func (container Container) Add() error {
 	}
 
 	if existingContainer != (Container{}) {
-		return fmt.Errorf("there is a container with the same name on this channel. Try a different one 😕")
+		return fmt.Errorf(messages.Messages["same-name"])
 	}
 	container.Name = strings.ToLower(container.Name)
 	database.DB.Create(&container)
@@ -114,7 +115,7 @@ func (container Container) Update() error {
 	}
 
 	if existingContainer == (Container{}) {
-		return fmt.Errorf("could not find this container on this channel. Can not update 😕")
+		return fmt.Errorf(messages.Messages["container-not-found"])
 	}
 
 	existingContainer.InUseBy = container.InUseBy
@@ -133,7 +134,7 @@ func (container Container) Delete() error {
 		return err
 	}
 	if existingContainer == (Container{}) {
-		return fmt.Errorf("could not find this container on this channel. Can not delete 😕")
+		return fmt.Errorf(messages.Messages["container-not-found"])
 	}
 
 	database.DB.Delete(&existingContainer)
