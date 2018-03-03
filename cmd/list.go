@@ -27,16 +27,16 @@ func list(request *slacker.Request, response slacker.ResponseWriter) {
 	containers, err := model.GetContainers(event.Team, event.Channel)
 
 	if err != nil {
-		response.Reply(messages.Messages["fail-getting-containers"])
+		response.Reply(messages.Get("fail-getting-containers"))
 		return
 	}
 
 	if len(containers) == 0 {
-		response.Reply(messages.Messages["empty-containers-list"])
+		response.Reply(messages.Get("empty-containers-list"))
 		return
 	}
 
-	containerList := []string{messages.Messages["containers-list"]}
+	containerList := []string{messages.Get("containers-list")}
 	for _, container := range containers {
 		line := fmt.Sprintf("`%s`\t%s %s", container.Name,
 			utils.IfThenElse(container.InUseBy != "", "in use", "_available_"),
