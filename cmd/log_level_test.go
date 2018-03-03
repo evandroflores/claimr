@@ -17,7 +17,7 @@ func TestTryToChangeLogLevelWithoutParameter(t *testing.T) {
 	userName := os.Getenv("CLAIMR_SUPERUSER")
 
 	currentLogLevel := log.GetLevel().String()
-	message := fmt.Sprintf(messages.Messages["no-level-provided"], currentLogLevel)
+	message := fmt.Sprintf(messages.Get("no-level-provided"), currentLogLevel)
 	mockResponse, patchReply := createMockReply(t, message)
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 
@@ -39,7 +39,7 @@ func TestTryToChangeLogLevelToUnknownLevel(t *testing.T) {
 
 	currentLogLevel := log.GetLevel().String()
 	unknownLogLevel := "unknown"
-	message := fmt.Sprintf(messages.Messages["invalid-log-level"], unknownLogLevel)
+	message := fmt.Sprintf(messages.Get("invalid-log-level"), unknownLogLevel)
 	mockResponse, patchReply := createMockReply(t, message)
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 
@@ -62,7 +62,7 @@ func TestChangeLogLevelToDebug(t *testing.T) {
 	currentLogLevel := log.GetLevel().String()
 	newLogLevel := log.DebugLevel.String()
 
-	message := fmt.Sprintf(messages.Messages["level-log-changed"], currentLogLevel, newLogLevel)
+	message := fmt.Sprintf(messages.Get("level-log-changed"), currentLogLevel, newLogLevel)
 	mockResponse, patchReply := createMockReply(t, message)
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 
@@ -89,7 +89,7 @@ func TestChangeLogLevelToSameAsActual(t *testing.T) {
 	currentLogLevel := log.GetLevel().String()
 	newLogLevel := currentLogLevel
 
-	message := messages.Messages["same-log-level"]
+	message := messages.Get("same-log-level")
 	mockResponse, patchReply := createMockReply(t, message)
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 

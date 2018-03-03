@@ -38,7 +38,7 @@ func add(request *slacker.Request, response slacker.ResponseWriter) {
 	}
 
 	if container != (model.Container{}) {
-		response.Reply(messages.Messages["same-name"])
+		response.Reply(messages.Get("same-name"))
 		return
 	}
 
@@ -52,5 +52,5 @@ func add(request *slacker.Request, response slacker.ResponseWriter) {
 		return
 	}
 
-	response.Reply(fmt.Sprintf(messages.Messages["added-to-channel"], containerName, event.Channel))
+	response.Reply(fmt.Sprintf(messages.Get("added-to-channel"), containerName, event.Channel))
 }

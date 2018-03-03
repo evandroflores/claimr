@@ -18,10 +18,10 @@ func purge(request *slacker.Request, response slacker.ResponseWriter) {
 
 	event := getEvent(request)
 	if !isAdmin(event.User) {
-		response.Reply(messages.Messages["admin-only"])
+		response.Reply(messages.Get("admin-only"))
 		return
 	}
 
 	result := database.DB.Unscoped().Where("deleted_at is not null").Delete(&model.Container{})
-	response.Reply(fmt.Sprintf(messages.Messages["x-purged"], result.RowsAffected))
+	response.Reply(fmt.Sprintf(messages.Get("x-purged"), result.RowsAffected))
 }

@@ -98,7 +98,7 @@ func TestRefreshAdmins(t *testing.T) {
 	patchNewRTM := monkey.PatchInstanceMethod(reflect.TypeOf(mockClient), "NewRTM", func(*slack.Client) *slack.RTM { return nil })
 
 	patchGetEvent := createMockEvent(t, "test", "test", os.Getenv("CLAIMR_SUPERUSER"))
-	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(messages.Messages["x-admin-loaded"], len(expected2ndRun)))
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(messages.Get("x-admin-loaded"), len(expected2ndRun)))
 
 	refreshAdmins(nil, mockResponse)
 

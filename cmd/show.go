@@ -33,17 +33,17 @@ func show(request *slacker.Request, response slacker.ResponseWriter) {
 	}
 
 	if container == (model.Container{}) {
-		response.Reply(fmt.Sprintf(messages.Messages["container-not-found-on-channel"], containerName, event.Channel))
+		response.Reply(fmt.Sprintf(messages.Get("container-not-found-on-channel"), containerName, event.Channel))
 		return
 	}
 
-	text := fmt.Sprintf(messages.Messages["container-created-by"], containerName, container.CreatedByUser)
+	text := fmt.Sprintf(messages.Get("container-created-by"), containerName, container.CreatedByUser)
 
 	if container.InUseBy == "" {
 		text += "_Available_"
 	} else {
 		text += fmt.Sprintf(
-			messages.Messages["container-in-use-by-w-reason"],
+			messages.Get("container-in-use-by-w-reason"),
 			container.InUseBy,
 			utils.IfThenElse(container.InUseForReason != "", fmt.Sprintf(" for %s", container.InUseForReason), ""),
 			container.UpdatedAt.Format(time.RFC1123))

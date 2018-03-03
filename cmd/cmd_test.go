@@ -87,13 +87,13 @@ func TestCmdNotDirect(t *testing.T) {
 func TestCmdDirect(t *testing.T) {
 	direct, err := isDirect("DIRECT")
 	assert.True(t, direct)
-	assert.Error(t, err, messages.Messages["direct-not-allowed"])
+	assert.Error(t, err, messages.Get("direct-not-allowed"))
 }
 
 func TestMessageContainsUser(t *testing.T) {
 	hasUser, err := hasUserOnText("lorem ipsum <@USER>")
 	assert.True(t, hasUser)
-	assert.Error(t, err, messages.Messages["shouldnt-mention-user"])
+	assert.Error(t, err, messages.Get("shouldnt-mention-user"))
 }
 
 func TestMessageDoesNotContainsUser(t *testing.T) {
@@ -105,7 +105,7 @@ func TestMessageDoesNotContainsUser(t *testing.T) {
 func TestMessageContainsChannel(t *testing.T) {
 	hasChannel, err := hasChannelOnText("lorem ipsum <#CHANNEL>")
 	assert.True(t, hasChannel)
-	assert.Error(t, err, messages.Messages["shouldnt-mention-channel"])
+	assert.Error(t, err, messages.Get("shouldnt-mention-channel"))
 }
 
 func TestMessageDoesNotContainsChannel(t *testing.T) {
@@ -115,7 +115,7 @@ func TestMessageDoesNotContainsChannel(t *testing.T) {
 }
 
 func TestAllCommandsCheckingDirect(t *testing.T) {
-	mockResponse, patchReply := createMockReply(t, messages.Messages["direct-not-allowed"])
+	mockResponse, patchReply := createMockReply(t, messages.Get("direct-not-allowed"))
 	patchGetEvent := createMockEvent(t, "team", "DIRECT", "user")
 
 	for _, command := range commands {
@@ -129,7 +129,7 @@ func TestAllCommandsCheckingDirect(t *testing.T) {
 }
 
 func TestAllCommandsCheckingNoName(t *testing.T) {
-	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(messages.Messages["field-required"], "container name"))
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(messages.Get("field-required"), "container name"))
 	patchGetEvent := createMockEvent(t, "team", "channel", "user")
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": ""})
 
@@ -204,7 +204,7 @@ func TestNonAdminTryAccessAdminOnlyCommands(t *testing.T) {
 	channelName := "TestChannel"
 	userName := "NotAAdmin"
 
-	mockResponse, patchReply := createMockReply(t, messages.Messages["admin-only"])
+	mockResponse, patchReply := createMockReply(t, messages.Get("admin-only"))
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, _ := createMockRequest(t, nil)
 
@@ -227,7 +227,7 @@ func TestNonAdminTryAccessAdminOnlyCommandsWhenEnvIsNotSet(t *testing.T) {
 	os.Unsetenv("CLAIMR_SUPERUSER")
 	defer func() { os.Setenv("CLAIMR_SUPERUSER", currentEnv) }()
 
-	mockResponse, patchReply := createMockReply(t, messages.Messages["admin-only"])
+	mockResponse, patchReply := createMockReply(t, messages.Get("admin-only"))
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, _ := createMockRequest(t, nil)
 

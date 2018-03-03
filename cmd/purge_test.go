@@ -17,7 +17,7 @@ func TestPurgeContainers(t *testing.T) {
 	userName := os.Getenv("CLAIMR_SUPERUSER")
 
 	testAmount := 10
-	expected := fmt.Sprintf(messages.Messages["x-purged"], testAmount)
+	expected := fmt.Sprintf(messages.Get("x-purged"), testAmount)
 
 	mockResponse, patchReply := createMockReply(t, expected)
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)

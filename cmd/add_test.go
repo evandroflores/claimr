@@ -18,7 +18,7 @@ func TestTryToAddBigName(t *testing.T) {
 	channelName := "TestChannel"
 	userName := "user"
 
-	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(messages.Messages["field-name-too-big"], model.MaxNameSize))
+	mockResponse, patchReply := createMockReply(t, fmt.Sprintf(messages.Get("field-name-too-big"), model.MaxNameSize))
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
 
@@ -41,7 +41,7 @@ func TestTryToAddExistentContainer(t *testing.T) {
 
 	assert.NoError(t, err)
 
-	mockResponse, patchReply := createMockReply(t, messages.Messages["same-name"])
+	mockResponse, patchReply := createMockReply(t, messages.Get("same-name"))
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
 
@@ -82,7 +82,7 @@ func TestAddContainer(t *testing.T) {
 	channelName := "TestChannel"
 	userName := "user"
 
-	msg := fmt.Sprintf(messages.Messages["added-to-channel"], containerName, channelName)
+	msg := fmt.Sprintf(messages.Get("added-to-channel"), containerName, channelName)
 	mockResponse, patchReply := createMockReply(t, msg)
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
@@ -105,7 +105,7 @@ func TestAddContainerWithUserMention(t *testing.T) {
 	channelName := "TestChannel"
 	userName := "user"
 
-	msg := messages.Messages["shouldnt-mention-user"]
+	msg := messages.Get("shouldnt-mention-user")
 	mockResponse, patchReply := createMockReply(t, msg)
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
@@ -128,7 +128,7 @@ func TestAddContainerWithChannelMention(t *testing.T) {
 	channelName := "TestChannel"
 	userName := "user"
 
-	msg := messages.Messages["shouldnt-mention-channel"]
+	msg := messages.Get("shouldnt-mention-channel")
 	mockResponse, patchReply := createMockReply(t, msg)
 	patchGetEvent := createMockEvent(t, teamName, channelName, userName)
 	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": containerName})
