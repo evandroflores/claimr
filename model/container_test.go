@@ -2,6 +2,7 @@ package model
 
 import (
 	"testing"
+	"time"
 
 	"fmt"
 
@@ -255,5 +256,62 @@ func TestSetInUseData(t *testing.T) {
 	containerExpected.DeletedAt = containerFromDB.DeletedAt
 
 	assert.Equal(t, containerExpected, containerFromDB)
+	container.Delete()
+}
+
+func TestInUseTextInvalid(t *testing.T) {
+	container := Container{}
+	assert.Equal(t, messages.Get("in-use-text-invalid"), container.InUseText("whatever"))
+}
+
+func TestInUseTextSimpleAvailable(t *testing.T) {
+	container := Container{InUseBy: ""}
+	assert.Equal(t, available, container.InUseText("simple"))
+}
+
+func TestInUseTextSimpleInUse(t *testing.T) {
+	container := Container{InUseBy: "me"}
+	assert.Equal(t, inUse, container.InUseText("simple"))
+}
+
+func TestInUseTextFullAvailable(t *testing.T) {
+	container := Container{InUseBy: ""}
+	assert.Equal(t, available, container.InUseText("full"))
+}
+
+func TestInUseTextFullInUse(t *testing.T) {
+	team := "TestTeam"
+	channel := "TestChannel"
+	containerName := "name"
+	user := "User"
+
+	container := Container{TeamID: team, ChannelID: channel, Name: containerName, InUseBy: user}
+	err := container.Add()
+	assert.NoError(t, err)
+	container, err2 := GetContainer(team, channel, containerName)
+	assert.NoError(t, err2)
+
+	expected := fmt.Sprintf(messages.Get("container-in-use-by-w-reason"), user, "", container.UpdatedAt.Format(time.RFC1123))
+
+	assert.Equal(t, expected, container.InUseText("full"))
+	container.Delete()
+}
+
+func TestInUseTextFullInUseWithReason(t *testing.T) {
+	team := "TestTeam"
+	channel := "TestChannel"
+	containerName := "name"
+	user := "User"
+	reason := "testing"
+
+	container := Container{TeamID: team, ChannelID: channel, Name: containerName, InUseBy: user, InUseForReason: reason}
+	err := container.Add()
+	assert.NoError(t, err)
+	container, err2 := GetContainer(team, channel, containerName)
+	assert.NoError(t, err2)
+
+	expected := fmt.Sprintf(messages.Get("container-in-use-by-w-reason"), user, fmt.Sprintf(" for %s", reason), container.UpdatedAt.Format(time.RFC1123))
+
+	assert.Equal(t, expected, container.InUseText("full"))
 	container.Delete()
 }

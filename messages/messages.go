@@ -33,6 +33,7 @@ var messagesMap = map[string]string{
 	"shouldnt-mention-user":          "This message shouldn't contain user mentions.",
 	"shouldnt-mention-channel":       "This message shouldn't contain channel mentions.",
 	"x-admin-loaded":                 "%d admins loaded.",
+	"in-use-text-invalid":            "Invalid Format for InUseText",
 }
 
 // Get returns a message related to the given key for a map of centralized strings to be used on the project

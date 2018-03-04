@@ -2,11 +2,13 @@ package model
 
 import (
 	"fmt"
+	"time"
 
 	"strings"
 
 	"github.com/evandroflores/claimr/database"
 	"github.com/evandroflores/claimr/messages"
+	"github.com/evandroflores/claimr/utils"
 	"github.com/jinzhu/gorm"
 )
 
@@ -26,7 +28,11 @@ type Container struct {
 }
 
 // MaxNameSize is the max number of characters for a container name.
-const MaxNameSize = 22
+const (
+	MaxNameSize = 22
+	available   = "_available_"
+	inUse       = "in use"
+)
 
 func isValidContainerInput(teamID string, channelID string, containerName string) (bool, error) {
 	fields := []struct {
@@ -142,7 +148,29 @@ func (container Container) Delete() error {
 	return nil
 }
 
-// ClearInUse removes information InUseBy and InUseForReason, for a given container
+// InUseText returns Available or Free for format=Simple, and Available or InUseBy and InUseForReason for format=Full
+func (container Container) InUseText(format string) string {
+	var text string
+
+	switch strings.ToLower(format) {
+	case "simple":
+		text = utils.IfThenElse(container.InUseBy != "", inUse, available).(string)
+	case "full":
+		if container.InUseBy == "" {
+			text = available
+		} else {
+			text = fmt.Sprintf(messages.Get("container-in-use-by-w-reason"),
+				container.InUseBy,
+				utils.IfThenElse(container.InUseForReason != "", fmt.Sprintf(" for %s", container.InUseForReason), ""),
+				container.UpdatedAt.Format(time.RFC1123))
+		}
+	default:
+		text = messages.Get("in-use-text-invalid")
+	}
+	return text
+}
+
+// ClearInUse removes information InUseBy and InUseForReason
 func (container Container) ClearInUse() error {
 	container.InUseBy = ""
 	container.InUseForReason = ""
@@ -150,7 +178,7 @@ func (container Container) ClearInUse() error {
 	return container.Update()
 }
 
-// SetInUse sets information InUseBy and InUseForReason, for a given container
+// SetInUse sets information InUseBy and InUseForReason
 func (container Container) SetInUse(by string, reason string) error {
 	container.InUseBy = by
 	container.InUseForReason = reason
