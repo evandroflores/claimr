@@ -7,9 +7,9 @@ import (
 )
 
 func TestGetInvalidKey(t *testing.T) {
-	assert.Equal(t, Messages["invalid-message-key"], Get("?"))
+	assert.Equal(t, messagesMap["invalid-message-key"], Get("?"))
 }
 
 func TestGetValidKey(t *testing.T) {
-	assert.Equal(t, Messages["same-name"], Get("same-name"))
+	assert.Equal(t, messagesMap["same-name"], Get("same-name"))
 }
