@@ -2,11 +2,9 @@ package cmd
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/evandroflores/claimr/messages"
 	"github.com/evandroflores/claimr/model"
-	"github.com/evandroflores/claimr/utils"
 	"github.com/shomali11/slacker"
 )
 
@@ -38,15 +36,6 @@ func show(request *slacker.Request, response slacker.ResponseWriter) {
 	}
 
 	text := fmt.Sprintf(messages.Get("container-created-by"), containerName, container.CreatedByUser)
-
-	if container.InUseBy == "" {
-		text += "_Available_"
-	} else {
-		text += fmt.Sprintf(
-			messages.Get("container-in-use-by-w-reason"),
-			container.InUseBy,
-			utils.IfThenElse(container.InUseForReason != "", fmt.Sprintf(" for %s", container.InUseForReason), ""),
-			container.UpdatedAt.Format(time.RFC1123))
-	}
+	text += container.InUseText("full")
 	response.Reply(text)
 }

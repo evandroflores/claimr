@@ -70,7 +70,7 @@ func TestTryToShowAvailable(t *testing.T) {
 	defer container.Delete()
 	assert.NoError(t, err)
 
-	text := fmt.Sprintf("Container `%s`.\nCreated by <@%s>.\n_Available_",
+	text := fmt.Sprintf("Container `%s`.\nCreated by <@%s>.\n_available_",
 		containerName, container.CreatedByUser)
 
 	mockResponse, patchReply := createMockReply(t, text)
