@@ -15,21 +15,21 @@ func TestGetContainerNoTeam(t *testing.T) {
 	container, err := GetContainer("", "", "")
 
 	assert.ObjectsAreEqual(Container{}, container)
-	assert.EqualError(t, err, fmt.Sprintf(messages.Messages["field-required"], "teamID"))
+	assert.EqualError(t, err, fmt.Sprintf(messages.Get("field-required"), "teamID"))
 }
 
 func TestGetContainerNoChannel(t *testing.T) {
 	container, err := GetContainer("TestTeam", "", "")
 
 	assert.ObjectsAreEqual(Container{}, container)
-	assert.EqualError(t, err, fmt.Sprintf(messages.Messages["field-required"], "channelID"))
+	assert.EqualError(t, err, fmt.Sprintf(messages.Get("field-required"), "channelID"))
 }
 
 func TestGetContainerNoName(t *testing.T) {
 	container, err := GetContainer("TestTeam", "TestChannel", "")
 
 	assert.ObjectsAreEqual(Container{}, container)
-	assert.EqualError(t, err, fmt.Sprintf(messages.Messages["field-required"], "container name"))
+	assert.EqualError(t, err, fmt.Sprintf(messages.Get("field-required"), "container name"))
 }
 
 func TestGetContainerBigName(t *testing.T) {
@@ -37,7 +37,7 @@ func TestGetContainerBigName(t *testing.T) {
 		"LoremIpsumDolorSitAmetConsecteturAdipiscingElit")
 
 	assert.ObjectsAreEqual(Container{}, container)
-	assert.EqualError(t, err, fmt.Sprintf(messages.Messages["field-name-too-big"], MaxNameSize))
+	assert.EqualError(t, err, fmt.Sprintf(messages.Get("field-name-too-big"), MaxNameSize))
 }
 
 func TestGetContainerNotFound(t *testing.T) {
@@ -76,25 +76,25 @@ func TestAddContainer(t *testing.T) {
 func TestAddContainerValidateTeamID(t *testing.T) {
 	container := Container{TeamID: "", ChannelID: "", Name: ""}
 	err := container.Add()
-	assert.EqualError(t, err, fmt.Sprintf(messages.Messages["field-required"], "teamID"))
+	assert.EqualError(t, err, fmt.Sprintf(messages.Get("field-required"), "teamID"))
 }
 
 func TestAddContainerValidateChannelID(t *testing.T) {
 	container := Container{TeamID: "TestTeam", ChannelID: "", Name: ""}
 	err := container.Add()
-	assert.EqualError(t, err, fmt.Sprintf(messages.Messages["field-required"], "channelID"))
+	assert.EqualError(t, err, fmt.Sprintf(messages.Get("field-required"), "channelID"))
 }
 
 func TestAddContainerValidateName(t *testing.T) {
 	container := Container{TeamID: "TestTeam", ChannelID: "TestChannel", Name: ""}
 	err := container.Add()
-	assert.EqualError(t, err, fmt.Sprintf(messages.Messages["field-required"], "container name"))
+	assert.EqualError(t, err, fmt.Sprintf(messages.Get("field-required"), "container name"))
 }
 
 func TestAddContainerDuplicate(t *testing.T) {
 	container := Container{TeamID: "TestTeam", ChannelID: "TestChannel", Name: "Name"}
 	err := container.Add()
-	assert.EqualError(t, err, messages.Messages["same-name"])
+	assert.EqualError(t, err, messages.Get("same-name"))
 }
 
 func TestDeleteContainer(t *testing.T) {
@@ -108,25 +108,25 @@ func TestDeleteContainer(t *testing.T) {
 func TestDeleteContainerValidateTeamID(t *testing.T) {
 	container := Container{TeamID: "", ChannelID: "", Name: ""}
 	err := container.Delete()
-	assert.EqualError(t, err, fmt.Sprintf(messages.Messages["field-required"], "teamID"))
+	assert.EqualError(t, err, fmt.Sprintf(messages.Get("field-required"), "teamID"))
 }
 
 func TestDeleteContainerValidateChannelID(t *testing.T) {
 	container := Container{TeamID: "TestTeam", ChannelID: "", Name: ""}
 	err := container.Delete()
-	assert.EqualError(t, err, fmt.Sprintf(messages.Messages["field-required"], "channelID"))
+	assert.EqualError(t, err, fmt.Sprintf(messages.Get("field-required"), "channelID"))
 }
 
 func TestDeleteContainerValidateName(t *testing.T) {
 	container := Container{TeamID: "TestTeam", ChannelID: "TestChannel", Name: ""}
 	err := container.Delete()
-	assert.EqualError(t, err, fmt.Sprintf(messages.Messages["field-required"], "container name"))
+	assert.EqualError(t, err, fmt.Sprintf(messages.Get("field-required"), "container name"))
 }
 
 func TestDeleteContainerNotFound(t *testing.T) {
 	container := Container{TeamID: "TestTeam", ChannelID: "TestChannel", Name: "Name"}
 	err := container.Delete()
-	assert.EqualError(t, err, messages.Messages["container-not-found"])
+	assert.EqualError(t, err, messages.Get("container-not-found"))
 
 }
 
@@ -149,25 +149,25 @@ func TestUpdateContainer(t *testing.T) {
 func TestUpdateContainerValidateTeamID(t *testing.T) {
 	container := Container{TeamID: "", ChannelID: "", Name: ""}
 	err := container.Update()
-	assert.EqualError(t, err, fmt.Sprintf(messages.Messages["field-required"], "teamID"))
+	assert.EqualError(t, err, fmt.Sprintf(messages.Get("field-required"), "teamID"))
 }
 
 func TestUpdateContainerValidateChannelID(t *testing.T) {
 	container := Container{TeamID: "TestTeam", ChannelID: "", Name: ""}
 	err := container.Update()
-	assert.EqualError(t, err, fmt.Sprintf(messages.Messages["field-required"], "channelID"))
+	assert.EqualError(t, err, fmt.Sprintf(messages.Get("field-required"), "channelID"))
 }
 
 func TestUpdateContainerValidateName(t *testing.T) {
 	container := Container{TeamID: "TestTeam", ChannelID: "TestChannel", Name: ""}
 	err := container.Update()
-	assert.EqualError(t, err, fmt.Sprintf(messages.Messages["field-required"], "container name"))
+	assert.EqualError(t, err, fmt.Sprintf(messages.Get("field-required"), "container name"))
 }
 
 func TestUpdateContainerNotFound(t *testing.T) {
 	container := Container{TeamID: "TestTeam", ChannelID: "TestChannel", Name: "Name"}
 	err := container.Update()
-	assert.EqualError(t, err, messages.Messages["container-not-found"])
+	assert.EqualError(t, err, messages.Get("container-not-found"))
 }
 
 func TestListContainers(t *testing.T) {
@@ -190,13 +190,13 @@ func TestListContainers(t *testing.T) {
 
 func TestListContainersValidateTeamID(t *testing.T) {
 	containers, err := GetContainers("", "")
-	assert.EqualError(t, err, fmt.Sprintf(messages.Messages["field-required"], "teamID"))
+	assert.EqualError(t, err, fmt.Sprintf(messages.Get("field-required"), "teamID"))
 	assert.ObjectsAreEqual(containers, []Container{})
 }
 
 func TestListContainersValidateChannelID(t *testing.T) {
 	containers, err := GetContainers("TestTeam", "")
-	assert.EqualError(t, err, fmt.Sprintf(messages.Messages["field-required"], "channelID"))
+	assert.EqualError(t, err, fmt.Sprintf(messages.Get("field-required"), "channelID"))
 	assert.ObjectsAreEqual(containers, []Container{})
 }
 

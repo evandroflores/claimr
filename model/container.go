@@ -46,7 +46,7 @@ func isValidContainerInput(teamID string, channelID string, containerName string
 	}
 
 	if len(containerName) > MaxNameSize {
-		return false, fmt.Errorf(messages.Messages["field-name-too-big"], MaxNameSize)
+		return false, fmt.Errorf(messages.Get("field-name-too-big"), MaxNameSize)
 	}
 
 	return true, nil
@@ -54,7 +54,7 @@ func isValidContainerInput(teamID string, channelID string, containerName string
 
 func checkRequired(fieldName string, fieldValue string) error {
 	if fieldValue == "" {
-		return fmt.Errorf(messages.Messages["field-required"], fieldName)
+		return fmt.Errorf(messages.Get("field-required"), fieldName)
 	}
 	return nil
 }
@@ -98,7 +98,7 @@ func (container Container) Add() error {
 	}
 
 	if existingContainer != (Container{}) {
-		return fmt.Errorf(messages.Messages["same-name"])
+		return fmt.Errorf(messages.Get("same-name"))
 	}
 	container.Name = strings.ToLower(container.Name)
 	database.DB.Create(&container)
@@ -115,7 +115,7 @@ func (container Container) Update() error {
 	}
 
 	if existingContainer == (Container{}) {
-		return fmt.Errorf(messages.Messages["container-not-found"])
+		return fmt.Errorf(messages.Get("container-not-found"))
 	}
 
 	existingContainer.InUseBy = container.InUseBy
@@ -134,7 +134,7 @@ func (container Container) Delete() error {
 		return err
 	}
 	if existingContainer == (Container{}) {
-		return fmt.Errorf(messages.Messages["container-not-found"])
+		return fmt.Errorf(messages.Get("container-not-found"))
 	}
 
 	database.DB.Delete(&existingContainer)
