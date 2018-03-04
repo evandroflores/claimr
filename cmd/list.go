@@ -7,7 +7,6 @@ import (
 
 	"github.com/evandroflores/claimr/messages"
 	"github.com/evandroflores/claimr/model"
-	"github.com/evandroflores/claimr/utils"
 	"github.com/shomali11/slacker"
 )
 
@@ -38,10 +37,7 @@ func list(request *slacker.Request, response slacker.ResponseWriter) {
 
 	containerList := []string{messages.Get("containers-list")}
 	for _, container := range containers {
-		line := fmt.Sprintf("`%s`\t%s %s", container.Name,
-			utils.IfThenElse(container.InUseBy != "", "in use", "_available_"),
-			utils.IfThenElse(container.InUseForReason != "", fmt.Sprintf("- %s", container.InUseForReason), ""),
-		)
+		line := fmt.Sprintf("`%s`\t%s", container.Name, container.InUseText("simple"))
 		containerList = append(containerList, line)
 	}
 	response.Reply(strings.Join(containerList, "\n"))
