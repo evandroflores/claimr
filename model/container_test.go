@@ -310,7 +310,7 @@ func TestInUseTextFullInUseWithReason(t *testing.T) {
 	container, err2 := GetContainer(team, channel, containerName)
 	assert.NoError(t, err2)
 
-	expected := fmt.Sprintf(messages.Get("container-in-use-by-w-reason"), user, reason, container.UpdatedAt.Format(time.RFC1123))
+	expected := fmt.Sprintf(messages.Get("container-in-use-by-w-reason"), user, fmt.Sprintf(" for %s", reason), container.UpdatedAt.Format(time.RFC1123))
 
 	assert.Equal(t, expected, container.InUseText("full"))
 	container.Delete()
