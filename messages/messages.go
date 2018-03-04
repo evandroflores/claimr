@@ -1,7 +1,6 @@
 package messages
 
-// Messages is a map of centralized strings to be used on the project
-var Messages = map[string]string{
+var messagesMap = map[string]string{
 	"invalid-message-key":            "🛑 Invalid message key! 🛑",
 	"direct-not-allowed":             "This look like a direct message. Containers are related to a channels.",
 	"admin-only":                     "Command available only for admins. ⛔",
@@ -38,10 +37,10 @@ var Messages = map[string]string{
 
 // Get returns a message related to the given key for a map of centralized strings to be used on the project
 func Get(key string) string {
-	msg := Messages[key]
+	msg := messagesMap[key]
 
 	if msg == "" {
-		return Messages["invalid-message-key"]
+		return messagesMap["invalid-message-key"]
 	}
 	return msg
 }
