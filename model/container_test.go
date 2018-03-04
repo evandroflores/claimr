@@ -2,6 +2,7 @@ package model
 
 import (
 	"testing"
+	"time"
 
 	"fmt"
 
@@ -276,4 +277,22 @@ func TestInUseTextSimpleInUse(t *testing.T) {
 func TestInUseTextFullAvailable(t *testing.T) {
 	container := Container{InUseBy: ""}
 	assert.Equal(t, available, container.InUseText("full"))
+}
+
+func TestInUseTextFullInUse(t *testing.T) {
+	team := "TestTeam"
+	channel := "TestChannel"
+	containerName := "name"
+	user := "User"
+
+	container := Container{TeamID: team, ChannelID: channel, Name: containerName, InUseBy: user}
+	err := container.Add()
+	assert.NoError(t, err)
+	container, err2 := GetContainer(team, channel, containerName)
+	assert.NoError(t, err2)
+
+	expected := fmt.Sprintf(messages.Get("container-in-use-by-w-reason"), user, "", container.UpdatedAt.Format(time.RFC1123))
+
+	assert.Equal(t, expected, container.InUseText("full"))
+	container.Delete()
 }
