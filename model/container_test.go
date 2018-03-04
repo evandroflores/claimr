@@ -262,3 +262,8 @@ func TestInUseTextInvalid(t *testing.T) {
 	container := Container{}
 	assert.Equal(t, messages.Get("in-use-text-invalid"), container.InUseText("whatever"))
 }
+
+func TestInUseTextSimpleAvailable(t *testing.T) {
+	container := Container{InUseBy: ""}
+	assert.Equal(t, available, container.InUseText("simple"))
+}
