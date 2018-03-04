@@ -257,3 +257,8 @@ func TestSetInUseData(t *testing.T) {
 	assert.Equal(t, containerExpected, containerFromDB)
 	container.Delete()
 }
+
+func TestInUseTextInvalid(t *testing.T) {
+	container := Container{}
+	assert.Equal(t, messages.Get("in-use-text-invalid"), container.InUseText("whatever"))
+}
