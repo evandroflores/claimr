@@ -272,3 +272,8 @@ func TestInUseTextSimpleInUse(t *testing.T) {
 	container := Container{InUseBy: "me"}
 	assert.Equal(t, inUse, container.InUseText("simple"))
 }
+
+func TestInUseTextFullAvailable(t *testing.T) {
+	container := Container{InUseBy: ""}
+	assert.Equal(t, available, container.InUseText("full"))
+}
