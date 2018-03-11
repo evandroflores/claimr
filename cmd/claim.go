@@ -35,14 +35,9 @@ func claim(request *slacker.Request, response slacker.ResponseWriter) {
 		return
 	}
 
-	if container == (model.Container{}) {
-		response.Reply(fmt.Sprintf(messages.Get("container-not-found-on-channel"), containerName, event.Channel))
-		return
-	}
-
-	if container.InUseBy != "" {
-		inUseMessageKey := utils.IfThenElse(container.InUseBy == event.User, "container-in-use-by-you", "container-in-use")
-		response.Reply(fmt.Sprintf(messages.Get(inUseMessageKey.(string)), containerName))
+	err = claimChecks(containerName, event, container)
+	if err != nil {
+		response.Reply(err.Error())
 		return
 	}
 
@@ -62,4 +57,15 @@ func getReason(request *slacker.Request) string {
 	reasonToClaim := request.Param("reason")
 	idx := strings.Index(allText, reasonToClaim)
 	return allText[idx:]
+}
+
+func claimChecks(containerName string, event ClaimrEvent, container model.Container) error {
+	inUseMessageKey := utils.IfThenElse(container.InUseBy == event.User, "container-in-use-by-you", "container-in-use")
+
+	checks := []Check{
+		{container == (model.Container{}), fmt.Sprintf(messages.Get("container-not-found-on-channel"), containerName, event.Channel)},
+		{container.InUseBy != "", fmt.Sprintf(messages.Get(inUseMessageKey.(string)), containerName)},
+	}
+
+	return RunChecks(checks)
 }
