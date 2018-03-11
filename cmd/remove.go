@@ -33,13 +33,7 @@ func remove(request *slacker.Request, response slacker.ResponseWriter) {
 		return
 	}
 
-	checks := []Check{
-		{container == (model.Container{}), fmt.Sprintf(messages.Get("container-not-found-on-channel"), containerName, event.Channel)},
-		{container.InUseBy != "", fmt.Sprintf(messages.Get("container-in-use-by-this"), containerName, container.InUseBy, container.UpdatedAt.Format(time.RFC1123))},
-		{container.CreatedByUser != event.User, fmt.Sprintf(messages.Get("only-owner-can-remove"), containerName, container.CreatedByUser)},
-	}
-
-	err = RunChecks(checks)
+	err = checks(containerName, event, container)
 	if err != nil {
 		response.Reply(err.Error())
 		return
@@ -52,4 +46,14 @@ func remove(request *slacker.Request, response slacker.ResponseWriter) {
 	}
 
 	response.Reply(fmt.Sprintf(messages.Get("container-removed"), containerName))
+}
+
+func checks(containerName string, event ClaimrEvent, container model.Container) error {
+	checks := []Check{
+		{container == (model.Container{}), fmt.Sprintf(messages.Get("container-not-found-on-channel"), containerName, event.Channel)},
+		{container.InUseBy != "", fmt.Sprintf(messages.Get("container-in-use-by-this"), containerName, container.InUseBy, container.UpdatedAt.Format(time.RFC1123))},
+		{container.CreatedByUser != event.User, fmt.Sprintf(messages.Get("only-owner-can-remove"), containerName, container.CreatedByUser)},
+	}
+
+	return RunChecks(checks)
 }
