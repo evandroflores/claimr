@@ -116,16 +116,18 @@ func TestMessageDoesNotContainsChannel(t *testing.T) {
 
 func TestAllCommandsCheckingDirect(t *testing.T) {
 	mockResponse, patchReply := createMockReply(t, messages.Get("direct-not-allowed"))
+	mockRequest, patchParam := createMockRequest(t, map[string]string{"container-name": ""})
 	patchGetEvent := createMockEvent(t, "team", "DIRECT", "user")
 
 	for _, command := range commands {
 		if !strings.Contains(command.Description, "admin-only") {
-			command.Handler(nil, mockResponse)
+			command.Handler(mockRequest, mockResponse)
 		}
 	}
 
 	patchReply.Unpatch()
 	patchGetEvent.Unpatch()
+	patchParam.Unpatch()
 }
 
 func TestAllCommandsCheckingNoName(t *testing.T) {

@@ -28,6 +28,22 @@ func CommandList() []model.Command {
 	return commands
 }
 
+func validateInput(channelID string, message string) error {
+	if direct, err := isDirect(channelID); direct {
+		return err
+	}
+
+	if hasUser, err := hasUserOnText(message); hasUser {
+		return err
+	}
+
+	if hasChannel, err := hasChannelOnText(message); hasChannel {
+		return err
+	}
+
+	return nil
+}
+
 func isDirect(channelID string) (bool, error) {
 	if strings.HasPrefix(strings.ToUpper(channelID), directMessagePrefix) {
 		return true, fmt.Errorf(messages.Get("direct-not-allowed"))
@@ -47,15 +63,6 @@ func hasChannelOnText(message string) (bool, error) {
 		return true, fmt.Errorf(messages.Get("shouldnt-mention-channel"))
 	}
 	return false, nil
-}
-
-func hasUserOrChannelOnText(message string) (bool, error) {
-	has, err := hasUserOnText(message)
-
-	if err != nil {
-		return has, err
-	}
-	return hasChannelOnText(message)
 }
 
 func getEvent(request *slacker.Request) ClaimrEvent {
