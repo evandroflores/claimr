@@ -26,7 +26,6 @@ func LoadAdmins(bot *slacker.Slacker) {
 
 	Admins = []Admin{}
 	for _, user := range users {
-		log.Debugf("%s %s isAdmin [%t]", user.ID, user.RealName, (user.IsAdmin || user.IsOwner))
 		if user.IsAdmin || user.IsOwner {
 			Admins = append(Admins, Admin{ID: user.ID, RealName: user.RealName})
 		}
