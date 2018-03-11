@@ -18,14 +18,10 @@ func add(request *slacker.Request, response slacker.ResponseWriter) {
 
 	event := getEvent(request)
 
-	if direct, err := isDirect(event.Channel); direct {
-		response.Reply(err.Error())
-		return
-	}
-
 	containerName := request.Param("container-name")
 
-	if hasUserOrChannel, err := hasUserOrChannelOnText(containerName); hasUserOrChannel {
+	err := validateInput(event.Channel, containerName)
+	if err != nil {
 		response.Reply(err.Error())
 		return
 	}
