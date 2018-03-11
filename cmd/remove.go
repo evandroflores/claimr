@@ -17,6 +17,7 @@ func remove(request *slacker.Request, response slacker.ResponseWriter) {
 	response.Typing()
 
 	event := getEvent(request)
+
 	containerName := request.Param("container-name")
 
 	err := validateInput(event.Channel, containerName)
