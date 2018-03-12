@@ -45,7 +45,7 @@ open-cover:
 	go tool cover -html coverage.txt
 
 lint:
-	@gometalinter ./... --vendor
+	@gometalinter ./... --config=.gometalinter.json
 
 linter-install:
 	go get -u github.com/alecthomas/gometalinter; gometalinter --install
