@@ -6,7 +6,6 @@ import (
 	"github.com/evandroflores/claimr/messages"
 	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
-	log "github.com/sirupsen/logrus"
 )
 
 func init() {
@@ -43,7 +42,6 @@ func add(request *slacker.Request, response slacker.ResponseWriter) {
 	}.Add()
 
 	if err != nil {
-		log.Errorf("ADD. [%s, %s, %s] %s", event.Team, event.Channel, containerName, err)
 		response.Reply(err.Error())
 		return
 	}
