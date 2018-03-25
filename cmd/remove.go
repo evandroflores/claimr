@@ -50,9 +50,12 @@ func remove(request *slacker.Request, response slacker.ResponseWriter) {
 
 func removeChecks(containerName string, event ClaimrEvent, container model.Container) error {
 	checks := []Check{
-		{container == (model.Container{}), fmt.Sprintf(messages.Get("container-not-found-on-channel"), containerName, event.Channel)},
-		{container.InUseBy != "", fmt.Sprintf(messages.Get("container-in-use-by-this"), containerName, container.InUseBy, container.UpdatedAt.Format(time.RFC1123))},
-		{container.CreatedByUser != event.User, fmt.Sprintf(messages.Get("only-owner-can-remove"), containerName, container.CreatedByUser)},
+		{container == (model.Container{}),
+			fmt.Sprintf(messages.Get("container-not-found-on-channel"), containerName, event.Channel)},
+		{container.InUseBy != "", fmt.Sprintf(messages.Get("container-in-use-by-this"),
+			containerName, container.InUseBy, container.UpdatedAt.Format(time.RFC1123))},
+		{container.CreatedByUser != event.User,
+			fmt.Sprintf(messages.Get("only-owner-can-remove"), containerName, container.CreatedByUser)},
 	}
 
 	return RunChecks(checks)
