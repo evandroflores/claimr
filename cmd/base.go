@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 	"strings"
 
 	"github.com/evandroflores/claimr/messages"
@@ -74,18 +73,4 @@ func getEvent(request *slacker.Request) ClaimrEvent {
 		Channel: request.Event.Channel,
 		User:    request.Event.User,
 	}
-}
-
-func isAdmin(userName string) bool {
-	if strings.ToUpper(userName) == strings.ToUpper(os.Getenv("CLAIMR_SUPERUSER")) {
-		return true
-	}
-
-	for _, admin := range model.Admins {
-		if strings.ToUpper(userName) == strings.ToUpper(admin.ID) {
-			return true
-		}
-	}
-
-	return false
 }
