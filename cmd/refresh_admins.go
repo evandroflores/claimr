@@ -17,7 +17,7 @@ func refreshAdmins(request *slacker.Request, response slacker.ResponseWriter) {
 	response.Typing()
 
 	event := getEvent(request)
-	if !isAdmin(event.User) {
+	if !model.IsAdmin(event.User) {
 		response.Reply(messages.Get("admin-only"))
 		return
 	}
