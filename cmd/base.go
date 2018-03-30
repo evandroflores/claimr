@@ -76,18 +76,6 @@ func getEvent(request *slacker.Request) ClaimrEvent {
 	}
 }
 
-// ClaimrEvent is a struct to simplify the usage of request.Event (and help testing)
-type ClaimrEvent struct {
-	Team    string
-	Channel string
-	User    string
-}
-
-// GetEventText exists to help testing event message
-func GetEventText(request *slacker.Request) string {
-	return request.Event.Msg.Text
-}
-
 func isAdmin(userName string) bool {
 	if strings.ToUpper(userName) == strings.ToUpper(os.Getenv("CLAIMR_SUPERUSER")) {
 		return true
