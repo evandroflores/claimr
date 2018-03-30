@@ -1,6 +1,9 @@
 package model
 
 import (
+	"os"
+	"strings"
+
 	"github.com/shomali11/slacker"
 	log "github.com/sirupsen/logrus"
 )
@@ -31,4 +34,19 @@ func LoadAdmins(bot *slacker.Slacker) {
 		}
 	}
 	log.Infof("%d admins loaded.", len(Admins))
+}
+
+// IsAdmin checks if the given userid is Superuser or listed as admin
+func IsAdmin(userName string) bool {
+	if strings.ToUpper(userName) == strings.ToUpper(os.Getenv("CLAIMR_SUPERUSER")) {
+		return true
+	}
+
+	for _, admin := range Admins {
+		if strings.ToUpper(userName) == strings.ToUpper(admin.ID) {
+			return true
+		}
+	}
+
+	return false
 }
