@@ -244,15 +244,15 @@ func TestNonAdminTryAccessAdminOnlyCommandsWhenEnvIsNotSet(t *testing.T) {
 }
 
 func TestIsSuperUserAdmin(t *testing.T) {
-	assert.True(t, isAdmin(os.Getenv("CLAIMR_SUPERUSER")))
+	assert.True(t, model.IsAdmin(os.Getenv("CLAIMR_SUPERUSER")))
 }
 
 func TestIsSuperUserAdminCaseInsensitive(t *testing.T) {
-	assert.True(t, isAdmin(strings.ToLower(os.Getenv("CLAIMR_SUPERUSER"))))
+	assert.True(t, model.IsAdmin(strings.ToLower(os.Getenv("CLAIMR_SUPERUSER"))))
 }
 
 func TestIsNotAdmin(t *testing.T) {
-	assert.False(t, isAdmin("ANOTHER-USER"))
+	assert.False(t, model.IsAdmin("ANOTHER-USER"))
 }
 
 func TestIsSlackAdmin(t *testing.T) {
@@ -263,5 +263,5 @@ func TestIsSlackAdmin(t *testing.T) {
 	}()
 	model.Admins = []model.Admin{{ID: "SlackAdmin", RealName: "Fake Slack Admin"}}
 
-	assert.True(t, isAdmin("SlackAdmin"))
+	assert.True(t, model.IsAdmin("SlackAdmin"))
 }
