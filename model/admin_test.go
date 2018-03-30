@@ -2,7 +2,9 @@ package model
 
 import (
 	"fmt"
+	"os"
 	"reflect"
+	"strings"
 	"testing"
 
 	"github.com/bouk/monkey"
@@ -85,4 +87,27 @@ func TestLoadingAdminsError(t *testing.T) {
 
 	patchLog.Unpatch()
 	patchGetUsers.Unpatch()
+}
+
+func TestIsSuperUserAdmin(t *testing.T) {
+	assert.True(t, IsAdmin(os.Getenv("CLAIMR_SUPERUSER")))
+}
+
+func TestIsSuperUserAdminCaseInsensitive(t *testing.T) {
+	assert.True(t, IsAdmin(strings.ToLower(os.Getenv("CLAIMR_SUPERUSER"))))
+}
+
+func TestIsNotSuperAdmin(t *testing.T) {
+	assert.False(t, IsAdmin("ANOTHER-USER"))
+}
+
+func TestIsSlackAdmin(t *testing.T) {
+	currentAdmins := Admins
+	Admins = []Admin{}
+	defer func() {
+		Admins = currentAdmins
+	}()
+	Admins = []Admin{{ID: "SlackAdmin", RealName: "Fake Slack Admin"}}
+
+	assert.True(t, IsAdmin("SlackAdmin"))
 }

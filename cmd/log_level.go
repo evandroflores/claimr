@@ -5,6 +5,7 @@ import (
 
 	"github.com/evandroflores/claimr/database"
 	"github.com/evandroflores/claimr/messages"
+	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
 	log "github.com/sirupsen/logrus"
 )
@@ -17,7 +18,7 @@ func changeLogLevel(request *slacker.Request, response slacker.ResponseWriter) {
 	response.Typing()
 
 	event := getEvent(request)
-	if !isAdmin(event.User) {
+	if !model.IsAdmin(event.User) {
 		response.Reply(messages.Get("admin-only"))
 		return
 	}

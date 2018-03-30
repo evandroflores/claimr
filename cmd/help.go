@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/evandroflores/claimr/model"
 	"github.com/shomali11/slacker"
 )
 
@@ -11,7 +12,7 @@ import (
 func Help(request *slacker.Request, response slacker.ResponseWriter) {
 	response.Typing()
 	event := getEvent(request)
-	help := GenerateCommandHelp(isAdmin(event.User))
+	help := GenerateCommandHelp(model.IsAdmin(event.User))
 	response.Reply(help)
 }
 

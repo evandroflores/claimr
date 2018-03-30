@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 	"strings"
 
 	"github.com/evandroflores/claimr/messages"
@@ -74,46 +73,4 @@ func getEvent(request *slacker.Request) ClaimrEvent {
 		Channel: request.Event.Channel,
 		User:    request.Event.User,
 	}
-}
-
-// ClaimrEvent is a struct to simplify the usage of request.Event (and help testing)
-type ClaimrEvent struct {
-	Team    string
-	Channel string
-	User    string
-}
-
-// GetEventText exists to help testing event message
-func GetEventText(request *slacker.Request) string {
-	return request.Event.Msg.Text
-}
-
-func isAdmin(userName string) bool {
-	if strings.ToUpper(userName) == strings.ToUpper(os.Getenv("CLAIMR_SUPERUSER")) {
-		return true
-	}
-
-	for _, admin := range model.Admins {
-		if strings.ToUpper(userName) == strings.ToUpper(admin.ID) {
-			return true
-		}
-	}
-
-	return false
-}
-
-// Check is a struct to help grouping checks before command execution
-type Check struct {
-	isPositive bool
-	message    string
-}
-
-// RunChecks runs a list of checks and returns for the first error
-func RunChecks(checks []Check) error {
-	for _, check := range checks {
-		if check.isPositive {
-			return fmt.Errorf(check.message)
-		}
-	}
-	return nil
 }
