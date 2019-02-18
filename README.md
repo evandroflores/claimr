@@ -5,6 +5,7 @@
 [![codecov](https://codecov.io/gh/evandroflores/claimr/branch/master/graph/badge.svg)](https://codecov.io/gh/evandroflores/claimr)
 [![Go Report Card](https://goreportcard.com/badge/github.com/evandroflores/claimr)](https://goreportcard.com/report/github.com/evandroflores/claimr)
 [![Maintainability](https://api.codeclimate.com/v1/badges/b9c9833444e3012fadf4/maintainability)](https://codeclimate.com/github/evandroflores/claimr/maintainability)
+[![codebeat badge](https://codebeat.co/badges/3c396abf-1de9-4dec-b659-87c71e8f16ee)](https://codebeat.co/projects/github-com-evandroflores-claimr-master)
 [![License: BSD-3](https://img.shields.io/badge/License-BSD3-green.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 ---
